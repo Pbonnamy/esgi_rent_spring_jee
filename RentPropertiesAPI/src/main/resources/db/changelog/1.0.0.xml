@@ -4,7 +4,26 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="create-car-table" author="ShadowZ11">
+    <changeSet id="create-rental-property-table" author="ShadowZ11">
+
+        <createTable tableName="property_type">
+            <column name="id" type="INT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="designation" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="energy_classification">
+            <column name="id" type="INT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="designation" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
         <createTable tableName="rental_property">
             <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -48,24 +67,6 @@
             <column name="has_balcony" type="BIT(1)"/>
             <column name="has_parking_space" type="BIT(1)"/>
 
-        </createTable>
-
-        <createTable tableName="property_type">
-            <column name="id" type="INT">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="designation" type="VARCHAR(5)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <createTable tableName="energy_classification">
-            <column name="id" type="INT">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="designation" type="CHAR(1)">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
 
     </changeSet>
