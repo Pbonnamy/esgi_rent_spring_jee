@@ -9,12 +9,98 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <name>Rent-properties-api</name>
+
     <artifactId>RentPropertiesAPI</artifactId>
 
     <properties>
         <maven.compiler.source>20</maven.compiler.source>
         <maven.compiler.target>20</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <liquibase.version>4.18.0</liquibase.version>
+        <lombok.version>1.18.24</lombok.version>
+        <testcontainers.version>1.17.6</testcontainers.version>
+        <liquibase.version>4.22.0</liquibase.version>
+        <mysql.connector.version>8.0.33</mysql.connector.version>
+        <spring.boot.data.jpa.version>3.1.0</spring.boot.data.jpa.version>
+        <spring.boot.web.version>3.1.0</spring.boot.web.version>
+        <spring-boot-maven-plugin.version>3.1.0</spring-boot-maven-plugin.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot.web.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring.boot.data.jpa.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>3.1.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-maven-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+                <configuration>
+                    <promptOnNonLocalDatabase>true</promptOnNonLocalDatabase>
+                    <changeLogFile>db/changelog.xml</changeLogFile>
+                    <outputChangeLogFile>${project.basedir}/src/main/resources/liquibase-outputChangeLog.xml
+                    </outputChangeLogFile>
+                    <url>jdbc:mysql://localhost:3306/esgi-rent</url>
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
+                    <username>root</username>
+                    <password>root</password>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>
