@@ -1,0 +1,72 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="create-car-table" author="ShadowZ11">
+        <createTable tableName="rental_property">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="property_type_id" type="INT">
+                <constraints foreignKeyName="fk_property_type_id" references="property_type(id)" />
+            </column>
+
+            <column name="energy_classificatio n_id" type="INT">
+                <constraints foreignKeyName="fk_energy_classificatio n_id" references="energy_classification(id)" />
+            </column>
+
+            <column name="description" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="town" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="rent_amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="security_deposit_a mount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="area" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="number_of_bedrooms" type="INT"/>
+            <column name="floor_number" type="INT"/>
+            <column name="number_of_floors" type="INT"/>
+
+            <column name="construction_year" type="CHAR(4)"/>
+
+            <column name="has_elevator" type="BIT(1)"/>
+            <column name="has_intercom" type="BIT(1)"/>
+            <column name="has_balcony" type="BIT(1)"/>
+            <column name="has_parking_space" type="BIT(1)"/>
+
+        </createTable>
+
+        <createTable tableName="property_type">
+            <column name="id" type="INT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="designation" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="energy_classification">
+            <column name="id" type="INT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="designation" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+</databaseChangeLog>
