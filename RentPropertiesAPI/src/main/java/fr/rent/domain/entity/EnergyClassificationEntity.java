@@ -19,7 +19,7 @@ public class EnergyClassificationEntity {
         this.designation = designation;
     }
 
-    public EnergyClassificationEntity(UUID id, String designation) {
+    public EnergyClassificationEntity(int id, String designation) {
         this.id = id;
         this.designation = designation;
     }
@@ -27,7 +27,7 @@ public class EnergyClassificationEntity {
     @GeneratedValue
     @Id
     @Column(name = "id")
-    private UUID id;
+    private int id;
 
     @Column(name = "designation")
     private String designation;

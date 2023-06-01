@@ -4,7 +4,7 @@ import lombok.Builder;
 import org.antlr.v4.runtime.misc.NotNull;
 
 @Builder
-public record RentPropertyDto(
+public record RentPropertyRequestDto(
         @NotNull String description,
         @NotNull String town,
         @NotNull String address,

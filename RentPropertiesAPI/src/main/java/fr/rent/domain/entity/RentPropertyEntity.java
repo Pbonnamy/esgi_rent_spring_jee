@@ -48,7 +48,7 @@ public class RentPropertyEntity {
         this.hasParkingSpace = hasParkingSpace;
     }
 
-    public RentPropertyEntity(UUID id,
+    public RentPropertyEntity(int id,
                                 String description,
                                 String town,
                                 String address,
@@ -87,7 +87,7 @@ public class RentPropertyEntity {
     @GeneratedValue
     @Id
     @Column(name = "id")
-    private UUID id;
+    private int id;
 
     @Column(name = "description")
     private String description;

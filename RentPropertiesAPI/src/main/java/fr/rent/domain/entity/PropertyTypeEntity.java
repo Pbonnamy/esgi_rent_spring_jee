@@ -19,7 +19,7 @@ public class PropertyTypeEntity {
         this.designation = designation;
     }
 
-    public PropertyTypeEntity(UUID id, String designation) {
+    public PropertyTypeEntity(int id, String designation) {
         this.id = id;
         this.designation = designation;
     }
@@ -27,7 +27,7 @@ public class PropertyTypeEntity {
     @GeneratedValue
     @Id
     @Column(name = "id")
-    private UUID id;
+    private int id;
 
     @Column(name = "designation")
     private String designation;
