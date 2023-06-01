@@ -32,8 +32,8 @@
                 <constraints foreignKeyName="fk_property_type_id" references="property_type(id)" />
             </column>
 
-            <column name="energy_classificatio n_id" type="INT">
-                <constraints foreignKeyName="fk_energy_classificatio n_id" references="energy_classification(id)" />
+            <column name="energy_classification_id" type="INT">
+                <constraints foreignKeyName="fk_energy_classification_id" references="energy_classification(id)" />
             </column>
 
             <column name="description" type="VARCHAR(200)">
@@ -49,7 +49,7 @@
             <column name="rent_amount" type="DOUBLE">
                 <constraints nullable="false"/>
             </column>
-            <column name="security_deposit_a mount" type="DOUBLE">
+            <column name="security_deposit_amount" type="DOUBLE">
                 <constraints nullable="false"/>
             </column>
             <column name="area" type="DOUBLE">
