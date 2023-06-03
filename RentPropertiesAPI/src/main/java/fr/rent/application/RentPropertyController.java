@@ -2,9 +2,11 @@ package fr.rent.application;
 
 import fr.rent.domain.entity.RentPropertyEntity;
 import fr.rent.dto.RentPropertyResponseDto;
+import fr.rent.exception.RentPropertyNotFoundException;
 import fr.rent.mapper.RentPropertyDtoMapper;
 import fr.rent.repository.RentPropertyRepository;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +31,13 @@ public class RentPropertyController {
         List<RentPropertyEntity> rentalProperties = rentalPropertyRepository.findAll();
 
         return rentalPropertyDtoMapper.mapToDtoList(rentalProperties);
+    }
+
+    @GetMapping("/rental-properties/{id}")
+    public RentPropertyResponseDto getRentalPropertyById(@PathVariable int id) {
+        return rentalPropertyRepository.findById(id)
+                .map(rentalPropertyDtoMapper::mapToDto)
+                .orElseThrow(() -> new RentPropertyNotFoundException(id));
     }
 
 
