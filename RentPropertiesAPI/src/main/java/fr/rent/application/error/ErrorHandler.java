@@ -15,4 +15,11 @@ public class ErrorHandler {
         return new ErrorDto(notFoundRentalPropertyException.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ErrorDto handleIllegalArgument(IllegalArgumentException illegalArgumentException) {
+        return new ErrorDto(illegalArgumentException.getMessage());
+    }
+
+
 }
