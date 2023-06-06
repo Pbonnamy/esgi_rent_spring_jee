@@ -22,7 +22,7 @@ public class ErrorHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ErrorDto handleIllegalArgument(MethodArgumentNotValidException methodArgumentNotValidException) {
+    public ErrorDto handleMethodArgumentNotValid(MethodArgumentNotValidException methodArgumentNotValidException) {
         String message = Arrays.stream(Objects.requireNonNull(methodArgumentNotValidException.getDetailMessageArguments())).toList().get(methodArgumentNotValidException.getDetailMessageArguments().length-1).toString();
         return new ErrorDto(new RentPropertyBadRequest(message).getMessage());
     }
