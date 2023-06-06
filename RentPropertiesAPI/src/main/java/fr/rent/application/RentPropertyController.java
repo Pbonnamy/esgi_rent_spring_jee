@@ -53,4 +53,17 @@ public class RentPropertyController {
     }
 
 
+    @PutMapping("/rental-properties/{id}")
+    public RentPropertyResponseDto updateRentalProperty(@PathVariable int id, @Valid @RequestBody RentPropertyRequestDto rentalPropertyResponseDto) {
+        RentPropertyEntity rentalPropertyEntity = rentalPropertyRepository.findById(id)
+                .orElseThrow(() -> new RentPropertyNotFoundException(id));
+
+        //rentalPropertyDtoMapper.updateEntityFromDto(rentalPropertyResponseDto, rentalPropertyEntity);
+
+        RentPropertyEntity updatedRentalProperty = rentalPropertyRepository.save(rentalPropertyEntity);
+
+        return rentalPropertyDtoMapper.mapToDto(updatedRentalProperty);
+    }
+
+
 }
