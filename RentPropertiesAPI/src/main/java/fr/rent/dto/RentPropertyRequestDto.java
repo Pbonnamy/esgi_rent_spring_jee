@@ -1,7 +1,7 @@
 package fr.rent.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import org.antlr.v4.runtime.misc.NotNull;
 
 @Builder
 public record RentPropertyRequestDto(
