@@ -2,6 +2,7 @@ package fr.rent.application.error;
 
 import fr.rent.exception.RentPropertyNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,9 +17,9 @@ public class ErrorHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ErrorDto handleIllegalArgument(IllegalArgumentException illegalArgumentException) {
-        return new ErrorDto(illegalArgumentException.getMessage());
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorDto MethodArgumentNotValidException(MethodArgumentNotValidException methodArgumentNotValidException) {
+        return new ErrorDto(methodArgumentNotValidException.getMessage());
     }
 
 
