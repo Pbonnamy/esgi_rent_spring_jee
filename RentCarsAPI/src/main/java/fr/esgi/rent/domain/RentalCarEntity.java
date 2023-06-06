@@ -1,17 +1,14 @@
 package fr.esgi.rent.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "rental_car")
 public class RentalCarEntity {
-
-    public RentalCarEntity() {
-    }
 
     public RentalCarEntity(String brand, String model, Double rentAmount, Double securityDepositAmount, Integer numberOfSeats, Integer numberOfDoors, Boolean hasAirConditioning) {
         this.brand = brand;
@@ -22,7 +19,6 @@ public class RentalCarEntity {
         this.numberOfDoors = numberOfDoors;
         this.hasAirConditioning = hasAirConditioning;
     }
-
 
     @Id
     @GeneratedValue()

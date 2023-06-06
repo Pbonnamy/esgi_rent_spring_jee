@@ -4,6 +4,7 @@ import fr.esgi.rent.domain.RentalCarEntity;
 import fr.esgi.rent.dto.response.RentalCarDto;
 import lombok.RequiredArgsConstructor;
 import fr.esgi.rent.mapper.RentalCarDtoMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,12 +21,10 @@ public class RentalCarController {
     private final RentalCarDtoMapper rentalCarDtoMapper;
 
     @GetMapping()
-    public List<RentalCarDto> getRentalCars() {
+    public ResponseEntity<List<RentalCarDto>> getRentalCars() {
 
         List<RentalCarEntity> rentalCarEntities = rentalCarService.getAll();
 
-        return rentalCarEntities.stream()
-                .map(rentalCarDtoMapper::toDto)
-                .toList();
+        return ResponseEntity.ok().body(rentalCarDtoMapper.toDtoList(rentalCarEntities));
     }
 }
