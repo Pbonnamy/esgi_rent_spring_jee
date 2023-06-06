@@ -31,10 +31,10 @@ class RentalCarServiceTest {
 
         List<RentalCarEntity> actualRentalCarEntities = rentalCarService.findAll();
 
-        assertThat(actualRentalCarEntities).
-                isNotNull().
-                hasSize(1).
-                containsExactlyElementsOf(expectedRentalCarEntities);
+        assertThat(actualRentalCarEntities)
+                .isNotNull()
+                .hasSize(1)
+                .containsExactlyElementsOf(expectedRentalCarEntities);
 
         verify(rentalCarRepository).findAll();
         verifyNoMoreInteractions(rentalCarRepository);
