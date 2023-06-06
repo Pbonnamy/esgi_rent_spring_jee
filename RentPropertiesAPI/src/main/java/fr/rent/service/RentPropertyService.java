@@ -28,4 +28,9 @@ public class RentPropertyService {
         return rentalPropertyRepository.save(rentalPropertyEntity);
     }
 
+    public void deleteById(int id) {
+        rentalPropertyRepository.deleteById(id);
+    }
+
+
 }

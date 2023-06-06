@@ -64,4 +64,13 @@ public class RentPropertyController {
     }
 
 
+    @DeleteMapping("/rental-properties/{id}")
+    public void deleteRentalProperty(@PathVariable int id) {
+        rentPropertyService.findById(id)
+                .orElseThrow(() -> new RentPropertyNotFoundException(id));
+
+        rentPropertyService.deleteById(id);
+    }
+
+
 }
