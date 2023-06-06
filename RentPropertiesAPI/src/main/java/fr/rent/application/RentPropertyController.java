@@ -47,7 +47,7 @@ public class RentPropertyController {
     public RentPropertyResponseDto createRentalProperty(@Valid @RequestBody RentPropertyRequestDto rentalPropertyResponseDto) {
         RentPropertyEntity rentalPropertyEntity = rentalPropertyDtoMapper.mapToEntity(rentalPropertyResponseDto);
 
-        RentPropertyEntity savedRentalProperty = rentalPropertyRepository.save(rentalPropertyEntity);
+        RentPropertyEntity savedRentalProperty = rentPropertyService.save(rentalPropertyEntity);
 
         return rentalPropertyDtoMapper.mapToDto(savedRentalProperty);
     }
