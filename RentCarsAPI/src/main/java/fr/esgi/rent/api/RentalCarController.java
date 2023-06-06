@@ -1,7 +1,7 @@
 package fr.esgi.rent.api;
 
 import fr.esgi.rent.domain.RentalCarEntity;
-import fr.esgi.rent.dto.response.RentalCarDto;
+import fr.esgi.rent.dto.response.RentalCarResponseDto;
 import lombok.RequiredArgsConstructor;
 import fr.esgi.rent.mapper.RentalCarDtoMapper;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +21,9 @@ public class RentalCarController {
     private final RentalCarDtoMapper rentalCarDtoMapper;
 
     @GetMapping()
-    public ResponseEntity<List<RentalCarDto>> getRentalCars() {
+    public ResponseEntity<List<RentalCarResponseDto>> getRentalCars() {
 
-        List<RentalCarEntity> rentalCarEntities = rentalCarService.getAll();
+        List<RentalCarEntity> rentalCarEntities = rentalCarService.findAll();
 
         return ResponseEntity.ok().body(rentalCarDtoMapper.toDtoList(rentalCarEntities));
     }

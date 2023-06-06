@@ -1,7 +1,7 @@
 package fr.esgi.rent.mapper;
 
 import fr.esgi.rent.domain.RentalCarEntity;
-import fr.esgi.rent.dto.response.RentalCarDto;
+import fr.esgi.rent.dto.response.RentalCarResponseDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -9,8 +9,8 @@ import java.util.List;
 @Component
 public class RentalCarDtoMapper {
 
-    public RentalCarDto toDto(RentalCarEntity rentalCarEntity) {
-        return RentalCarDto.builder()
+    public RentalCarResponseDto toDto(RentalCarEntity rentalCarEntity) {
+        return RentalCarResponseDto.builder()
                 .brand(rentalCarEntity.getBrand())
                 .model(rentalCarEntity.getModel())
                 .rentAmount(rentalCarEntity.getRentAmount())
@@ -21,7 +21,7 @@ public class RentalCarDtoMapper {
                 .build();
     }
 
-    public List<RentalCarDto> toDtoList(List<RentalCarEntity> rentalCarEntities) {
+    public List<RentalCarResponseDto> toDtoList(List<RentalCarEntity> rentalCarEntities) {
         return rentalCarEntities.stream()
                 .map(this::toDto)
                 .toList();

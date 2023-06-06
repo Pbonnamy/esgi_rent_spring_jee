@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "rental_car")
 public class RentalCarEntity {
 
-    public RentalCarEntity(String brand, String model, Double rentAmount, Double securityDepositAmount, Integer numberOfSeats, Integer numberOfDoors, Boolean hasAirConditioning) {
+    public RentalCarEntity(Integer id, String brand, String model, Double rentAmount, Double securityDepositAmount, Integer numberOfSeats, Integer numberOfDoors, Boolean hasAirConditioning) {
+        this.id = id;
         this.brand = brand;
         this.model = model;
         this.rentAmount = rentAmount;
