@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import fr.esgi.rent.repository.RentalCarRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,5 +16,9 @@ public class RentalCarService {
 
     public List<RentalCarEntity> findAll() {
         return rentalCarRepository.findAll();
+    }
+
+    public Optional<RentalCarEntity> findById(Integer id) {
+        return rentalCarRepository.findById(id);
     }
 }
