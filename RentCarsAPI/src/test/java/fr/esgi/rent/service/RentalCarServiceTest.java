@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static fr.esgi.rent.samples.RentalCarEntitySample.rentalCarEntities;
+import static fr.esgi.rent.samples.RentalCarEntitySample.rentalCarEntitiesSample;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -25,7 +25,7 @@ class RentalCarServiceTest {
 
     @Test
     void shouldFindAllRentalCars() {
-        List<RentalCarEntity> expectedRentalCarEntities = rentalCarEntities();
+        List<RentalCarEntity> expectedRentalCarEntities = rentalCarEntitiesSample();
 
         when(rentalCarRepository.findAll()).thenReturn(expectedRentalCarEntities);
 

@@ -16,8 +16,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import java.util.List;
 
-import static fr.esgi.rent.samples.RentalCarDtoSample.rentalCarResponseDtos;
-import static fr.esgi.rent.samples.RentalCarEntitySample.rentalCarEntities;
+import static fr.esgi.rent.samples.RentalCarDtoSample.rentalCarResponseDtosSample;
+import static fr.esgi.rent.samples.RentalCarEntitySample.rentalCarEntitiesSample;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,8 +37,8 @@ class RentalCarControllerTest {
 
     @Test
     void shouldGetAllRentalCars() throws Exception {
-        List<RentalCarEntity> expectedRentalCarEntities = rentalCarEntities();
-        List<RentalCarResponseDto> expectedRentalCarResponseDtos = rentalCarResponseDtos();
+        List<RentalCarEntity> expectedRentalCarEntities = rentalCarEntitiesSample();
+        List<RentalCarResponseDto> expectedRentalCarResponseDtos = rentalCarResponseDtosSample();
 
         when(rentalCarService.findAll()).thenReturn(expectedRentalCarEntities);
         when(rentalCarDtoMapper.toDtoList(expectedRentalCarEntities)).thenReturn(expectedRentalCarResponseDtos);

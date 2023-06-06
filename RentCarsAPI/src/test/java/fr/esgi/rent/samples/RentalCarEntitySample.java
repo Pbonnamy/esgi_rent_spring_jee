@@ -6,11 +6,11 @@ import java.util.List;
 
 public class RentalCarEntitySample {
 
-    public static List<RentalCarEntity> rentalCarEntities() {
-        return List.of(oneRentalCarEntity());
+    public static List<RentalCarEntity> rentalCarEntitiesSample() {
+        return List.of(oneRentalCarEntitySample());
     }
 
-    public static RentalCarEntity oneRentalCarEntity() {
+    public static RentalCarEntity oneRentalCarEntitySample() {
         return new RentalCarEntity(
                 1,
                 "BMW",

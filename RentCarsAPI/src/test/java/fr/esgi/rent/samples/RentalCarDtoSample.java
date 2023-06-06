@@ -6,11 +6,11 @@ import java.util.List;
 
 public class RentalCarDtoSample {
 
-    public static List<RentalCarResponseDto> rentalCarResponseDtos() {
-        return List.of(oneRentalCarResponseDto());
+    public static List<RentalCarResponseDto> rentalCarResponseDtosSample() {
+        return List.of(oneRentalCarResponseDtoSample());
     }
 
-    public static RentalCarResponseDto oneRentalCarResponseDto() {
+    public static RentalCarResponseDto oneRentalCarResponseDtoSample() {
         return RentalCarResponseDto.builder()
                 .brand("BMW")
                 .model("Serie 1")
