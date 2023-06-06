@@ -44,12 +44,11 @@ public class RentPropertyController {
 
     @PostMapping("/rental-properties")
     @ResponseStatus(CREATED)
-    public RentPropertyResponseDto createRentalProperty(@Valid @RequestBody RentPropertyRequestDto rentalPropertyResponseDto) {
+    public void createRentalProperty(@Valid @RequestBody RentPropertyRequestDto rentalPropertyResponseDto) {
         RentPropertyEntity rentalPropertyEntity = rentalPropertyDtoMapper.mapToEntity(rentalPropertyResponseDto);
 
-        RentPropertyEntity savedRentalProperty = rentPropertyService.save(rentalPropertyEntity);
-
-        return rentalPropertyDtoMapper.mapToDto(savedRentalProperty);
+        rentPropertyService.save(rentalPropertyEntity);
+        
     }
 
 
