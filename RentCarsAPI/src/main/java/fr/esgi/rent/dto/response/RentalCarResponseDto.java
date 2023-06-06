@@ -3,7 +3,7 @@ package fr.esgi.rent.dto.response;
 import lombok.Builder;
 
 @Builder
-public record RentalCarDto (
+public record RentalCarResponseDto(
         String brand,
         String model,
         Double rentAmount,

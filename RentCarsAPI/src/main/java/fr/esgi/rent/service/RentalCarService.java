@@ -13,7 +13,7 @@ public class RentalCarService {
 
     private final RentalCarRepository rentalCarRepository;
 
-    public List<RentalCarEntity> getAll() {
+    public List<RentalCarEntity> findAll() {
         return rentalCarRepository.findAll();
     }
 }
