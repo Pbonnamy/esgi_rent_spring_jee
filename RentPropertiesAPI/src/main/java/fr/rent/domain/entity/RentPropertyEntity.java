@@ -84,7 +84,7 @@ public class RentPropertyEntity {
         this.hasParkingSpace = hasParkingSpace;
     }
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;

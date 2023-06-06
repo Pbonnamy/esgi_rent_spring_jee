@@ -5,7 +5,6 @@ import fr.rent.dto.RentPropertyRequestDto;
 import fr.rent.dto.RentPropertyResponseDto;
 import fr.rent.exception.RentPropertyNotFoundException;
 import fr.rent.mapper.RentPropertyDtoMapper;
-import fr.rent.repository.RentPropertyRepository;
 import fr.rent.service.RentPropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,20 +23,20 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/rent-properties-api")
 public class RentPropertyController {
 
-    private final RentPropertyService rentalPropertyRepository;
+    private final RentPropertyService rentPropertyService;
     private final RentPropertyDtoMapper rentalPropertyDtoMapper;
 
 
     @GetMapping("/rental-properties")
     public List<RentPropertyResponseDto> getRentalProperties() {
-        List<RentPropertyEntity> rentalProperties = rentalPropertyRepository.findAll();
+        List<RentPropertyEntity> rentalProperties = rentPropertyService.findAll();
 
         return rentalPropertyDtoMapper.mapToDtoList(rentalProperties);
     }
 
     @GetMapping("/rental-properties/{id}")
     public RentPropertyResponseDto getRentalPropertyById(@PathVariable int id) {
-        return rentalPropertyRepository.findById(id)
+        return rentPropertyService.findById(id)
                 .map(rentalPropertyDtoMapper::mapToDto)
                 .orElseThrow(() -> new RentPropertyNotFoundException(id));
     }
