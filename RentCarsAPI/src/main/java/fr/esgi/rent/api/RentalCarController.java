@@ -30,7 +30,6 @@ public class RentalCarController {
         return ResponseEntity.ok().body(rentalCarDtoMapper.toDtoList(rentalCarEntities));
     }
 
-    // get rental car by id
     @GetMapping("/{id}")
     public ResponseEntity<RentalCarResponseDto> getRentalCarById(@PathVariable Integer id) {
 
