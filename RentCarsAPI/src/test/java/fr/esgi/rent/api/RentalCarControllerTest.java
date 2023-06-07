@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.esgi.rent.domain.RentalCarEntity;
 import fr.esgi.rent.dto.response.RentalCarResponseDto;
 import fr.esgi.rent.mapper.RentalCarDtoMapper;
-import fr.esgi.rent.service.RentalCarService;
+import fr.esgi.rent.repository.RentalCarRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,7 +28,7 @@ class RentalCarControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private RentalCarService rentalCarService;
+    private RentalCarRepository rentalCarRepository;
 
     @MockBean
     private RentalCarDtoMapper rentalCarDtoMapper;
@@ -40,16 +40,16 @@ class RentalCarControllerTest {
         List<RentalCarEntity> expectedRentalCarEntities = rentalCarEntitiesSample();
         List<RentalCarResponseDto> expectedRentalCarResponseDtos = rentalCarResponseDtosSample();
 
-        when(rentalCarService.findAll()).thenReturn(expectedRentalCarEntities);
+        when(rentalCarRepository.findAll()).thenReturn(expectedRentalCarEntities);
         when(rentalCarDtoMapper.toDtoList(expectedRentalCarEntities)).thenReturn(expectedRentalCarResponseDtos);
 
         mockMvc.perform(get("/rental-cars"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(expectedRentalCarResponseDtos)));
 
-        verify(rentalCarService).findAll();
+        verify(rentalCarRepository).findAll();
         verify(rentalCarDtoMapper).toDtoList(expectedRentalCarEntities);
-        verifyNoMoreInteractions(rentalCarService, rentalCarDtoMapper);
+        verifyNoMoreInteractions(rentalCarRepository, rentalCarDtoMapper);
     }
 
 }
