@@ -1,16 +1,15 @@
 package fr.esgi.rent.api;
 
 import fr.esgi.rent.domain.RentalCarEntity;
+import fr.esgi.rent.dto.request.RentalCarRequestDto;
 import fr.esgi.rent.dto.response.RentalCarResponseDto;
 import fr.esgi.rent.exception.NotFoundRentalCarException;
 import fr.esgi.rent.repository.RentalCarRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import fr.esgi.rent.mapper.RentalCarDtoMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,5 +36,10 @@ public class RentalCarController {
                 .map(rentalCarDtoMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new NotFoundRentalCarException("Rental car with id " + id + " not found"));
+    }
+
+    @PostMapping()
+    public ResponseEntity<String> createRentalCar(@Valid @RequestBody RentalCarRequestDto rentalCarRequestDto) {
+        return ResponseEntity.ok().body("Rental car created");
     }
 }
