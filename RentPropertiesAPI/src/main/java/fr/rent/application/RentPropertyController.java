@@ -63,5 +63,16 @@ public class RentPropertyController {
 
     }
 
+    @PatchMapping("/rental-properties/{id}")
+    public void updateRentalPropertyPartially(@PathVariable int id, @Valid @RequestBody RentPropertyRequestDto rentalPropertyRequestDto) {
+        RentPropertyEntity rentalPropertyEntity = rentPropertyService.findById(id)
+                .orElseThrow(() -> new RentPropertyNotFoundException(id));
+
+        RentPropertyEntity updatedEntity = rentalPropertyDtoMapper.partialUpdateEntityFromDto(rentalPropertyEntity, rentalPropertyRequestDto);
+
+        rentPropertyService.save(updatedEntity);
+
+    }
+
 
 }

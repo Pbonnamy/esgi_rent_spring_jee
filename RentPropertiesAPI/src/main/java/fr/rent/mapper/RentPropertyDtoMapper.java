@@ -69,5 +69,49 @@ public class RentPropertyDtoMapper {
         return rentPropertyEntity;
     }
 
+    public RentPropertyEntity partialUpdateEntityFromDto(RentPropertyEntity rentPropertyEntity, RentPropertyRequestDto rentPropertyRequestDto) {
+        rentPropertyEntity.setDescription(rentPropertyRequestDto.description());
+        rentPropertyEntity.setTown(rentPropertyRequestDto.town());
+        rentPropertyEntity.setAddress(rentPropertyRequestDto.address());
+        rentPropertyEntity.setPropertyType(new PropertyTypeEntity(rentPropertyRequestDto.propertyType()));
 
+        if (rentPropertyRequestDto.rentAmount() != 0) {
+            rentPropertyEntity.setRentAmount(rentPropertyRequestDto.rentAmount());
+        }
+        if (rentPropertyRequestDto.securityDepositAmount() != 0) {
+            rentPropertyEntity.setSecurityDepositAmount(rentPropertyRequestDto.securityDepositAmount());
+        }
+        if (rentPropertyRequestDto.area() != 0) {
+            rentPropertyEntity.setArea(rentPropertyRequestDto.area());
+        }
+        if (rentPropertyRequestDto.number_of_bedrooms() != 0) {
+            rentPropertyEntity.setNumberOfBedrooms(rentPropertyRequestDto.number_of_bedrooms());
+        }
+        if (rentPropertyRequestDto.floorNumber() != 0) {
+            rentPropertyEntity.setFloorNumber(rentPropertyRequestDto.floorNumber());
+        }
+        if (rentPropertyRequestDto.numberOfFloors() != 0) {
+            rentPropertyEntity.setNumberOfFloors(rentPropertyRequestDto.numberOfFloors());
+        }
+        if (rentPropertyRequestDto.constructionYear() != 0) {
+            rentPropertyEntity.setConstructionYear(rentPropertyRequestDto.constructionYear());
+        }
+        if (rentPropertyRequestDto.energyClassification() != null) {
+            rentPropertyEntity.setEnergyClassification(new EnergyClassificationEntity(rentPropertyRequestDto.energyClassification()));
+        }
+        if (rentPropertyRequestDto.hasElevator()) {
+            rentPropertyEntity.setHasElevator(rentPropertyRequestDto.hasElevator());
+        }
+        if (rentPropertyRequestDto.hasIntercom()) {
+            rentPropertyEntity.setHasIntercom(rentPropertyRequestDto.hasIntercom());
+        }
+        if (rentPropertyRequestDto.hasBalcony()) {
+            rentPropertyEntity.setHasBalcony(rentPropertyRequestDto.hasBalcony());
+        }
+        if (rentPropertyRequestDto.hasParkingSpace()) {
+            rentPropertyEntity.setHasParkingSpace(rentPropertyRequestDto.hasParkingSpace());
+        }
+
+        return rentPropertyEntity;
+    }
 }
