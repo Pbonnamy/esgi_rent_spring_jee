@@ -77,7 +77,7 @@ class RentalCarControllerTest {
     }
 
     @Test
-    void givenRentalCarDontExist_shouldThrowNotFoundRentalCarException() throws Exception {
+    void givenRentalCarDoesntExist_shouldThrowNotFoundRentalCarException() throws Exception {
         Integer id = 1;
 
         when(rentalCarRepository.findById(id)).thenReturn(Optional.empty());
