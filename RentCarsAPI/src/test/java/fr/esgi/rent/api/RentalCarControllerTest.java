@@ -1,7 +1,9 @@
 package fr.esgi.rent.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.esgi.rent.domain.RentalCarEntity;
+import fr.esgi.rent.dto.request.RentalCarRequestDto;
 import fr.esgi.rent.dto.response.RentalCarResponseDto;
 import fr.esgi.rent.mapper.RentalCarDtoMapper;
 import fr.esgi.rent.repository.RentalCarRepository;
@@ -10,9 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static fr.esgi.rent.samples.RentalCarDtoSample.oneRentalCarResponseDtoSample;
+import static fr.esgi.rent.samples.RentalCarDtoSample.*;
 import static fr.esgi.rent.samples.RentalCarEntitySample.oneRentalCarEntitySample;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -20,8 +23,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import java.util.List;
 import java.util.Optional;
 
-import static fr.esgi.rent.samples.RentalCarDtoSample.rentalCarResponseDtosSample;
 import static fr.esgi.rent.samples.RentalCarEntitySample.rentalCarEntitiesSample;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -92,6 +95,40 @@ class RentalCarControllerTest {
         verify(rentalCarRepository).findById(id);
         verifyNoMoreInteractions(rentalCarRepository);
         verifyNoInteractions(rentalCarDtoMapper);
+    }
+
+    @Test
+    void shouldCreateRentalCar() throws Exception {
+        RentalCarRequestDto rentalCarRequestDto = oneRentalCarRequestDtoSample();
+        RentalCarEntity expectedRentalCarEntity = oneRentalCarEntitySample();
+
+        when(rentalCarDtoMapper.toEntity(rentalCarRequestDto)).thenReturn(expectedRentalCarEntity);
+        when(rentalCarRepository.save(expectedRentalCarEntity)).thenReturn(expectedRentalCarEntity);
+
+        mockMvc.perform(post("/rental-cars")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(rentalCarRequestDto)))
+                .andExpect(status().isCreated());
+
+        verify(rentalCarDtoMapper).toEntity(rentalCarRequestDto);
+        verify(rentalCarRepository).save(expectedRentalCarEntity);
+        verifyNoMoreInteractions(rentalCarRepository, rentalCarDtoMapper);
+    }
+
+    @Test
+    void givenInvalidRequestBody_shouldNotCreateRentalCar() throws Exception {
+        RentalCarRequestDto invalidRentalCarRequestDto = oneInvalidRentalCarRequestDtoSample();
+
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "Invalid request body");
+
+        mockMvc.perform(post("/rental-cars")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRentalCarRequestDto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(expectedJsonResponse.toString()));
+
+        verifyNoInteractions(rentalCarRepository, rentalCarDtoMapper);
     }
 
 }
