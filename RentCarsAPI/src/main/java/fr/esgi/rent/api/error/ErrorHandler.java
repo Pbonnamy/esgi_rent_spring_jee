@@ -19,6 +19,6 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorDto handleMethodArgumentNotValidException() {
-        return new ErrorDto("La requête envoyée est invalide");
+        return new ErrorDto("Invalid request body");
     }
 }

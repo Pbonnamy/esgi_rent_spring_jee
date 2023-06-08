@@ -8,6 +8,7 @@ import fr.esgi.rent.repository.RentalCarRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import fr.esgi.rent.mapper.RentalCarDtoMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +40,11 @@ public class RentalCarController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> createRentalCar(@Valid @RequestBody RentalCarRequestDto rentalCarRequestDto) {
-        return ResponseEntity.ok().body("Rental car created");
+    public ResponseEntity<Void> createRentalCar(@Valid @RequestBody RentalCarRequestDto rentalCarRequestDto) {
+        RentalCarEntity rentalCarEntity = rentalCarDtoMapper.toEntity(rentalCarRequestDto);
+
+        rentalCarRepository.save(rentalCarEntity);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

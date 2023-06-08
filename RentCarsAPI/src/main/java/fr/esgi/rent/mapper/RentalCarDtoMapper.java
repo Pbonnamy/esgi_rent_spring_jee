@@ -27,4 +27,16 @@ public class RentalCarDtoMapper {
                 .map(this::toDto)
                 .toList();
     }
+
+    public RentalCarEntity toEntity(RentalCarRequestDto rentalCarRequestDto) {
+        return new RentalCarEntity(
+                rentalCarRequestDto.brand(),
+                rentalCarRequestDto.model(),
+                rentalCarRequestDto.rentAmount(),
+                rentalCarRequestDto.securityDepositAmount(),
+                rentalCarRequestDto.numberOfSeats(),
+                rentalCarRequestDto.numberOfDoors(),
+                rentalCarRequestDto.hasAirConditioning()
+        );
+    }
 }
