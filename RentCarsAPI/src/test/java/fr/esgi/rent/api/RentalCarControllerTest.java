@@ -18,13 +18,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import static fr.esgi.rent.samples.RentalCarDtoSample.*;
 import static fr.esgi.rent.samples.RentalCarEntitySample.oneRentalCarEntitySample;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.util.List;
 import java.util.Optional;
 
 import static fr.esgi.rent.samples.RentalCarEntitySample.rentalCarEntitiesSample;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -129,6 +128,19 @@ class RentalCarControllerTest {
                 .andExpect(content().string(expectedJsonResponse.toString()));
 
         verifyNoInteractions(rentalCarRepository, rentalCarDtoMapper);
+    }
+
+    @Test
+    void shouldDeleteRentalCar() throws Exception {
+        Integer id = 1;
+
+        doNothing().when(rentalCarRepository).deleteById(id);
+
+        mockMvc.perform(delete("/rental-cars/{id}", id))
+                .andExpect(status().isNoContent());
+
+        verify(rentalCarRepository).deleteById(id);
+        verifyNoMoreInteractions(rentalCarRepository);
     }
 
 }
