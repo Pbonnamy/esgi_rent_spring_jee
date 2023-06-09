@@ -10,4 +10,8 @@ public class RentPropertyNotFoundException extends RuntimeException{
         super("Impossible de trouver la propriété avec l'id " + id);
     }
 
+    public RentPropertyNotFoundException(String message) {
+        super(message);
+    }
+
 }

@@ -3,6 +3,7 @@ package fr.rent.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
+
 @Builder
 public record RentPropertyRequestDto(
         @NotNull String description,
