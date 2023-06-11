@@ -32,4 +32,16 @@ class ErrorHandlerTest {
         assertThat(errorDto.message()).isEqualTo(message);
     }
 
+    @Test
+    void shouldHandleHttpMessageNotReadableException() {
+        String message = "La requête est mal formée ou un des champs est invalide";
+
+        ErrorHandler errorHandler = new ErrorHandler();
+
+        ErrorDto errorDto = errorHandler.handleHttpMessageNotReadableException();
+
+        assertThat(errorDto.message()).isEqualTo(message);
+    }
+
+
 }
