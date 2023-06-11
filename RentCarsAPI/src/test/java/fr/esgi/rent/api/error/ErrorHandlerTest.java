@@ -26,4 +26,13 @@ class ErrorHandlerTest {
 
         assertEquals(expectedMessage, errorDto.message());
     }
+
+    @Test
+    void shouldHandleHttpMessageNotReadableException() {
+        String expectedMessage = "Invalid request body";
+
+        ErrorDto errorDto = errorHandler.handleHttpMessageNotReadableException();
+
+        assertEquals(expectedMessage, errorDto.message());
+    }
 }

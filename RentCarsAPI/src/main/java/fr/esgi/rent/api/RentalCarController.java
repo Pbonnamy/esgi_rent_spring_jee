@@ -54,4 +54,14 @@ public class RentalCarController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateRentalCar(@PathVariable Integer id, @Valid @RequestBody RentalCarRequestDto rentalCarRequestDto) {
+        RentalCarEntity rentalCarEntity = rentalCarDtoMapper.toEntity(rentalCarRequestDto);
+        rentalCarEntity.setId(id);
+
+        rentalCarRepository.save(rentalCarEntity);
+
+        return ResponseEntity.ok().build();
+    }
 }
