@@ -22,9 +22,8 @@ public class ErrorHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ErrorDto handleMethodArgumentNotValid(MethodArgumentNotValidException methodArgumentNotValidException) {
-        String message = Arrays.stream(Objects.requireNonNull(methodArgumentNotValidException.getDetailMessageArguments())).toList().get(methodArgumentNotValidException.getDetailMessageArguments().length-1).toString();
-        return new ErrorDto(new RentPropertyBadRequest(message).getMessage());
+    public ErrorDto handleMethodArgumentNotValid() {
+        return new ErrorDto(new RentPropertyBadRequest("L'un des champs renseignés est manquant ou incorrect").getMessage());
     }
 
 
