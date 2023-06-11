@@ -1,6 +1,7 @@
 package fr.esgi.rent.samples;
 
 import fr.esgi.rent.dto.request.RentalCarRequestDto;
+import fr.esgi.rent.dto.request.SingleFieldRentalCarRequestDto;
 import fr.esgi.rent.dto.response.RentalCarResponseDto;
 
 import java.util.List;
@@ -32,6 +33,12 @@ public class RentalCarDtoSample {
                 .numberOfSeats(5)
                 .numberOfDoors(4)
                 .hasAirConditioning(true)
+                .build();
+    }
+
+    public static SingleFieldRentalCarRequestDto oneSingleFieldRentalCarRequestDtoSample() {
+        return SingleFieldRentalCarRequestDto.builder()
+                .rentAmount(790.9)
                 .build();
     }
 
