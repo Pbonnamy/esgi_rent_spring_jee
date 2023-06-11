@@ -31,8 +31,7 @@ public class RentalPropertyResource {
             //Passer la response.body à un objet non typé permet de le parer
             Object o = response.body();
             return o;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
