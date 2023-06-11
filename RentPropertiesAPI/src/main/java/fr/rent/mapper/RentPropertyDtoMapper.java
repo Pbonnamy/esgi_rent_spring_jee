@@ -49,25 +49,5 @@ public class RentPropertyDtoMapper {
                 rentalPropertyRequestDto.hasParkingSpace());
     }
 
-    public RentPropertyEntity updateEntityFromDto(RentPropertyEntity rentPropertyEntity, RentPropertyRequestDto rentPropertyRequestDto) {
-        rentPropertyEntity.setDescription(rentPropertyRequestDto.description());
-        rentPropertyEntity.setTown(rentPropertyRequestDto.town());
-        rentPropertyEntity.setAddress(rentPropertyRequestDto.address());
-        rentPropertyEntity.setPropertyType(new PropertyTypeEntity(rentPropertyRequestDto.propertyType()));
-        rentPropertyEntity.setRentAmount(rentPropertyRequestDto.rentAmount());
-        rentPropertyEntity.setSecurityDepositAmount(rentPropertyRequestDto.securityDepositAmount());
-        rentPropertyEntity.setArea(rentPropertyRequestDto.area());
-        rentPropertyEntity.setNumberOfBedrooms(rentPropertyRequestDto.number_of_bedrooms());
-        rentPropertyEntity.setFloorNumber(rentPropertyRequestDto.floorNumber());
-        rentPropertyEntity.setNumberOfFloors(rentPropertyRequestDto.numberOfFloors());
-        rentPropertyEntity.setConstructionYear(rentPropertyRequestDto.constructionYear());
-        rentPropertyEntity.setEnergyClassification(new EnergyClassificationEntity(rentPropertyRequestDto.energyClassification()));
-        rentPropertyEntity.setHasElevator(rentPropertyRequestDto.hasElevator());
-        rentPropertyEntity.setHasIntercom(rentPropertyRequestDto.hasIntercom());
-        rentPropertyEntity.setHasBalcony(rentPropertyRequestDto.hasBalcony());
-        rentPropertyEntity.setHasParkingSpace(rentPropertyRequestDto.hasParkingSpace());
-        return rentPropertyEntity;
-    }
-
 
 }
