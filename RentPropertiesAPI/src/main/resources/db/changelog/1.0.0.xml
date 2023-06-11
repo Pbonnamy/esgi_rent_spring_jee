@@ -1,0 +1,100 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    
+    <changeSet id="create-rental-property-table" author="ShadowZ11">
+
+        <createTable tableName="rental_property">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="property_type_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="energy_classification_id" type="INT"/>
+
+            <column name="description" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="town" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="rent_amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="security_deposit_amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="area" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="number_of_bedrooms" type="INT"/>
+            <column name="floor_number" type="INT"/>
+            <column name="number_of_floors" type="INT"/>
+
+            <column name="construction_year" type="CHAR(4)"/>
+
+            <column name="has_elevator" type="BIT(1)"/>
+            <column name="has_intercom" type="BIT(1)"/>
+            <column name="has_balcony" type="BIT(1)"/>
+            <column name="has_parking_space" type="BIT(1)"/>
+
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="create-energy-type-table" author="ShadowZ11">
+        <createTable tableName="energy_classification">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="designation" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-property-type-table" author="ShadowZ11">
+        <createTable tableName="property_type">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="designation" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add-fks-rent-property" author="ShadowZ11">
+        <addForeignKeyConstraint baseColumnNames="property_type_id"
+                                 baseTableName="rental_property"
+                                 constraintName="fk_rental_property_property_type"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="RESTRICT"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="property_type"
+                                 validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="energy_classification_id"
+                                 baseTableName="rental_property"
+                                 constraintName="fk_rental_property_energy_classification"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="RESTRICT"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="energy_classification"
+                                 validate="true"/>
+    </changeSet>
+
+
+</databaseChangeLog>
