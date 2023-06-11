@@ -14,7 +14,137 @@
     <properties>
         <maven.compiler.source>20</maven.compiler.source>
         <maven.compiler.target>20</maven.compiler.target>
+        <liquibase.version>4.22.0</liquibase.version>
+        <mysql.connector.version>8.0.33</mysql.connector.version>
+        <spring.boot.data.jpa.version>3.1.0</spring.boot.data.jpa.version>
+        <spring.boot.web.version>3.1.0</spring.boot.web.version>
+        <spring.boot.test.version>3.1.0</spring.boot.test.version>
+        <spring.boot.validation.version>3.1.0</spring.boot.validation.version>
+        <spring.boot.maven.plugin.version>3.1.0</spring.boot.maven.plugin.version>
+        <lombok.version>1.18.28</lombok.version>
+        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+        <junit.jupiter.version>5.8.2</junit.jupiter.version>
+        <mockito.version>5.3.1</mockito.version>
+        <assertj.core.version>3.24.2</assertj.core.version>
+        <jakarta.validation.version>3.0.2</jakarta.validation.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot.web.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring.boot.data.jpa.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.boot.test.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>${spring.boot.validation.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.core.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.maven.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+                <configuration>
+                    <promptOnNonLocalDatabase>true</promptOnNonLocalDatabase>
+                    <changeLogFile>db/changelog.xml</changeLogFile>
+                    <outputChangeLogFile>${project.basedir}/src/main/resources/liquibase-outputChangeLog.xml
+                    </outputChangeLogFile>
+                    <url>jdbc:mysql://localhost:3306/esgi-rent</url>
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
+                    <username>root</username>
+                    <password>root</password>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
