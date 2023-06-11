@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "rental_car")

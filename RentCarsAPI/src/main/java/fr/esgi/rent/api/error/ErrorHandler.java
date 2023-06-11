@@ -2,6 +2,7 @@ package fr.esgi.rent.api.error;
 
 import fr.esgi.rent.exception.NotFoundRentalCarException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,6 +20,12 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorDto handleMethodArgumentNotValidException() {
+        return new ErrorDto("Invalid request body");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ErrorDto handleHttpMessageNotReadableException() {
         return new ErrorDto("Invalid request body");
     }
 }

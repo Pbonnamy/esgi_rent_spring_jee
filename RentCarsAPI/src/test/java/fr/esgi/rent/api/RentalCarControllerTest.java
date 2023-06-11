@@ -143,4 +143,42 @@ class RentalCarControllerTest {
         verifyNoMoreInteractions(rentalCarRepository);
     }
 
+    @Test
+    void shouldUpdateRentalCar() throws Exception {
+        int id = 1;
+
+        RentalCarRequestDto rentalCarRequestDto = oneRentalCarRequestDtoSample();
+        RentalCarEntity expectedRentalCarEntity = oneRentalCarEntitySample();
+
+        when(rentalCarDtoMapper.toEntity(rentalCarRequestDto)).thenReturn(expectedRentalCarEntity);
+        when(rentalCarRepository.save(expectedRentalCarEntity)).thenReturn(expectedRentalCarEntity);
+
+        mockMvc.perform(put("/rental-cars/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(rentalCarRequestDto)))
+                .andExpect(status().isOk());
+
+        verify(rentalCarDtoMapper).toEntity(rentalCarRequestDto);
+        verify(rentalCarRepository).save(expectedRentalCarEntity);
+        verifyNoMoreInteractions(rentalCarRepository, rentalCarDtoMapper);
+    }
+
+    @Test
+    void givenInvalidRequestBody_shouldNotUpdateRentalCar() throws Exception {
+        int id = 1;
+
+        RentalCarRequestDto invalidRentalCarRequestDto = oneInvalidRentalCarRequestDtoSample();
+
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "Invalid request body");
+
+        mockMvc.perform(put("/rental-cars/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRentalCarRequestDto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(expectedJsonResponse.toString()));
+
+        verifyNoInteractions(rentalCarRepository, rentalCarDtoMapper);
+    }
+
 }
