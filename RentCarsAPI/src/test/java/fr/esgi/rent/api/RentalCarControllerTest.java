@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.esgi.rent.domain.RentalCarEntity;
 import fr.esgi.rent.dto.request.RentalCarRequestDto;
+import fr.esgi.rent.dto.request.SingleFieldRentalCarRequestDto;
 import fr.esgi.rent.dto.response.RentalCarResponseDto;
 import fr.esgi.rent.mapper.RentalCarDtoMapper;
 import fr.esgi.rent.repository.RentalCarRepository;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static fr.esgi.rent.samples.RentalCarDtoSample.*;
 import static fr.esgi.rent.samples.RentalCarEntitySample.oneRentalCarEntitySample;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
@@ -181,4 +183,44 @@ class RentalCarControllerTest {
         verifyNoInteractions(rentalCarRepository, rentalCarDtoMapper);
     }
 
+    @Test
+    void shouldUpdateRentalCarPartially() throws Exception {
+        int id = 1;
+
+        SingleFieldRentalCarRequestDto singleFieldRentalCarRequestDto = oneSingleFieldRentalCarRequestDtoSample();
+        RentalCarEntity expectedRentalCarEntity = oneRentalCarEntitySample();
+
+        when(rentalCarRepository.findById(id)).thenReturn(Optional.of(expectedRentalCarEntity));
+        when(rentalCarRepository.save(expectedRentalCarEntity)).thenReturn(expectedRentalCarEntity);
+
+        mockMvc.perform(patch("/rental-cars/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(singleFieldRentalCarRequestDto)))
+                .andExpect(status().isOk());
+
+        verify(rentalCarRepository).findById(id);
+        verify(rentalCarRepository).save(expectedRentalCarEntity);
+        verifyNoMoreInteractions(rentalCarRepository);
+    }
+
+    @Test
+    void givenRentalCarDoesntExist_shouldNotUpdatePartiallyRentalCar() throws Exception {
+        int id = 1;
+
+        SingleFieldRentalCarRequestDto singleFieldRentalCarRequestDto = oneSingleFieldRentalCarRequestDtoSample();
+
+        when(rentalCarRepository.findById(id)).thenReturn(Optional.empty());
+
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "Rental car with id " + id + " not found");
+
+        mockMvc.perform(patch("/rental-cars/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(singleFieldRentalCarRequestDto)))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(expectedJsonResponse.toString()));
+
+        verify(rentalCarRepository).findById(id);
+        verifyNoMoreInteractions(rentalCarRepository);
+    }
 }
