@@ -17,4 +17,13 @@ class ErrorHandlerTest {
 
         assertEquals(expectedMessage, errorDto.message());
     }
+
+    @Test
+    void shouldHandleMethodArgumentNotValidException() {
+        String expectedMessage = "Invalid request body";
+
+        ErrorDto errorDto = errorHandler.handleMethodArgumentNotValidException();
+
+        assertEquals(expectedMessage, errorDto.message());
+    }
 }

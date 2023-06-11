@@ -20,8 +20,18 @@ public class RentalCarEntity {
         this.hasAirConditioning = hasAirConditioning;
     }
 
+    public RentalCarEntity(String brand, String model, Double rentAmount, Double securityDepositAmount, Integer numberOfSeats, Integer numberOfDoors, Boolean hasAirConditioning) {
+        this.brand = brand;
+        this.model = model;
+        this.rentAmount = rentAmount;
+        this.securityDepositAmount = securityDepositAmount;
+        this.numberOfSeats = numberOfSeats;
+        this.numberOfDoors = numberOfDoors;
+        this.hasAirConditioning = hasAirConditioning;
+    }
+
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 

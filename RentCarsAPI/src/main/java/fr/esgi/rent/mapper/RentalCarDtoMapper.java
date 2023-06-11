@@ -1,6 +1,7 @@
 package fr.esgi.rent.mapper;
 
 import fr.esgi.rent.domain.RentalCarEntity;
+import fr.esgi.rent.dto.request.RentalCarRequestDto;
 import fr.esgi.rent.dto.response.RentalCarResponseDto;
 import org.springframework.stereotype.Component;
 
@@ -25,5 +26,17 @@ public class RentalCarDtoMapper {
         return rentalCarEntities.stream()
                 .map(this::toDto)
                 .toList();
+    }
+
+    public RentalCarEntity toEntity(RentalCarRequestDto rentalCarRequestDto) {
+        return new RentalCarEntity(
+                rentalCarRequestDto.brand(),
+                rentalCarRequestDto.model(),
+                rentalCarRequestDto.rentAmount(),
+                rentalCarRequestDto.securityDepositAmount(),
+                rentalCarRequestDto.numberOfSeats(),
+                rentalCarRequestDto.numberOfDoors(),
+                rentalCarRequestDto.hasAirConditioning()
+        );
     }
 }
