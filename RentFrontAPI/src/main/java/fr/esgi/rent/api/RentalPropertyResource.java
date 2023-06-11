@@ -35,45 +35,4 @@ public class RentalPropertyResource {
             throw new RuntimeException(e);
         }
     }
-
-
-    /*@GET
-    @Path("/{playerId}")
-    public String getRentalProperty(@PathParam("playerId") String playerId) {
-        String responseBody = "pas de reponse";
-        try {
-            HttpClient client = HttpClient.newBuilder()
-                    .connectTimeout(Duration.ofMinutes(1))
-                    .build();
-
-            String url = "http://localhost:3000/user/" + playerId;
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            int statusCode = response.statusCode();
-            responseBody = response.body();
-            System.out.println(responseBody);
-            if (statusCode >= 200 && statusCode < 300) {
-                return responseBody;
-            } else if (statusCode >= 400 && statusCode < 500) {
-                return ("Client error: " + responseBody);
-            } else if (statusCode >= 500 && statusCode < 600) {
-                return ("Server error: " + responseBody);
-            } else {
-                return ("Unknown status code: " + statusCode);
-            }
-        }
-        catch (IOException e){
-            return "IOException : " + e;
-        }
-        catch (InterruptedException e){
-            return "InterruptedException : " + e;
-        }
-
-    }*/
 }
