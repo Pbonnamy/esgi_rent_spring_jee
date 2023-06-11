@@ -21,8 +21,8 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
+@RequestMapping("/rental-properties")
 @RequiredArgsConstructor
-@RequestMapping("/rent-properties-api")
 public class RentPropertyController {
 
     private final RentPropertyRepository rentPropertyRepository;
@@ -30,14 +30,14 @@ public class RentPropertyController {
     private final RentPropertyDtoMapper rentalPropertyDtoMapper;
 
 
-    @GetMapping("/rental-properties")
+    @GetMapping()
     public ResponseEntity<List<RentPropertyResponseDto>> getRentalProperties() {
         List<RentPropertyEntity> rentalProperties = rentPropertyRepository.findAll();
 
         return ResponseEntity.ok().body(rentalPropertyDtoMapper.mapToDtoList(rentalProperties));
     }
 
-    @GetMapping("/rental-properties/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<RentPropertyResponseDto> getRentalPropertyById(@PathVariable int id) {
         return rentPropertyRepository.findById(id)
                 .map(rentalPropertyDtoMapper::mapToDto)
