@@ -72,11 +72,12 @@ public class RentPropertyController {
 
 
     @DeleteMapping("/rental-properties/{id}")
-    public void deleteRentalProperty(@PathVariable int id) {
-        rentPropertyService.findById(id)
-                .orElseThrow(() -> new RentPropertyNotFoundException(id));
+    public ResponseEntity<Void> deleteRentalProperty(@PathVariable int id) {
 
-        rentPropertyService.deleteById(id);
+        rentPropertyRepository.deleteById(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
     }
 
 
