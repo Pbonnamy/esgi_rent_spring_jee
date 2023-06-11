@@ -66,11 +66,10 @@
             <version>1.18.26</version>
             <scope>compile</scope>
         </dependency>
-            <groupId>org.springframework.boot</groupId>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-            <version>3.1.0</version>
-            <scope>compile</scope>
+            <version>${spring.boot.web.version}</version>
         </dependency>
     </dependencies>
 
