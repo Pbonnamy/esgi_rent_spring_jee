@@ -46,7 +46,7 @@ public class RentPropertyController {
     }
 
 
-    @PostMapping("/rental-properties")
+    @PostMapping()
     public ResponseEntity<Void> createRentalProperty(@Valid @RequestBody RentPropertyRequestDto rentalPropertyResponseDto) {
         RentPropertyEntity rentalPropertyEntity = rentalPropertyDtoMapper.mapToEntity(rentalPropertyResponseDto);
 
