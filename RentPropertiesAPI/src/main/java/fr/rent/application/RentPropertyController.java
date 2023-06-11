@@ -7,6 +7,7 @@ import fr.rent.exception.RentPropertyNotFoundException;
 import fr.rent.mapper.RentPropertyDtoMapper;
 import fr.rent.repository.RentPropertyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,11 +47,12 @@ public class RentPropertyController {
 
 
     @PostMapping("/rental-properties")
-    @ResponseStatus(CREATED)
-    public void createRentalProperty(@Valid @RequestBody RentPropertyRequestDto rentalPropertyResponseDto) {
+    public ResponseEntity<Void> createRentalProperty(@Valid @RequestBody RentPropertyRequestDto rentalPropertyResponseDto) {
         RentPropertyEntity rentalPropertyEntity = rentalPropertyDtoMapper.mapToEntity(rentalPropertyResponseDto);
 
         rentPropertyRepository.save(rentalPropertyEntity);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
         
     }
 
