@@ -3,6 +3,7 @@ package fr.rent.application;
 import fr.rent.domain.entity.RentPropertyEntity;
 import fr.rent.dto.RentPropertyRequestDto;
 import fr.rent.dto.RentPropertyResponseDto;
+import fr.rent.dto.SimpleRequestDto;
 import fr.rent.exception.RentPropertyNotFoundException;
 import fr.rent.mapper.RentPropertyDtoMapper;
 import fr.rent.repository.RentPropertyRepository;
@@ -71,13 +72,15 @@ public class RentPropertyController {
     }
 
     @PatchMapping("/rental-properties/{id}")
-    public ResponseEntity<Void> updateRentalPropertyPartially(@PathVariable int id, @Valid @RequestBody RentPropertyRequestDto rentalPropertyRequestDto) {
+    public ResponseEntity<Void> updateRentalPropertyPartially(@PathVariable int id, @Valid @RequestBody SimpleRequestDto simpleRequestDto) {
         RentPropertyEntity rentalPropertyEntity = rentPropertyRepository.findById(id)
                 .orElseThrow(() -> new RentPropertyNotFoundException(id));
 
-        RentPropertyEntity updatedEntity = rentalPropertyDtoMapper.partialUpdateEntityFromDto(rentalPropertyEntity, rentalPropertyRequestDto);
+        //RentPropertyEntity updatedEntity = rentalPropertyDtoMapper.partialUpdateEntityFromDto(rentalPropertyEntity, rentalPropertyRequestDto);
 
-        rentPropertyRepository.save(updatedEntity);
+        rentalPropertyEntity.setRentAmount(simpleRequestDto.rentAmount());
+
+        rentPropertyRepository.save(rentalPropertyEntity);
 
         return ResponseEntity.ok().build();
 
