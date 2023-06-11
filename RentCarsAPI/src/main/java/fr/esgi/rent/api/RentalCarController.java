@@ -47,4 +47,11 @@ public class RentalCarController {
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRentalCar(@PathVariable Integer id) {
+        rentalCarRepository.deleteById(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
