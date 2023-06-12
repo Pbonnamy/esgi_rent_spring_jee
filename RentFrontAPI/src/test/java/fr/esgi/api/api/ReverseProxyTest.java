@@ -6,10 +6,12 @@ import fr.esgi.api.service.HttpRedirectorHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.URI;
@@ -31,6 +33,12 @@ public class ReverseProxyTest {
 
     @Mock
     private HttpRedirectorHandler httpRedirectorHandler;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        reverseProxy = new ReverseProxy(httpRedirectorHandler);
+    }
 
     @Test
     public void testTransferGetRequest_Success() throws MalformedUriException {

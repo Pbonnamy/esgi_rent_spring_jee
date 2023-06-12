@@ -15,7 +15,11 @@ import java.net.http.HttpClient;
 @Path("/{any: .*}")
 public class ReverseProxy {
 
-    private final HttpRedirectorHandler httpRedirectorHandler = HttpRedirectorHandler.getInstance(HttpClient.newBuilder().build());
+    private HttpRedirectorHandler httpRedirectorHandler = HttpRedirectorHandler.getInstance(HttpClient.newBuilder().build());
+
+    public ReverseProxy(HttpRedirectorHandler httpRedirectorHandler) {
+        this.httpRedirectorHandler = httpRedirectorHandler;
+    }
 
     @GET
     public Response transferGetRequest(@Context UriInfo uriInfo, @Context HttpServletRequest request) {
