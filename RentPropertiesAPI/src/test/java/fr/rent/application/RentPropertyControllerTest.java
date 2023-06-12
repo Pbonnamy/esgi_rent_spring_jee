@@ -136,7 +136,7 @@ class RentPropertyControllerTest {
         when(rentalPropertyRepository.save(rentalPropertyEntity)).thenReturn(rentalPropertyEntity);
         when(rentalPropertyDtoMapper.mapToDto(rentalPropertyEntity)).thenReturn(rentalPropertyResponseDto);
 
-        mockMvc.perform(put("/rent-properties-api/rental-properties/{id}", id)
+        mockMvc.perform(put("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(rentalPropertyRequestDto)))
                 .andExpect(status().isOk());
@@ -152,7 +152,7 @@ class RentPropertyControllerTest {
 
         int id = 1;
 
-        mockMvc.perform(put("/rent-properties-api/rental-properties/{id}", id)
+        mockMvc.perform(put("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().isBadRequest())
@@ -168,7 +168,7 @@ class RentPropertyControllerTest {
 
         int id = 1;
 
-        mockMvc.perform(put("/rent-properties-api/rental-properties/{id}", id)
+        mockMvc.perform(put("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(invalidJson))
                 .andExpect(status().isBadRequest())
