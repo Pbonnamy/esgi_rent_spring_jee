@@ -3,6 +3,7 @@ package fr.esgi.api.controller;
 
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.service.HttpRedirectorHandler;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -17,6 +18,7 @@ public class ReverseProxy {
 
     private HttpRedirectorHandler httpRedirectorHandler = HttpRedirectorHandler.getInstance(HttpClient.newBuilder().build());
 
+    @Inject
     public ReverseProxy(HttpRedirectorHandler httpRedirectorHandler) {
         this.httpRedirectorHandler = httpRedirectorHandler;
     }
