@@ -7,7 +7,7 @@ public class RentPropertyBadRequest extends RuntimeException{
     }
 
     public RentPropertyBadRequest(String message) {
-        super("La requête est incorrecte pour la raison suivante: " + message);
+        super(message);
     }
 
 }
