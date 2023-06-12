@@ -1,4 +1,4 @@
-package fr.esgi.rent.exception;
+package fr.esgi.api.exception;
 
 public class MalformedUriException extends RuntimeException {
 

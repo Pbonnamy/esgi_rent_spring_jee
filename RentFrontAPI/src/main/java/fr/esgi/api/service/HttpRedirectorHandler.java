@@ -1,6 +1,6 @@
-package fr.esgi.rent.api;
+package fr.esgi.api.service;
 
-import fr.esgi.rent.exception.MalformedUriException;
+import fr.esgi.api.exception.MalformedUriException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
@@ -9,11 +9,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.Objects;
 
-public class HttpRedirectorUtils {
-
+public class HttpRedirectorHandler {
     public static final String FRONT_API_URI = "front-api";
     public static final String RENTAL_PROPERTIES_FRONT_URI = "rental-properties";
     public static final String RENTAL_CARS_FRONT_URI = "rental_cars";
@@ -22,6 +20,18 @@ public class HttpRedirectorUtils {
     public static final int SPRING_PORT = 3000;
     public static final String BASE_URL = "http:localhost:" + SPRING_PORT + FRONT_API_URI;
 
+    private static HttpRedirectorHandler instance;
+    private final HttpClient client;
+    public HttpRedirectorHandler(HttpClient client) {
+        this.client = client;
+    }
+
+    public static HttpRedirectorHandler getInstance(HttpClient value) {
+        if (instance == null) {
+            instance = new HttpRedirectorHandler(value);
+        }
+        return instance;
+    }
 
     Response httpQueryRedirection(UriInfo uriInfo, String method, String target) {
         try {
@@ -50,17 +60,13 @@ public class HttpRedirectorUtils {
 
     }
 
-    Response queryExecutor(URI uri, String method) {
+    private Response queryExecutor(URI uri, String method) {
         try {
-            HttpClient client = HttpClient.newBuilder()
-                    .connectTimeout(Duration.ofMinutes(1))
-                    .build();
-
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(uri)
                     .GET()
                     .build();
-            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> httpResponse = this.client.send(request, HttpResponse.BodyHandlers.ofString());
 
             return Response.status(Response.Status.OK)
                     .entity(httpResponse.body())
@@ -94,10 +100,10 @@ public class HttpRedirectorUtils {
             if ("/".equals(uri) || null == uri) {
                 throw new MalformedUriException("No URL provided: " + uri);
             }
-            if(uri.equals(RENTAL_CARS_FRONT_URI)){
+            if(RENTAL_CARS_FRONT_URI.equals(uri)){
                 return CARS_URI_TARGET;
             }
-            if(uri.equals(RENTAL_PROPERTIES_FRONT_URI)){
+            else if(RENTAL_PROPERTIES_FRONT_URI.equals(uri)){
                 return PROPERTIES_URI_TARGET;
             }
 

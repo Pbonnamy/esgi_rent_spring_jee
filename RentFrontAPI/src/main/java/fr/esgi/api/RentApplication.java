@@ -1,4 +1,4 @@
-package fr.esgi.rent.api;
+package fr.esgi.api;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
