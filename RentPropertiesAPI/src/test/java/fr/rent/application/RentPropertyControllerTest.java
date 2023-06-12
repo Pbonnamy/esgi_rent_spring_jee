@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(RentPropertyController.class)
+@WebMvcTest(controllers = RentPropertyController.class)
 class RentPropertyControllerTest {
 
     @Autowired
@@ -46,7 +46,7 @@ class RentPropertyControllerTest {
         when(rentalPropertyRepository.findAll()).thenReturn(rentalPropertyEntities);
         when(rentalPropertyDtoMapper.mapToDtoList(rentalPropertyEntities)).thenReturn(rentalPropertyResponseList);
 
-        mockMvc.perform(get("/rent-properties-api/rental-properties"))
+        mockMvc.perform(get("/rental-properties"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(rentalPropertyResponseList)));
 
@@ -65,7 +65,7 @@ class RentPropertyControllerTest {
         when(rentalPropertyRepository.findById(id)).thenReturn(Optional.of(rentalPropertyEntity));
         when(rentalPropertyDtoMapper.mapToDto(rentalPropertyEntity)).thenReturn(rentalPropertyResponseDto);
 
-        mockMvc.perform(get("/rent-properties-api/rental-properties/{id}", id))
+        mockMvc.perform(get("/rental-properties/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(rentalPropertyResponseDto)));
 
@@ -81,7 +81,7 @@ class RentPropertyControllerTest {
 
         when(rentalPropertyRepository.findById(id)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/rent-properties-api/rental-properties/{id}", 1))
+        mockMvc.perform(get("/rental-properties/{id}", 1))
                 .andExpect(status().isNotFound())
                 .andExpect(content().json("{\"message\":\"Impossible de trouver la propriété avec l'id " + id + "\"}"));
 
@@ -100,7 +100,7 @@ class RentPropertyControllerTest {
         when(rentalPropertyRepository.save(rentalPropertyEntity)).thenReturn(rentalPropertyEntity);
         when(rentalPropertyDtoMapper.mapToDto(rentalPropertyEntity)).thenReturn(rentalPropertyResponseDto);
 
-        mockMvc.perform(post("/rent-properties-api/rental-properties")
+        mockMvc.perform(post("/rental-properties")
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(rentalPropertyRequestDto)))
                 .andExpect(status().isCreated());
@@ -115,7 +115,7 @@ class RentPropertyControllerTest {
 
         RentPropertyRequestDto invalidRequest = oneRentalPropertyRequestWithInvalidValue();
 
-        mockMvc.perform(post("/rent-properties-api/rental-properties")
+        mockMvc.perform(post("/rental-properties")
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().isBadRequest())

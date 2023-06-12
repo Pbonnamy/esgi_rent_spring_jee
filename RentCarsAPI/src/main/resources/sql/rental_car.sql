@@ -1,4 +1,4 @@
-INSERT INTO `esgi-rent`.car (id, brand, model, rent_amount, security_deposit_amount, number_of_seats, number_of_doors, has_air_conditioning)
+INSERT INTO `esgi-rent`.rental_car (id, brand, model, rent_amount, security_deposit_amount, number_of_seats, number_of_doors, has_air_conditioning)
 VALUES
     (1, 'Renault', 'Clio', 45.0, 150.0, 5, 4, 1),
     (2, 'Ford', 'Focus', 50.0, 200.0, 5, 4, 1),
