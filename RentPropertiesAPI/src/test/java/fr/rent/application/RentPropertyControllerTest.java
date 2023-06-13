@@ -2,9 +2,11 @@ package fr.rent.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.rent.domain.entity.RentPropertyEntity;
+import fr.rent.dto.RentPropertyRequestDto;
 import fr.rent.dto.RentPropertyResponseDto;
 import fr.rent.mapper.RentPropertyDtoMapper;
 import fr.rent.repository.RentPropertyRepository;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,12 +16,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.Optional;
 
-import static fr.rent.samples.RentPropertyDtoSample.oneRentalPropertyResponse;
-import static fr.rent.samples.RentPropertyDtoSample.rentalPropertyResponseList;
+import static fr.rent.samples.RentPropertyDtoSample.*;
 import static fr.rent.samples.RentPropertyEntitySample.oneRentalPropertyEntity;
 import static fr.rent.samples.RentPropertyEntitySample.rentalPropertyEntities;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -77,16 +80,55 @@ class RentPropertyControllerTest {
     void givenNoExistentRentalPropertyId_shouldThrowNotFoundRentalPropertyException() throws Exception {
 
         int id = 1;
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "Impossible de trouver la propriété avec l'id " + id);
 
         when(rentalPropertyRepository.findById(id)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/rental-properties/{id}", 1))
                 .andExpect(status().isNotFound())
-                .andExpect(content().json("{\"message\":\"Impossible de trouver la propriété avec l'id " + id + "\"}"));
+                .andExpect(content().json(expectedJsonResponse.toString()));
 
         verify(rentalPropertyRepository).findById(id);
         verifyNoInteractions(rentalPropertyDtoMapper);
         verifyNoMoreInteractions(rentalPropertyRepository);
     }
+
+    @Test
+    void shouldCreateRentalProperty() throws Exception {
+        RentPropertyRequestDto rentalPropertyRequestDto = oneRentalPropertyRequest();
+        RentPropertyResponseDto rentalPropertyResponseDto = oneRentalPropertyResponse();
+        RentPropertyEntity rentalPropertyEntity = oneRentalPropertyEntity();
+
+        when(rentalPropertyDtoMapper.mapToEntity(rentalPropertyRequestDto)).thenReturn(rentalPropertyEntity);
+        when(rentalPropertyRepository.save(rentalPropertyEntity)).thenReturn(rentalPropertyEntity);
+        when(rentalPropertyDtoMapper.mapToDto(rentalPropertyEntity)).thenReturn(rentalPropertyResponseDto);
+
+        mockMvc.perform(post("/rental-properties")
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(rentalPropertyRequestDto)))
+                .andExpect(status().isCreated());
+
+        verify(rentalPropertyDtoMapper).mapToEntity(rentalPropertyRequestDto);
+        verify(rentalPropertyRepository).save(rentalPropertyEntity);
+        verifyNoMoreInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
+    }
+
+    @Test
+    void givenInvalidRequestBody_shouldReturn404HttpStatusCode() throws Exception {
+
+        RentPropertyRequestDto invalidRequest = oneRentalPropertyRequestWithInvalidValue();
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "L'un des champs est manquant ou incorrect");
+
+        mockMvc.perform(post("/rental-properties")
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(invalidRequest)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json(expectedJsonResponse.toString()));
+
+        verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
+    }
+
 
 }

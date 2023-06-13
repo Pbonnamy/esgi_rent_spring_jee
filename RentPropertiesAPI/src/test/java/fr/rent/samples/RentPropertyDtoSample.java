@@ -46,4 +46,12 @@ public class RentPropertyDtoSample {
                 .build();
     }
 
+    public static RentPropertyRequestDto oneRentalPropertyRequestWithInvalidValue() {
+        return RentPropertyRequestDto.builder()
+                .description("null")
+                .town("null")
+                .address("null")
+                .build();
+    }
+
 }
