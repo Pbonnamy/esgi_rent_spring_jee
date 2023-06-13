@@ -12,15 +12,17 @@ import java.net.http.HttpResponse;
 import java.util.Objects;
 
 public class HttpRedirectorHandler {
-    public static final String FRONT_API_URI = "front-api";
-    public static final String RENTAL_PROPERTIES_FRONT_URI = "rental-properties";
-    public static final String RENTAL_CARS_FRONT_URI = "rental_cars";
+    public static final String FRONT_API_URI = "front-api/";
+    public static final String RENTAL_PROPERTIES_URI = "rental-properties";
+    public static final String RENTAL_CARS_FRONT_URI = "rental-cars";
     public static final String PROPERTIES_URI_TARGET = "rent-properties-api";
     public static final String CARS_URI_TARGET = "rent-cars-api";
     public static final int SPRING_PORT = 3000;
+
+    public static final int FRONT_PORT = 8080;
     public static final String HOST = "http://localhost:";
-    public static final String BASE_SPRING_URL = HOST + SPRING_PORT;
-    public static final String BASE_FRONT_URL = HOST + SPRING_PORT + "/" + FRONT_API_URI;
+    public static final String BASE_SPRING_URI = HOST + SPRING_PORT + "/";
+    public static final String BASE_FRONT_URI = HOST + FRONT_PORT + "/" + FRONT_API_URI;
 
     private static HttpRedirectorHandler instance;
     private final HttpClient client;
@@ -37,18 +39,18 @@ public class HttpRedirectorHandler {
 
     Response httpQueryRedirection(UriInfo uriInfo, String method, String target) {
         try {
-            if (Objects.equals(target, RENTAL_PROPERTIES_FRONT_URI)) {
+            if (Objects.equals(target, PROPERTIES_URI_TARGET)) {
                 //SEND REQUEST TO PROPERTIES BACK
                 String uriCreation = String.valueOf(uriInfo.getRequestUri());
-                uriCreation = uriCreation.replace(FRONT_API_URI, PROPERTIES_URI_TARGET);
+                uriCreation = uriCreation.replace(BASE_FRONT_URI, BASE_SPRING_URI + PROPERTIES_URI_TARGET + "/");
                 URI uri = UriBuilder.fromUri(uriCreation)
                         .port(SPRING_PORT)
                         .build();
                 return this.queryExecutor(uri, method);
-            } else if (Objects.equals(target, RENTAL_CARS_FRONT_URI)) {
+            } else if (Objects.equals(target, CARS_URI_TARGET)) {
                 //SEND REQUEST TO CARS BACK
                 String uriCreation = String.valueOf(uriInfo.getRequestUri());
-                uriCreation = uriCreation.replace(FRONT_API_URI, CARS_URI_TARGET);
+                uriCreation = uriCreation.replace(BASE_FRONT_URI, BASE_SPRING_URI + CARS_URI_TARGET + "/");
                 URI uri = UriBuilder.fromUri(uriCreation)
                         .port(SPRING_PORT)
                         .build();
@@ -59,7 +61,6 @@ public class HttpRedirectorHandler {
         } catch (RuntimeException e) {
             throw new RuntimeException("Cannot access back services", e);
         }
-
     }
 
     private Response queryExecutor(URI uri, String method) {
@@ -102,19 +103,16 @@ public class HttpRedirectorHandler {
             if ("/".equals(uri) || null == uri) {
                 throw new MalformedUriException("No URL provided: " + uri);
             }
+
             if(RENTAL_CARS_FRONT_URI.equals(uri)){
                 return CARS_URI_TARGET;
             }
-            else if(RENTAL_PROPERTIES_FRONT_URI.equals(uri)){
+            else if(RENTAL_PROPERTIES_URI.equals(uri)){
                 return PROPERTIES_URI_TARGET;
             }
-
-            String[] uriSplit = uri.split("/");
-            if (uriSplit.length < 2) {
-                throw new MalformedUriException("Invalid URL: " + uri);
+            else {
+                throw new MalformedUriException("Bad URL");
             }
-
-            return uriSplit[1];
         } catch (MalformedUriException e) {
             throw new MalformedUriException("Error in URL", e);
         }
