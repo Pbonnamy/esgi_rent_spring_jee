@@ -18,7 +18,9 @@ public class HttpRedirectorHandler {
     public static final String PROPERTIES_URI_TARGET = "rent-properties-api";
     public static final String CARS_URI_TARGET = "rent-cars-api";
     public static final int SPRING_PORT = 3000;
-    public static final String BASE_URL = "http:localhost:" + SPRING_PORT + FRONT_API_URI;
+    public static final String HOST = "http://localhost:";
+    public static final String BASE_SPRING_URL = HOST + SPRING_PORT;
+    public static final String BASE_FRONT_URL = HOST + SPRING_PORT + "/" + FRONT_API_URI;
 
     private static HttpRedirectorHandler instance;
     private final HttpClient client;
