@@ -157,11 +157,14 @@ class RentPropertyControllerTest {
 
         int id = 1;
 
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "L'un des champs est manquant ou incorrect");
+
         mockMvc.perform(put("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().json("{\"message\": \"La requête est incorrecte pour la raison suivante: L'un des champs renseignés est manquant ou incorrect\"}"));
+                .andExpect(content().json(expectedJsonResponse.toString()));
 
         verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
     }
@@ -173,11 +176,14 @@ class RentPropertyControllerTest {
 
         int id = 1;
 
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "La requête est mal formée ou un des champs est invalide");
+        
         mockMvc.perform(put("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(invalidJson))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().json("{\"message\": \"La requête est mal formée ou un des champs est invalide\"}"));
+                .andExpect(content().json(expectedJsonResponse.toString()));
 
         verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
     }
