@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 @RestControllerAdvice
 public class ErrorHandler {
 
@@ -24,7 +21,7 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorDto handleMethodArgumentNotValid() {
-        return new ErrorDto(new RentPropertyBadRequest("L'un des champs renseignés est manquant ou incorrect").getMessage());
+        return new ErrorDto(new RentPropertyBadRequest("L'un des champs est manquant ou incorrect").getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

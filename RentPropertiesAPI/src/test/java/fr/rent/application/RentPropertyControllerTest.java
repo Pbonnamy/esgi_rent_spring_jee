@@ -6,6 +6,7 @@ import fr.rent.dto.RentPropertyRequestDto;
 import fr.rent.dto.RentPropertyResponseDto;
 import fr.rent.mapper.RentPropertyDtoMapper;
 import fr.rent.repository.RentPropertyRepository;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -78,12 +79,14 @@ class RentPropertyControllerTest {
     void givenNoExistentRentalPropertyId_shouldThrowNotFoundRentalPropertyException() throws Exception {
 
         int id = 1;
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "Impossible de trouver la propriété avec l'id " + id);
 
         when(rentalPropertyRepository.findById(id)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/rental-properties/{id}", 1))
                 .andExpect(status().isNotFound())
-                .andExpect(content().json("{\"message\":\"Impossible de trouver la propriété avec l'id " + id + "\"}"));
+                .andExpect(content().json(expectedJsonResponse.toString()));
 
         verify(rentalPropertyRepository).findById(id);
         verifyNoInteractions(rentalPropertyDtoMapper);
@@ -114,12 +117,14 @@ class RentPropertyControllerTest {
     void givenInvalidRequestBody_shouldReturn404HttpStatusCode() throws Exception {
 
         RentPropertyRequestDto invalidRequest = oneRentalPropertyRequestWithInvalidValue();
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "L'un des champs est manquant ou incorrect");
 
         mockMvc.perform(post("/rental-properties")
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().json("{\"message\": \"La requête est incorrecte pour la raison suivante: L'un des champs renseignés est manquant ou incorrect\"}"));
+                .andExpect(content().json(expectedJsonResponse.toString()));
 
         verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
     }
