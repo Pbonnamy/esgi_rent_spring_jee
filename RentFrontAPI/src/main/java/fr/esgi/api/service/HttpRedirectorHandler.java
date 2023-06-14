@@ -2,6 +2,7 @@ package fr.esgi.api.service;
 
 import fr.esgi.api.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
+import fr.esgi.api.utils.UrlCreationUtils;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
@@ -10,7 +11,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Objects;
 
 public class HttpRedirectorHandler {
     public static final String FRONT_API_URI = "front-api/";
@@ -40,7 +40,8 @@ public class HttpRedirectorHandler {
 
     Response httpQueryRedirection(UriInfo uriInfo, HttpMethod method, String target) {
         try {
-                String url = this.urlPreparator(uriInfo, target);
+                String requestUri = String.valueOf(uriInfo.getRequestUri());
+                String url = UrlCreationUtils.urlPreparator(requestUri, target);
 
                 URI uri = UriBuilder.fromUri(url)
                         .port(SPRING_PORT)
@@ -52,20 +53,6 @@ public class HttpRedirectorHandler {
             throw new MalformedUriException("Url is not provided by any service");
         } catch (RuntimeException e) {
             throw new RuntimeException("Cannot access back services", e);
-        }
-    }
-
-    private String urlPreparator(UriInfo uriInfo, String target) {
-        if (Objects.equals(target, PROPERTIES_URI_TARGET)) {
-            //SEND REQUEST TO PROPERTIES BACK
-            String uriCreation = String.valueOf(uriInfo.getRequestUri());
-            return uriCreation.replace(BASE_FRONT_URI, BASE_SPRING_URI + PROPERTIES_URI_TARGET + "/");
-        } else if (Objects.equals(target, CARS_URI_TARGET)) {
-            //SEND REQUEST TO CARS BACK
-            String uriCreation = String.valueOf(uriInfo.getRequestUri());
-            return uriCreation.replace(BASE_FRONT_URI, BASE_SPRING_URI + CARS_URI_TARGET + "/");
-        } else {
-        throw new MalformedUriException("Error 404 : url not found");
         }
     }
 
@@ -89,38 +76,12 @@ public class HttpRedirectorHandler {
         String url = uriInfo.getRequestUri().toString();
 
         try {
-            String target = this.getBackTarget(url);
+            String target = UrlCreationUtils.getBackTarget(url);
             return this.httpQueryRedirection(uriInfo, method, target);
         } catch (MalformedUriException e) {
             throw new MalformedUriException("Error while trying to parse URL", e);
         } catch (RuntimeException e) {
             throw new RuntimeException("Cannot access back service", e);
-        }
-    }
-
-    String getBackTarget(String url) throws MalformedUriException {
-        try {
-            String[] uriParts = url.split(FRONT_API_URI);
-            if (uriParts.length < 2) {
-                throw new MalformedUriException("No URL provided: " + url);
-            }
-
-            String uri = uriParts[1];
-            if ("/".equals(uri) || null == uri) {
-                throw new MalformedUriException("No URL provided: " + uri);
-            }
-
-            if(RENTAL_CARS_URI.equals(uri)){
-                return CARS_URI_TARGET;
-            }
-            else if(RENTAL_PROPERTIES_URI.equals(uri)){
-                return PROPERTIES_URI_TARGET;
-            }
-            else {
-                throw new MalformedUriException("Bad URL");
-            }
-        } catch (MalformedUriException e) {
-            throw new MalformedUriException("Error in URL", e);
         }
     }
 }
