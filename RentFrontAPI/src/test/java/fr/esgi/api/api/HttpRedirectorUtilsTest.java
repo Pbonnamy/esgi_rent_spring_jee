@@ -1,5 +1,6 @@
 package fr.esgi.api.api;
 
+import fr.esgi.api.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.service.HttpRedirectorHandler;
 import jakarta.ws.rs.core.Response;
@@ -54,18 +55,20 @@ public class HttpRedirectorUtilsTest {
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
 
 
-        Response response = httpRedirectorHandler.transferRequest(mockUriInfo, "GET");
+        Response response = httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
 
 
         assertNotNull(response);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("Success", response.getEntity());
+
+        verifyNoMoreInteractions(mockedClient);
     }
 
     @Test
     public void transferRequest_shouldRedirectToCarsBack() throws MalformedUriException, IOException, InterruptedException {
         String requestUrl = HttpRedirectorHandler.BASE_FRONT_URI + HttpRedirectorHandler.RENTAL_CARS_FRONT_URI;
-        String expectedUrl = HttpRedirectorHandler.BASE_SPRING_URI + HttpRedirectorHandler.CARS_URI_TARGET + "/" + HttpRedirectorHandler.RENTAL_PROPERTIES_URI;
+        String expectedUrl = HttpRedirectorHandler.BASE_SPRING_URI + HttpRedirectorHandler.CARS_URI_TARGET + "/" + HttpRedirectorHandler.RENTAL_CARS_FRONT_URI;
         HttpRequest expectedRequest = HttpRequest.newBuilder()
                 .uri(URI.create(expectedUrl))
                 .GET()
@@ -75,12 +78,14 @@ public class HttpRedirectorUtilsTest {
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
 
 
-        Response response = httpRedirectorHandler.transferRequest(mockUriInfo, "GET");
+        Response response = httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
 
 
         assertNotNull(response);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("Success", response.getEntity());
+
+        verifyNoMoreInteractions(mockedClient);
     }
 
 
@@ -91,7 +96,7 @@ public class HttpRedirectorUtilsTest {
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
 
         Assertions.assertThrows(MalformedUriException.class, () -> {
-            httpRedirectorHandler.transferRequest(mockUriInfo, "GET");
+            httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
         });
     }
 
@@ -102,30 +107,8 @@ public class HttpRedirectorUtilsTest {
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
 
         Assertions.assertThrows(RuntimeException.class, () -> {
-            httpRedirectorHandler.transferRequest(mockUriInfo, "GET");
+            httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
         });
-    }
-
-    @Test
-    public void transferRequest_shouldRedirectToGoodUrl() throws MalformedUriException, IOException, InterruptedException {
-        String requestUrl = HttpRedirectorHandler.BASE_FRONT_URI + HttpRedirectorHandler.RENTAL_PROPERTIES_URI;
-        String expectedUrl = HttpRedirectorHandler.BASE_SPRING_URI + HttpRedirectorHandler.PROPERTIES_URI_TARGET + "/" + HttpRedirectorHandler.RENTAL_PROPERTIES_URI;
-        HttpRequest expectedRequest = HttpRequest.newBuilder()
-                .uri(URI.create(expectedUrl))
-                .GET()
-                .build();
-
-        when(mockedResponse.body()).thenReturn("Good uri");
-        when(mockedClient.send(eq(expectedRequest), any())).thenReturn(mockedResponse);
-        when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
-
-        Response response = httpRedirectorHandler.transferRequest(mockUriInfo, "GET");
-
-        assertNotNull(response);
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-        assertEquals("Good uri", response.getEntity());
-
-        verifyNoMoreInteractions(mockedClient);
     }
 
     @Test

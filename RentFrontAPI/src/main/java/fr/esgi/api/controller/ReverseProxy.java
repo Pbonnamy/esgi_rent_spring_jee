@@ -1,6 +1,7 @@
 package fr.esgi.api.controller;
 
 
+import fr.esgi.api.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.service.HttpRedirectorHandler;
 import jakarta.inject.Inject;
@@ -26,7 +27,7 @@ public class ReverseProxy {
     @GET
     public Response transferGetRequest(@Context UriInfo uriInfo, @Context HttpServletRequest request) {
         try {
-            return httpRedirectorHandler.transferRequest(uriInfo, request.getMethod());
+            return httpRedirectorHandler.transferRequest(uriInfo, HttpMethod.valueOf(request.getMethod()));
         } catch (MalformedUriException e) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Bad URL : " + e.getMessage())

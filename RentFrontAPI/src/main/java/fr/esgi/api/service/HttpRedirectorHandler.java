@@ -1,5 +1,6 @@
 package fr.esgi.api.service;
 
+import fr.esgi.api.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
@@ -37,7 +38,7 @@ public class HttpRedirectorHandler {
         return instance;
     }
 
-    Response httpQueryRedirection(UriInfo uriInfo, String method, String target) {
+    Response httpQueryRedirection(UriInfo uriInfo, HttpMethod method, String target) {
         try {
             if (Objects.equals(target, PROPERTIES_URI_TARGET)) {
                 //SEND REQUEST TO PROPERTIES BACK
@@ -63,7 +64,7 @@ public class HttpRedirectorHandler {
         }
     }
 
-    private Response queryExecutor(URI uri, String method) {
+    private Response queryExecutor(URI uri, HttpMethod method) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(uri)
@@ -79,7 +80,7 @@ public class HttpRedirectorHandler {
         }
     }
 
-    public Response transferRequest(UriInfo uriInfo, String method) throws MalformedUriException {
+    public Response transferRequest(UriInfo uriInfo, HttpMethod method) throws MalformedUriException {
         String url = uriInfo.getRequestUri().toString();
 
         try {

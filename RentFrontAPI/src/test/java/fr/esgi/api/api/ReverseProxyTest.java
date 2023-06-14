@@ -1,5 +1,6 @@
 package fr.esgi.api.api;
 
+import fr.esgi.api.HttpMethod;
 import fr.esgi.api.controller.ReverseProxy;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.service.HttpRedirectorHandler;
@@ -44,7 +45,7 @@ public class ReverseProxyTest {
     public void testTransferGetRequest_Success() throws MalformedUriException {
         // Arrange
         when(request.getMethod()).thenReturn("GET");
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, request.getMethod()))
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.valueOf(request.getMethod())))
                 .thenReturn(Response.status(Response.Status.OK)
                         .entity("Success")
                         .build());
@@ -60,8 +61,8 @@ public class ReverseProxyTest {
 
     @Test
     public void testTransferGetRequest_MalformedUriException() throws MalformedUriException {
-        when(request.getMethod()).thenReturn("GET");
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, request.getMethod()))
+        when(request.getMethod()).thenReturn(String.valueOf(HttpMethod.GET));
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.valueOf(request.getMethod())))
                 .thenThrow(new MalformedUriException("Invalid URI"));
 
         Response response = reverseProxy.transferGetRequest(mockUriInfo, request);
@@ -72,8 +73,8 @@ public class ReverseProxyTest {
 
     @Test
     public void testTransferGetRequest_RuntimeException() throws MalformedUriException {
-        when(request.getMethod()).thenReturn("GET");
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, request.getMethod()))
+        when(request.getMethod()).thenReturn(String.valueOf(HttpMethod.GET));
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.valueOf(request.getMethod())))
                 .thenThrow(new RuntimeException("Internal server error"));
 
         Response response = reverseProxy.transferGetRequest(mockUriInfo, request);
