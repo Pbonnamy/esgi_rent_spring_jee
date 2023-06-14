@@ -15,7 +15,7 @@ import java.util.Objects;
 public class HttpRedirectorHandler {
     public static final String FRONT_API_URI = "front-api/";
     public static final String RENTAL_PROPERTIES_URI = "rental-properties";
-    public static final String RENTAL_CARS_FRONT_URI = "rental-cars";
+    public static final String RENTAL_CARS_URI = "rental-cars";
     public static final String PROPERTIES_URI_TARGET = "rent-properties-api";
     public static final String CARS_URI_TARGET = "rent-cars-api";
     public static final int SPRING_PORT = 3000;
@@ -40,27 +40,32 @@ public class HttpRedirectorHandler {
 
     Response httpQueryRedirection(UriInfo uriInfo, HttpMethod method, String target) {
         try {
-            if (Objects.equals(target, PROPERTIES_URI_TARGET)) {
-                //SEND REQUEST TO PROPERTIES BACK
-                String uriCreation = String.valueOf(uriInfo.getRequestUri());
-                uriCreation = uriCreation.replace(BASE_FRONT_URI, BASE_SPRING_URI + PROPERTIES_URI_TARGET + "/");
-                URI uri = UriBuilder.fromUri(uriCreation)
+                String url = this.urlPreparator(uriInfo, target);
+
+                URI uri = UriBuilder.fromUri(url)
                         .port(SPRING_PORT)
                         .build();
+
                 return this.queryExecutor(uri, method);
-            } else if (Objects.equals(target, CARS_URI_TARGET)) {
-                //SEND REQUEST TO CARS BACK
-                String uriCreation = String.valueOf(uriInfo.getRequestUri());
-                uriCreation = uriCreation.replace(BASE_FRONT_URI, BASE_SPRING_URI + CARS_URI_TARGET + "/");
-                URI uri = UriBuilder.fromUri(uriCreation)
-                        .port(SPRING_PORT)
-                        .build();
-                return this.queryExecutor(uri, method);
-            } else {
-                throw new MalformedUriException("Error 404 : url not found");
-            }
+
+        }catch (MalformedUriException e){
+            throw new MalformedUriException("Url is not provided by any service");
         } catch (RuntimeException e) {
             throw new RuntimeException("Cannot access back services", e);
+        }
+    }
+
+    private String urlPreparator(UriInfo uriInfo, String target) {
+        if (Objects.equals(target, PROPERTIES_URI_TARGET)) {
+            //SEND REQUEST TO PROPERTIES BACK
+            String uriCreation = String.valueOf(uriInfo.getRequestUri());
+            return uriCreation.replace(BASE_FRONT_URI, BASE_SPRING_URI + PROPERTIES_URI_TARGET + "/");
+        } else if (Objects.equals(target, CARS_URI_TARGET)) {
+            //SEND REQUEST TO CARS BACK
+            String uriCreation = String.valueOf(uriInfo.getRequestUri());
+            return uriCreation.replace(BASE_FRONT_URI, BASE_SPRING_URI + CARS_URI_TARGET + "/");
+        } else {
+        throw new MalformedUriException("Error 404 : url not found");
         }
     }
 
@@ -105,7 +110,7 @@ public class HttpRedirectorHandler {
                 throw new MalformedUriException("No URL provided: " + uri);
             }
 
-            if(RENTAL_CARS_FRONT_URI.equals(uri)){
+            if(RENTAL_CARS_URI.equals(uri)){
                 return CARS_URI_TARGET;
             }
             else if(RENTAL_PROPERTIES_URI.equals(uri)){
