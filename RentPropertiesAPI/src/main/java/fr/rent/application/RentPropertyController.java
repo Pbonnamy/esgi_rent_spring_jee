@@ -51,4 +51,18 @@ public class RentPropertyController {
     }
 
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateRentalProperty(@PathVariable int id, @Valid @RequestBody RentPropertyRequestDto rentalPropertyRequestDto) {
+
+        RentPropertyEntity updatedEntity = rentalPropertyDtoMapper.mapToEntity(rentalPropertyRequestDto);
+
+        updatedEntity.setId(id);
+
+        rentPropertyRepository.save(updatedEntity);
+
+        return ResponseEntity.ok().build();
+
+    }
+
+
 }

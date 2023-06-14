@@ -21,8 +21,7 @@ import static fr.rent.samples.RentPropertyEntitySample.oneRentalPropertyEntity;
 import static fr.rent.samples.RentPropertyEntitySample.rentalPropertyEntities;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -130,5 +129,63 @@ class RentPropertyControllerTest {
         verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
     }
 
+    @Test
+    void shouldUpdateRentalProperty() throws Exception {
+        RentPropertyRequestDto rentalPropertyRequestDto = oneRentalPropertyRequest();
+        RentPropertyResponseDto rentalPropertyResponseDto = oneRentalPropertyResponse();
+        RentPropertyEntity rentalPropertyEntity = oneRentalPropertyEntity();
+
+        int id = 1;
+
+        when(rentalPropertyDtoMapper.mapToEntity(rentalPropertyRequestDto)).thenReturn(rentalPropertyEntity);
+        when(rentalPropertyRepository.save(rentalPropertyEntity)).thenReturn(rentalPropertyEntity);
+        when(rentalPropertyDtoMapper.mapToDto(rentalPropertyEntity)).thenReturn(rentalPropertyResponseDto);
+
+        mockMvc.perform(put("/rental-properties/{id}", id)
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(rentalPropertyRequestDto)))
+                .andExpect(status().isOk());
+
+        verify(rentalPropertyDtoMapper).mapToEntity(rentalPropertyRequestDto);
+        verify(rentalPropertyRepository).save(rentalPropertyEntity);
+        verifyNoMoreInteractions(rentalPropertyRepository, rentalPropertyDtoMapper);
+    }
+
+    @Test
+    void givenInvalidBody_shouldNotUpdateRentalProperty() throws Exception {
+        RentPropertyRequestDto invalidRequest = oneRentalPropertyRequestWithInvalidValue();
+
+        int id = 1;
+
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "L'un des champs est manquant ou incorrect");
+
+        mockMvc.perform(put("/rental-properties/{id}", id)
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(invalidRequest)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json(expectedJsonResponse.toString()));
+
+        verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
+    }
+
+
+    @Test
+    void givenInvalidJson_shouldNotUpdateRentalProperty() throws Exception {
+        String invalidJson = "{\"id\":1,\"name\":\"\",\"address\":\"\",\"}";
+
+        int id = 1;
+
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "La requête est mal formée ou un des champs est invalide");
+        
+        mockMvc.perform(put("/rental-properties/{id}", id)
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(invalidJson))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json(expectedJsonResponse.toString()));
+
+        verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
+    }
 
 }
