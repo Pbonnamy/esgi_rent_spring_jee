@@ -65,7 +65,7 @@ public class RentPropertyController {
     }
 
 
-    @DeleteMapping("/rental-properties/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRentalProperty(@PathVariable int id) {
 
         rentPropertyRepository.deleteById(id);
