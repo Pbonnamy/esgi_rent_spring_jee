@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.rent.domain.entity.RentPropertyEntity;
 import fr.rent.dto.RentPropertyRequestDto;
 import fr.rent.dto.RentPropertyResponseDto;
+import fr.rent.dto.SimpleRequestDto;
 import fr.rent.mapper.RentPropertyDtoMapper;
 import fr.rent.repository.RentPropertyRepository;
 import org.json.JSONObject;
@@ -187,5 +188,50 @@ class RentPropertyControllerTest {
 
         verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
     }
+
+    @Test
+    void shouldPartiallyUpdateRentalProperty() throws Exception {
+
+        int id = 1;
+
+        SimpleRequestDto simpleRequestDto = oneSimpleRequest();
+        RentPropertyEntity rentalPropertyEntity = oneRentalPropertyEntity();
+
+        when(rentalPropertyRepository.findById(id)).thenReturn(Optional.of(rentalPropertyEntity));
+        when(rentalPropertyRepository.save(rentalPropertyEntity)).thenReturn(rentalPropertyEntity);
+
+        mockMvc.perform(patch("/rental-properties/{id}", id)
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(simpleRequestDto)))
+                .andExpect(status().isOk());
+
+        verify(rentalPropertyRepository).findById(id);
+        verify(rentalPropertyRepository).save(rentalPropertyEntity);
+        verifyNoMoreInteractions(rentalPropertyRepository);
+    }
+
+
+    @Test
+    void givenInvalidJson_shouldNotPartiallyUpdateRentalProperty() throws Exception {
+
+        SimpleRequestDto simpleRequestDto = oneSimpleRequest();
+
+        int id = 1;
+
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "Impossible de trouver la propriété avec l'id " + id);
+
+        when(rentalPropertyRepository.findById(id)).thenReturn(Optional.empty());
+
+        mockMvc.perform(patch("/rental-properties/{id}", id)
+                        .contentType(APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(simpleRequestDto)))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json(expectedJsonResponse.toString()));
+
+        verify(rentalPropertyRepository).findById(id);
+        verifyNoMoreInteractions(rentalPropertyRepository);
+    }
+
 
 }
