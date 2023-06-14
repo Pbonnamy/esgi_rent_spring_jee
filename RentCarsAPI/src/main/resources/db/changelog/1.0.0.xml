@@ -5,9 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="create-car-table" author="pbonnamy">
-        <createTable tableName="car">
-            <column name="id" type="INT">
-                <constraints primaryKey="true" nullable="false"/>
+        <createTable tableName="rental_car">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="brand" type="VARCHAR(100)">
                 <constraints nullable="false"/>

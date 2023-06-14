@@ -48,6 +48,5 @@ public class RentPropertyDtoMapper {
                 rentalPropertyRequestDto.hasBalcony(),
                 rentalPropertyRequestDto.hasParkingSpace());
     }
-
-
+    
 }
