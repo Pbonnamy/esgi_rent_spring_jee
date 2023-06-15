@@ -2,6 +2,7 @@ package fr.rent.samples;
 
 import fr.rent.dto.RentPropertyRequestDto;
 import fr.rent.dto.RentPropertyResponseDto;
+import fr.rent.dto.SimpleRequestDto;
 
 import java.util.List;
 
@@ -51,6 +52,12 @@ public class RentPropertyDtoSample {
                 .description("null")
                 .town("null")
                 .address("null")
+                .build();
+    }
+
+    public static SimpleRequestDto oneSimpleRequest() {
+        return SimpleRequestDto.builder()
+                .rentAmount(750.90)
                 .build();
     }
 
