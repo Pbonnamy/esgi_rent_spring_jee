@@ -8,25 +8,27 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 
+import java.beans.JavaBean;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+@JavaBean
 public class HttpRedirectorHandler {
-    private static HttpRedirectorHandler instance;
+    // private static HttpRedirectorHandler instance;
     private final HttpClient client;
 
     public HttpRedirectorHandler(HttpClient client) {
         this.client = client;
     }
 
-    public static HttpRedirectorHandler getInstance(HttpClient value) {
+    /*public static HttpRedirectorHandler getInstance(HttpClient value) {
         if (instance == null) {
             instance = new HttpRedirectorHandler(value);
         }
         return instance;
-    }
+    }*/
 
     Response httpQueryRedirection(String requestUri, HttpMethod method, String target) {
         try {

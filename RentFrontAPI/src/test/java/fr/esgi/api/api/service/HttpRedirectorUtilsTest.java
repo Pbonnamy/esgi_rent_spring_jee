@@ -11,7 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
@@ -28,18 +30,19 @@ public class HttpRedirectorUtilsTest {
     @Mock
     private UriInfo mockUriInfo;
 
+    @InjectMocks
     private HttpRedirectorHandler httpRedirectorHandler;
 
     @Mock
     private HttpClient mockedClient;
 
     @Mock
-    private HttpResponse mockedResponse;
+    private HttpResponse<Object> mockedResponse;
 
-    @BeforeEach
+    /*@BeforeEach
     void setUp() {
         httpRedirectorHandler = HttpRedirectorHandler.getInstance(mockedClient);
-    }
+    }*/
 
     @Test
     public void transferRequest_shouldRedirectToPropertiesBack() throws MalformedUriException, IOException, InterruptedException {
