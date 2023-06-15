@@ -15,7 +15,7 @@ public class HttpQueryExecutor {
 
             HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            return Response.status(Response.Status.OK)
+            return Response.status(httpResponse.statusCode())
                     .entity(httpResponse.body())
                     .build();
         } catch (Exception e) {
