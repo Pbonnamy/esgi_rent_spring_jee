@@ -3,34 +3,26 @@ package fr.esgi.api.service;
 import fr.esgi.api.Constants;
 import fr.esgi.api.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
+import fr.esgi.api.utils.HttpQueryExecutor;
+import fr.esgi.api.utils.HttpRequestCreator;
 import fr.esgi.api.utils.UrlCreationUtils;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 
-import java.beans.JavaBean;
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
-@JavaBean
+
+@ApplicationScoped
 public class HttpRedirectorHandler {
-    // private static HttpRedirectorHandler instance;
-    private final HttpClient client;
-
-    public HttpRedirectorHandler(HttpClient client) {
-        this.client = client;
-    }
-
-    /*public static HttpRedirectorHandler getInstance(HttpClient value) {
-        if (instance == null) {
-            instance = new HttpRedirectorHandler(value);
-        }
-        return instance;
-    }*/
 
     Response httpQueryRedirection(String requestUri, HttpMethod method, String target) {
+        HttpQueryExecutor httpQueryExecutor = new HttpQueryExecutor();
+        HttpRequestCreator httpRequestCreator = new HttpRequestCreator();
+
         try {
             String url = UrlCreationUtils.urlPreparator(requestUri, target);
 
@@ -38,28 +30,14 @@ public class HttpRedirectorHandler {
                     .port(Constants.SPRING_PORT)
                     .build();
 
-            return this.queryExecutor(uri, method);
+            HttpRequest httpRequest = httpRequestCreator.create(uri, method);
+
+            return httpQueryExecutor.executeQuery(httpRequest);
 
         } catch (MalformedUriException e) {
             throw new MalformedUriException("Url is not provided by any service");
         } catch (RuntimeException e) {
             throw new RuntimeException("Cannot access back services", e);
-        }
-    }
-
-    private Response queryExecutor(URI uri, HttpMethod method) {
-        try {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(uri)
-                    .GET()
-                    .build();
-            HttpResponse<String> httpResponse = this.client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            return Response.status(Response.Status.OK)
-                    .entity(httpResponse.body())
-                    .build();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 
