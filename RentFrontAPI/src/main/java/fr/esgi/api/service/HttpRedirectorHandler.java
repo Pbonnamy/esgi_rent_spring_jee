@@ -16,6 +16,7 @@ import java.net.http.HttpResponse;
 public class HttpRedirectorHandler {
     private static HttpRedirectorHandler instance;
     private final HttpClient client;
+
     public HttpRedirectorHandler(HttpClient client) {
         this.client = client;
     }
@@ -29,16 +30,16 @@ public class HttpRedirectorHandler {
 
     Response httpQueryRedirection(UriInfo uriInfo, HttpMethod method, String target) {
         try {
-                String requestUri = String.valueOf(uriInfo.getRequestUri());
-                String url = UrlCreationUtils.urlPreparator(requestUri, target);
+            String requestUri = String.valueOf(uriInfo.getRequestUri());
+            String url = UrlCreationUtils.urlPreparator(requestUri, target);
 
-                URI uri = UriBuilder.fromUri(url)
-                        .port(Constants.SPRING_PORT)
-                        .build();
+            URI uri = UriBuilder.fromUri(url)
+                    .port(Constants.SPRING_PORT)
+                    .build();
 
-                return this.queryExecutor(uri, method);
+            return this.queryExecutor(uri, method);
 
-        }catch (MalformedUriException e){
+        } catch (MalformedUriException e) {
             throw new MalformedUriException("Url is not provided by any service");
         } catch (RuntimeException e) {
             throw new RuntimeException("Cannot access back services", e);

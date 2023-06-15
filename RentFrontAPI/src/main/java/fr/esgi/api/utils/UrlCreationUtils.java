@@ -2,11 +2,8 @@ package fr.esgi.api.utils;
 
 import fr.esgi.api.Constants;
 import fr.esgi.api.exception.MalformedUriException;
-import jakarta.ws.rs.core.UriInfo;
 
 import java.util.Objects;
-
-import static fr.esgi.api.service.HttpRedirectorHandler.*;
 
 public class UrlCreationUtils {
 
@@ -34,13 +31,11 @@ public class UrlCreationUtils {
                 throw new MalformedUriException("No URL provided: " + uri);
             }
 
-            if(Constants.RENTAL_CARS_URI.equals(uri)){
+            if (Constants.RENTAL_CARS_URI.equals(uri)) {
                 return Constants.CARS_URI_TARGET;
-            }
-            else if(Constants.RENTAL_PROPERTIES_URI.equals(uri)){
+            } else if (Constants.RENTAL_PROPERTIES_URI.equals(uri)) {
                 return Constants.PROPERTIES_URI_TARGET;
-            }
-            else {
+            } else {
                 throw new MalformedUriException("Bad URL");
             }
         } catch (MalformedUriException e) {

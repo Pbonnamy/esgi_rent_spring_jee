@@ -4,7 +4,6 @@ import fr.esgi.api.Constants;
 import fr.esgi.api.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.service.HttpRedirectorHandler;
-import fr.esgi.api.utils.UrlCreationUtils;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 import org.junit.jupiter.api.Assertions;
@@ -15,14 +14,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,7 +36,7 @@ public class HttpRedirectorUtilsTest {
     private HttpResponse mockedResponse;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         httpRedirectorHandler = HttpRedirectorHandler.getInstance(mockedClient);
     }
 
