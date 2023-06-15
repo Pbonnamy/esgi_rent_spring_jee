@@ -81,7 +81,7 @@ class RentPropertyControllerTest {
 
         int id = 1;
         JSONObject expectedJsonResponse = new JSONObject();
-        expectedJsonResponse.put("message", "Impossible de trouver la propriété avec l'id " + id);
+        expectedJsonResponse.put("message", "Impossible to find property with id " + id);
 
         when(rentalPropertyRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -119,7 +119,7 @@ class RentPropertyControllerTest {
 
         RentPropertyRequestDto invalidRequest = oneRentalPropertyRequestWithInvalidValue();
         JSONObject expectedJsonResponse = new JSONObject();
-        expectedJsonResponse.put("message", "L'un des champs est manquant ou incorrect");
+        expectedJsonResponse.put("message", "One of the field is missing or is incorrect");
 
         mockMvc.perform(post("/rental-properties")
                         .contentType(APPLICATION_JSON_VALUE)
@@ -159,7 +159,7 @@ class RentPropertyControllerTest {
         int id = 1;
 
         JSONObject expectedJsonResponse = new JSONObject();
-        expectedJsonResponse.put("message", "L'un des champs est manquant ou incorrect");
+        expectedJsonResponse.put("message", "One of the field is missing or is incorrect");
 
         mockMvc.perform(put("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
@@ -178,7 +178,7 @@ class RentPropertyControllerTest {
         int id = 1;
 
         JSONObject expectedJsonResponse = new JSONObject();
-        expectedJsonResponse.put("message", "La requête est mal formée ou un des champs est invalide");
+        expectedJsonResponse.put("message", "Request is invalid or one of the fields is missing");
         
         mockMvc.perform(put("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
@@ -231,7 +231,7 @@ class RentPropertyControllerTest {
         int id = 1;
 
         JSONObject expectedJsonResponse = new JSONObject();
-        expectedJsonResponse.put("message", "Impossible de trouver la propriété avec l'id " + id);
+        expectedJsonResponse.put("message", "Impossible to find property with id " + id);
 
         when(rentalPropertyRepository.findById(id)).thenReturn(Optional.empty());
 

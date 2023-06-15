@@ -21,13 +21,13 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorDto handleMethodArgumentNotValid() {
-        return new ErrorDto(new RentPropertyBadRequest("L'un des champs est manquant ou incorrect").getMessage());
+        return new ErrorDto(new RentPropertyBadRequest("One of the field is missing or is incorrect").getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ErrorDto handleHttpMessageNotReadableException() {
-        return new ErrorDto("La requête est mal formée ou un des champs est invalide");
+        return new ErrorDto("Request is invalid or one of the fields is missing");
     }
 
 

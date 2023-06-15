@@ -21,7 +21,7 @@ class ErrorHandlerTest {
 
     @Test
     void shouldHandleMethodArgumentNotValidException() {
-        String message = "L'un des champs est manquant ou incorrect";
+        String message = "One of the field is missing or is incorrect";
 
         ErrorHandler errorHandler = new ErrorHandler();
 
@@ -32,7 +32,7 @@ class ErrorHandlerTest {
 
     @Test
     void shouldHandleHttpMessageNotReadableException() {
-        String message = "La requête est mal formée ou un des champs est invalide";
+        String message = "Request is invalid or one of the fields is missing";
 
         ErrorHandler errorHandler = new ErrorHandler();
 
