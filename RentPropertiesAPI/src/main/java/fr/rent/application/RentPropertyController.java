@@ -79,4 +79,14 @@ public class RentPropertyController {
     }
 
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRentalProperty(@PathVariable int id) {
+
+        rentPropertyRepository.deleteById(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+    }
+
+
 }
