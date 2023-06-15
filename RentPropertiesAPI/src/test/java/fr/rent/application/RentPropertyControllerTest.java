@@ -188,4 +188,16 @@ class RentPropertyControllerTest {
         verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
     }
 
+    @Test
+    void shouldDeleteRentalProperty() throws Exception {
+        int id = 1;
+
+        mockMvc.perform(delete("/rental-properties/{id}", id))
+                .andExpect(status().isNoContent());
+
+        verify(rentalPropertyRepository).deleteById(id);
+        verifyNoMoreInteractions(rentalPropertyRepository);
+    }
+
+
 }
