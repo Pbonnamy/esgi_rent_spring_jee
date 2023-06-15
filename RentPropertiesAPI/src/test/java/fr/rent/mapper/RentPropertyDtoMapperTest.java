@@ -1,14 +1,15 @@
 package fr.rent.mapper;
 
 import fr.rent.domain.entity.RentPropertyEntity;
+import fr.rent.dto.RentPropertyRequestDto;
 import fr.rent.dto.RentPropertyResponseDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static fr.rent.samples.RentPropertyDtoSample.oneRentalPropertyRequest;
 import static fr.rent.samples.RentPropertyDtoSample.oneRentalPropertyResponse;
-import static fr.rent.samples.RentPropertyEntitySample.oneRentalPropertyEntity;
-import static fr.rent.samples.RentPropertyEntitySample.rentalPropertyEntities;
+import static fr.rent.samples.RentPropertyEntitySample.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
@@ -46,6 +47,18 @@ class RentPropertyDtoMapperTest {
                                 1200.90,
                                 37.48)
                 );
+    }
+
+    @Test
+    void shouldMapToEntity() {
+        RentPropertyRequestDto rentalPropertyRequestDto = oneRentalPropertyRequest();
+        RentPropertyEntity expectedRentalPropertyEntity = oneRentalPropertyEntityWithoutId();
+
+        RentPropertyDtoMapper rentalPropertyDtoMapper = new RentPropertyDtoMapper();
+
+        RentPropertyEntity rentalPropertyEntity = rentalPropertyDtoMapper.mapToEntity(rentalPropertyRequestDto);
+
+        assertThat(rentalPropertyEntity).usingRecursiveComparison().isEqualTo(expectedRentalPropertyEntity);
     }
 
 }
