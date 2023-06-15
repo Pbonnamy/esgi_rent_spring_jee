@@ -28,9 +28,8 @@ public class HttpRedirectorHandler {
         return instance;
     }
 
-    Response httpQueryRedirection(UriInfo uriInfo, HttpMethod method, String target) {
+    Response httpQueryRedirection(String requestUri, HttpMethod method, String target) {
         try {
-            String requestUri = String.valueOf(uriInfo.getRequestUri());
             String url = UrlCreationUtils.urlPreparator(requestUri, target);
 
             URI uri = UriBuilder.fromUri(url)
@@ -63,11 +62,11 @@ public class HttpRedirectorHandler {
     }
 
     public Response transferRequest(UriInfo uriInfo, HttpMethod method) throws MalformedUriException {
-        String url = uriInfo.getRequestUri().toString();
+        String requestUri = uriInfo.getRequestUri().toString();
 
         try {
-            String target = UrlCreationUtils.getBackTarget(url);
-            return this.httpQueryRedirection(uriInfo, method, target);
+            String target = UrlCreationUtils.getBackTarget(requestUri);
+            return this.httpQueryRedirection(requestUri, method, target);
         } catch (MalformedUriException e) {
             throw new MalformedUriException("Error while trying to parse URL", e);
         } catch (RuntimeException e) {
