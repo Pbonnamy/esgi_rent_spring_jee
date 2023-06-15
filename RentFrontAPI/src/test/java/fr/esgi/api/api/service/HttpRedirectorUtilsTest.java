@@ -1,5 +1,6 @@
 package fr.esgi.api.api.service;
 
+import fr.esgi.api.Constants;
 import fr.esgi.api.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.service.HttpRedirectorHandler;
@@ -21,8 +22,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static fr.esgi.api.service.HttpRedirectorHandler.CARS_URI_TARGET;
-import static fr.esgi.api.service.HttpRedirectorHandler.PROPERTIES_URI_TARGET;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -46,7 +45,7 @@ public class HttpRedirectorUtilsTest {
 
     @Test
     public void transferRequest_shouldRedirectToPropertiesBack() throws MalformedUriException, IOException, InterruptedException {
-        String requestUrl = HttpRedirectorHandler.BASE_FRONT_URI + HttpRedirectorHandler.RENTAL_PROPERTIES_URI;
+        String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_PROPERTIES_URI;
 
         when(mockedResponse.body()).thenReturn("Success");
         when(mockedClient.send(any(), any())).thenReturn(mockedResponse);
@@ -65,7 +64,7 @@ public class HttpRedirectorUtilsTest {
 
     @Test
     public void transferRequest_shouldRedirectToCarsBack() throws MalformedUriException, IOException, InterruptedException {
-        String requestUrl = HttpRedirectorHandler.BASE_FRONT_URI + HttpRedirectorHandler.RENTAL_CARS_URI;
+        String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI;
 
         when(mockedResponse.body()).thenReturn("Success");
         when(mockedClient.send(any(), any())).thenReturn(mockedResponse);
@@ -96,7 +95,7 @@ public class HttpRedirectorUtilsTest {
 
     @Test
     public void transferRequest_shouldThrowRunTimeException() throws MalformedUriException, IOException, InterruptedException {
-        String requestUrl = HttpRedirectorHandler.BASE_FRONT_URI + HttpRedirectorHandler.RENTAL_PROPERTIES_URI + "unknown";
+        String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_PROPERTIES_URI + "unknown";
 
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
 

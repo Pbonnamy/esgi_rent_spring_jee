@@ -1,5 +1,6 @@
 package fr.esgi.api.api.utils;
 
+import fr.esgi.api.Constants;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.utils.UrlCreationUtils;
 import org.junit.jupiter.api.Assertions;
@@ -25,11 +26,11 @@ public class UrlCreationUtilsTest {
     @Test
     void urlPreparator_withPropertiesUriTarget_shouldReturnCorrectUrl() {
         // Arrange
-        String requestUri = BASE_FRONT_URI + RENTAL_PROPERTIES_URI;
-        String expectedUrl = BASE_SPRING_URI + PROPERTIES_URI_TARGET + "/" + RENTAL_PROPERTIES_URI;
+        String requestUri = Constants.BASE_FRONT_URI + Constants.RENTAL_PROPERTIES_URI;
+        String expectedUrl = Constants.BASE_SPRING_URI + Constants.PROPERTIES_URI_TARGET + "/" + Constants.RENTAL_PROPERTIES_URI;
 
         // Act
-        String actualUrl = UrlCreationUtils.urlPreparator(requestUri, PROPERTIES_URI_TARGET);
+        String actualUrl = UrlCreationUtils.urlPreparator(requestUri, Constants.PROPERTIES_URI_TARGET);
 
         // Assert
         Assertions.assertEquals(expectedUrl, actualUrl);
@@ -38,12 +39,12 @@ public class UrlCreationUtilsTest {
     @Test
     void urlPreparator_withCarsUriTarget_shouldReturnCorrectUrl() {
         // Arrange
-        String requestUri = BASE_FRONT_URI + RENTAL_CARS_URI;
-        String expectedUrl = BASE_SPRING_URI + CARS_URI_TARGET + "/" + RENTAL_CARS_URI;
+        String requestUri = Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI;
+        String expectedUrl = Constants.BASE_SPRING_URI + Constants.CARS_URI_TARGET + "/" + Constants.RENTAL_CARS_URI;
 
 
         // Act
-        String actualUrl = UrlCreationUtils.urlPreparator(requestUri, CARS_URI_TARGET);
+        String actualUrl = UrlCreationUtils.urlPreparator(requestUri, Constants.CARS_URI_TARGET);
 
         // Assert
         Assertions.assertEquals(expectedUrl, actualUrl);
@@ -52,7 +53,7 @@ public class UrlCreationUtilsTest {
     @Test
     void urlPreparator_withUnknownUriTarget_shouldThrowException() {
         // Arrange
-        String requestUri = BASE_FRONT_URI + "unknown/";
+        String requestUri = Constants.BASE_FRONT_URI + "unknown/";
 
         // Act & Assert
         Assertions.assertThrows(MalformedUriException.class, () -> {
@@ -63,32 +64,32 @@ public class UrlCreationUtilsTest {
     @Test
     void getBackTarget_withRentalCarsUri_shouldReturnCarsUriTarget() throws MalformedUriException {
         // Arrange
-        String requestUrl = BASE_FRONT_URI + RENTAL_CARS_URI;
+        String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI;
 
         // Act
         String actualTarget = UrlCreationUtils.getBackTarget(requestUrl);
 
         // Assert
-        Assertions.assertEquals(CARS_URI_TARGET, actualTarget);
+        Assertions.assertEquals(Constants.CARS_URI_TARGET, actualTarget);
     }
 
     @Test
     void getBackTarget_withRentalPropertiesUri_shouldReturnPropertiesUriTarget() throws MalformedUriException {
         // Arrange
-        String requestUrl = BASE_FRONT_URI + RENTAL_PROPERTIES_URI;
+        String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_PROPERTIES_URI;
 
 
         // Act
         String actualTarget = UrlCreationUtils.getBackTarget(requestUrl);
 
         // Assert
-        Assertions.assertEquals(PROPERTIES_URI_TARGET, actualTarget);
+        Assertions.assertEquals(Constants.PROPERTIES_URI_TARGET, actualTarget);
     }
 
     @Test
     void getBackTarget_withUnknownUri_shouldThrowException() {
         // Arrange
-        String url = BASE_SPRING_URI + "unknown/";
+        String url = Constants.BASE_SPRING_URI + "unknown/";
 
         // Act & Assert
         Assertions.assertThrows(MalformedUriException.class, () -> {
@@ -99,7 +100,7 @@ public class UrlCreationUtilsTest {
     @Test
     void getBackTarget_withEmptyUri_shouldThrowException() {
         // Arrange
-        String url = BASE_FRONT_URI;
+        String url = Constants.BASE_FRONT_URI;
 
         // Act & Assert
         Assertions.assertThrows(MalformedUriException.class, () -> {

@@ -1,5 +1,6 @@
 package fr.esgi.api.utils;
 
+import fr.esgi.api.Constants;
 import fr.esgi.api.exception.MalformedUriException;
 import jakarta.ws.rs.core.UriInfo;
 
@@ -10,12 +11,12 @@ import static fr.esgi.api.service.HttpRedirectorHandler.*;
 public class UrlCreationUtils {
 
     public static String urlPreparator(String requestUri, String target) {
-        if (Objects.equals(target, PROPERTIES_URI_TARGET)) {
+        if (Objects.equals(target, Constants.PROPERTIES_URI_TARGET)) {
             //SEND REQUEST TO PROPERTIES BACK
-            return requestUri.replace(BASE_FRONT_URI, BASE_SPRING_URI + PROPERTIES_URI_TARGET + "/");
-        } else if (Objects.equals(target, CARS_URI_TARGET)) {
+            return requestUri.replace(Constants.BASE_FRONT_URI, Constants.BASE_SPRING_URI + Constants.PROPERTIES_URI_TARGET + "/");
+        } else if (Objects.equals(target, Constants.CARS_URI_TARGET)) {
             //SEND REQUEST TO CARS BACK
-            return requestUri.replace(BASE_FRONT_URI, BASE_SPRING_URI + CARS_URI_TARGET + "/");
+            return requestUri.replace(Constants.BASE_FRONT_URI, Constants.BASE_SPRING_URI + Constants.CARS_URI_TARGET + "/");
         } else {
             throw new MalformedUriException("Error 404 : url not found");
         }
@@ -23,7 +24,7 @@ public class UrlCreationUtils {
 
     public static String getBackTarget(String url) throws MalformedUriException {
         try {
-            String[] uriParts = url.split(FRONT_API_URI);
+            String[] uriParts = url.split(Constants.FRONT_API_URI);
             if (uriParts.length < 2) {
                 throw new MalformedUriException("No URL provided: " + url);
             }
@@ -33,11 +34,11 @@ public class UrlCreationUtils {
                 throw new MalformedUriException("No URL provided: " + uri);
             }
 
-            if(RENTAL_CARS_URI.equals(uri)){
-                return CARS_URI_TARGET;
+            if(Constants.RENTAL_CARS_URI.equals(uri)){
+                return Constants.CARS_URI_TARGET;
             }
-            else if(RENTAL_PROPERTIES_URI.equals(uri)){
-                return PROPERTIES_URI_TARGET;
+            else if(Constants.RENTAL_PROPERTIES_URI.equals(uri)){
+                return Constants.PROPERTIES_URI_TARGET;
             }
             else {
                 throw new MalformedUriException("Bad URL");
