@@ -212,7 +212,7 @@ class RentPropertyControllerTest {
 
 
     @Test
-    void givenInvalidJson_shouldNotPartiallyUpdateRentalProperty() throws Exception {
+    void givenNoExistingRentalProperty_shouldNotPartiallyUpdateRentalProperty() throws Exception {
 
         SimpleRequestDto simpleRequestDto = oneSimpleRequest();
 
