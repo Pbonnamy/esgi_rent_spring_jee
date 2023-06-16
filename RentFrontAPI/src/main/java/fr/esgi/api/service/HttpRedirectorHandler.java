@@ -31,6 +31,9 @@ public class HttpRedirectorHandler {
     }
 
     public Response transferRequest(UriInfo uriInfo, HttpMethod method) throws MalformedUriException {
+        if(uriInfo.getRequestUri() == null) {
+            throw new //TODO new exvetion perso pour l'uri vide
+        }
         String requestUri = uriInfo.getRequestUri().toString();
 
         try {
