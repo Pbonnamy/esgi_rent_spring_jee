@@ -35,4 +35,25 @@ public class RentPropertyEntitySample {
                 false);
     }
 
+    public static RentPropertyEntity oneRentalPropertyEntityWithoutId() {
+        return new RentPropertyEntity(
+                "Appartement spacieux avec vue sur l'ESGI",
+                "Paris",
+                "77 Rue des roses",
+                new PropertyTypeEntity( "Appartement"),
+                750.90,
+                1200.90,
+                37.48,
+                2,
+                1,
+                3,
+                1990,
+                new EnergyClassificationEntity( "B"),
+                false,
+                false,
+                true,
+                false);
+    }
+
+
 }
