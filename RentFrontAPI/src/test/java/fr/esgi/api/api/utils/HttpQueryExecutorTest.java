@@ -44,7 +44,7 @@ public class HttpQueryExecutorTest {
         HttpQueryExecutor httpQueryExecutor = new HttpQueryExecutor(mockClient);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("http://example.com"))
+                .uri(new URI("http://localhost.com"))
                 .build();
 
         Response response = httpQueryExecutor.executeQuery(request);

@@ -78,9 +78,10 @@ public class HttpRedirectorHandlerTest {
     public void transferRequest_shouldRedirectToPropertiesBack() throws MalformedUriException, IOException, InterruptedException {
         String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_PROPERTIES_URI;
 
-        when(mockedResponse.getEntity()).thenReturn("Success");
-        when(mockedClient.send(any(), any())).thenReturn(mockedHttpResponse);
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
+        when(mockedResponse.getEntity()).thenReturn("Success");
+        when(mockedResponse.getStatus()).thenReturn(200);
+        when(mockedHttpQueryExecutor.executeQuery(any())).thenReturn(mockedResponse);
 
 
         Response response = httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
@@ -97,9 +98,10 @@ public class HttpRedirectorHandlerTest {
     public void transferRequest_shouldRedirectToCarsBack() throws MalformedUriException, IOException, InterruptedException {
         String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI;
 
-        when(mockedResponse.getEntity()).thenReturn("Success");
-        when(mockedClient.send(any(), any())).thenReturn(mockedHttpResponse);
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
+        when(mockedResponse.getEntity()).thenReturn("Success");
+        when(mockedResponse.getStatus()).thenReturn(200);
+        when(mockedHttpQueryExecutor.executeQuery(any())).thenReturn(mockedResponse);
 
 
         Response response = httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
