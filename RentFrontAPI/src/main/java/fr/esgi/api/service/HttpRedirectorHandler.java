@@ -20,13 +20,21 @@ import java.net.http.HttpRequest;
 @ApplicationScoped
 public class HttpRedirectorHandler {
 
+    HttpClient httpClient;
+    HttpQueryExecutor httpQueryExecutor;
+    HttpRequestCreator httpRequestCreator;
+
+    public HttpRedirectorHandler() {
+        this.httpClient = HttpClient.newBuilder().build();
+        this.httpQueryExecutor = new HttpQueryExecutor(httpClient);
+        this.httpRequestCreator = new HttpRequestCreator();
+    }
+
     public Response transferRequest(UriInfo uriInfo, HttpMethod method) throws MalformedUriException {
         String requestUri = uriInfo.getRequestUri().toString();
 
         try {
             String target = UrlCreationUtils.getBackTarget(requestUri);
-            HttpQueryExecutor httpQueryExecutor = new HttpQueryExecutor(HttpClient.newBuilder().build());
-            HttpRequestCreator httpRequestCreator = new HttpRequestCreator();
             String url = UrlCreationUtils.urlPreparator(requestUri, target);
 
             URI uri = UriBuilder.fromUri(url)
