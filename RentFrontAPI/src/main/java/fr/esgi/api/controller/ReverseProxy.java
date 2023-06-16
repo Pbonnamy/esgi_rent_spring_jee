@@ -1,7 +1,7 @@
 package fr.esgi.api.controller;
 
 
-import fr.esgi.api.HttpMethod;
+import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.service.HttpRedirectorHandler;
 import jakarta.inject.Inject;
@@ -11,8 +11,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-
-import java.net.http.HttpClient;
 
 @Path("/{any: .*}")
 public class ReverseProxy {

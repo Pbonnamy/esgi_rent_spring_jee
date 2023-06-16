@@ -1,7 +1,7 @@
 package fr.esgi.api.api.utils;
 
-import fr.esgi.api.Constants;
-import fr.esgi.api.HttpMethod;
+import fr.esgi.api.constants.Constants;
+import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.utils.HttpRequestCreator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,6 @@ import java.net.URI;
 import java.net.http.HttpRequest;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(MockitoExtension.class)
 public class HttpRequestCreatorTest {

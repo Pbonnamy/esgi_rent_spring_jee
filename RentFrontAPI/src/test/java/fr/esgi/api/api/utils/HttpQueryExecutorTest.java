@@ -1,21 +1,13 @@
 package fr.esgi.api.api.utils;
 
-import fr.esgi.api.Constants;
-import fr.esgi.api.HttpMethod;
-import fr.esgi.api.exception.MalformedUriException;
-import fr.esgi.api.service.HttpRedirectorHandler;
 import fr.esgi.api.utils.HttpQueryExecutor;
-import fr.esgi.api.utils.HttpRequestCreator;
-import fr.esgi.api.utils.UrlCreationUtils;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;

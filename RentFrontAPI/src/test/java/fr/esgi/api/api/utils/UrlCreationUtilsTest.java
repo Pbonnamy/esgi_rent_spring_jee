@@ -1,6 +1,6 @@
 package fr.esgi.api.api.utils;
 
-import fr.esgi.api.Constants;
+import fr.esgi.api.constants.Constants;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.utils.UrlCreationUtils;
 import org.junit.jupiter.api.Assertions;

@@ -1,6 +1,6 @@
 package fr.esgi.api.api;
 
-import fr.esgi.api.HttpMethod;
+import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.controller.ReverseProxy;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.service.HttpRedirectorHandler;

@@ -1,9 +1,7 @@
 package fr.esgi.api.utils;
 
-import fr.esgi.api.HttpMethod;
 import jakarta.ws.rs.core.Response;
 
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;

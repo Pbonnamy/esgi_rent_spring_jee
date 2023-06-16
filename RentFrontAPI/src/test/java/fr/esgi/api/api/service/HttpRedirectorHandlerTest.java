@@ -1,7 +1,7 @@
 package fr.esgi.api.api.service;
 
-import fr.esgi.api.Constants;
-import fr.esgi.api.HttpMethod;
+import fr.esgi.api.constants.Constants;
+import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.utils.HttpQueryExecutor;
 import fr.esgi.api.service.HttpRedirectorHandler;
@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

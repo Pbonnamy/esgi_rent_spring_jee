@@ -1,6 +1,6 @@
 package fr.esgi.api.utils;
 
-import fr.esgi.api.HttpMethod;
+import fr.esgi.api.constants.HttpMethod;
 
 import java.net.URI;
 import java.net.http.HttpRequest;
