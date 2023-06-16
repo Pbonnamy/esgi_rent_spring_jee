@@ -36,16 +36,10 @@ public class HttpRedirectorHandlerTest {
     private HttpClient mockedClient;
 
     @Mock
-    private HttpResponse<Object> mockedHttpResponse;
-
-    @Mock
     private Response mockedResponse;
 
     @Mock
     private HttpQueryExecutor mockedHttpQueryExecutor;
-
-    @Mock
-    private UrlCreationUtils mockedUrlCreationUtils;
 
     @Test
     public void testTransferRequest_ShouldThrowMalformedException() throws MalformedUriException {

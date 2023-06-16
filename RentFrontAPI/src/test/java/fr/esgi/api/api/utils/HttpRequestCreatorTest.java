@@ -12,8 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.net.URI;
 import java.net.http.HttpRequest;
 
-import static org.mockito.ArgumentMatchers.any;
-
 @ExtendWith(MockitoExtension.class)
 public class HttpRequestCreatorTest {
 

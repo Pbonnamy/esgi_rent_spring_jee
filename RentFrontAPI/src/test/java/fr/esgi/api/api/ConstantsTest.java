@@ -15,10 +15,6 @@ import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class ConstantsTest {
-    
-    @Mock
-    Constants constants;
-
     @Test
     public void testConstantsInitialization() {
         assertEquals("front-api/", Constants.FRONT_API_URI);
