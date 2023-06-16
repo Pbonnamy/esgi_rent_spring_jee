@@ -34,12 +34,6 @@ public class ReverseProxyTest {
     @Mock
     private HttpRedirectorHandler httpRedirectorHandler;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        reverseProxy = new ReverseProxy(httpRedirectorHandler);
-    }
-
     @Test
     public void testTransferGetRequest_Success() throws MalformedUriException {
         // Arrange
