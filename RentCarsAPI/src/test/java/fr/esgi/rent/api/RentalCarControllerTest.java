@@ -8,6 +8,7 @@ import fr.esgi.rent.dto.request.SingleFieldRentalCarRequestDto;
 import fr.esgi.rent.dto.response.RentalCarResponseDto;
 import fr.esgi.rent.mapper.RentalCarDtoMapper;
 import fr.esgi.rent.repository.RentalCarRepository;
+import fr.esgi.rent.service.RentalCarService;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ class RentalCarControllerTest {
 
     @MockBean
     private RentalCarDtoMapper rentalCarDtoMapper;
+
+    @MockBean
+    private RentalCarService rentalCarService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -153,7 +157,7 @@ class RentalCarControllerTest {
         RentalCarEntity expectedRentalCarEntity = oneRentalCarEntitySample();
 
         when(rentalCarDtoMapper.toEntity(rentalCarRequestDto)).thenReturn(expectedRentalCarEntity);
-        when(rentalCarRepository.save(expectedRentalCarEntity)).thenReturn(expectedRentalCarEntity);
+        doNothing().when(rentalCarService).updateRentalCar(expectedRentalCarEntity, id);
 
         mockMvc.perform(put("/rental-cars/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -161,8 +165,8 @@ class RentalCarControllerTest {
                 .andExpect(status().isOk());
 
         verify(rentalCarDtoMapper).toEntity(rentalCarRequestDto);
-        verify(rentalCarRepository).save(expectedRentalCarEntity);
-        verifyNoMoreInteractions(rentalCarRepository, rentalCarDtoMapper);
+        verify(rentalCarService).updateRentalCar(expectedRentalCarEntity, id);
+        verifyNoMoreInteractions(rentalCarDtoMapper, rentalCarService);
     }
 
     @Test
@@ -180,7 +184,7 @@ class RentalCarControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(expectedJsonResponse.toString()));
 
-        verifyNoInteractions(rentalCarRepository, rentalCarDtoMapper);
+        verifyNoInteractions(rentalCarDtoMapper, rentalCarService);
     }
 
     @Test
@@ -191,7 +195,7 @@ class RentalCarControllerTest {
         RentalCarEntity expectedRentalCarEntity = oneRentalCarEntitySample();
 
         when(rentalCarRepository.findById(id)).thenReturn(Optional.of(expectedRentalCarEntity));
-        when(rentalCarRepository.save(expectedRentalCarEntity)).thenReturn(expectedRentalCarEntity);
+        doNothing().when(rentalCarService).updateRentalCarPartially(expectedRentalCarEntity, singleFieldRentalCarRequestDto.rentAmount());
 
         mockMvc.perform(patch("/rental-cars/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -199,8 +203,8 @@ class RentalCarControllerTest {
                 .andExpect(status().isOk());
 
         verify(rentalCarRepository).findById(id);
-        verify(rentalCarRepository).save(expectedRentalCarEntity);
-        verifyNoMoreInteractions(rentalCarRepository);
+        verify(rentalCarService).updateRentalCarPartially(expectedRentalCarEntity, singleFieldRentalCarRequestDto.rentAmount());
+        verifyNoMoreInteractions(rentalCarRepository, rentalCarService);
     }
 
     @Test
@@ -222,6 +226,7 @@ class RentalCarControllerTest {
 
         verify(rentalCarRepository).findById(id);
         verifyNoMoreInteractions(rentalCarRepository);
+        verifyNoInteractions(rentalCarService);
     }
 
 
