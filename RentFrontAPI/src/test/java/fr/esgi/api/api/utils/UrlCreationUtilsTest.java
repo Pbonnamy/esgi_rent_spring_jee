@@ -86,6 +86,17 @@ public class UrlCreationUtilsTest {
     }
 
     @Test
+    void getBackTarget_withInvalidUri_shouldThrowException() {
+        // Arrange
+        String url = Constants.FRONT_API_URI + "/unknown/";
+
+        // Act & Assert
+        Assertions.assertThrows(MalformedUriException.class, () -> {
+            UrlCreationUtils.getBackTarget(url);
+        });
+    }
+
+    @Test
     void getBackTarget_withEmptyUri_shouldThrowException() {
         // Arrange
         String url = Constants.BASE_FRONT_URI;

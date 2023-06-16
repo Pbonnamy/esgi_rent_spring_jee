@@ -28,7 +28,7 @@ public class UrlCreationUtils {
             String[]queryParts = uriParts[1].split("/");
             String uri = queryParts[0];
 
-            if ("/".equals(uri) || null == uri) {
+            if ("/".equals(uri) || null == uri|| "".equals(uri)) {
                 throw new MalformedUriException("No URL provided: " + uri);
             }
 

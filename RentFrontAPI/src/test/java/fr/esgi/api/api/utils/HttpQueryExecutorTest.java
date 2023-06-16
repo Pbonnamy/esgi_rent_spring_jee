@@ -47,13 +47,32 @@ public class HttpQueryExecutorTest {
                 .uri(new URI("http://localhost.com"))
                 .build();
 
-        Response response = httpQueryExecutor.executeQuery(request);
-
         Response mockedResponse = Response.status(mockedHttpResponse.statusCode())
                 .entity(mockedHttpResponse.body())
                 .build();
 
+        Response response = httpQueryExecutor.executeQuery(request);
+
+
         assertEquals(mockedResponse.getStatus(), response.getStatus());
         assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    public void testExecuteQuery_throw_Exception() throws Exception {
+        HttpClient mockClient = Mockito.mock(HttpClient.class);
+
+        when(mockClient.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class)))
+                .thenThrow(new RuntimeException("Error"));
+
+        HttpQueryExecutor httpQueryExecutor = new HttpQueryExecutor(mockClient);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://localhost.com"))
+                .build();
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            httpQueryExecutor.executeQuery(request);
+        });
     }
 }

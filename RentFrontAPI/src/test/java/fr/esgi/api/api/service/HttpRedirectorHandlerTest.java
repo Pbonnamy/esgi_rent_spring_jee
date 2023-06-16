@@ -114,6 +114,20 @@ public class HttpRedirectorHandlerTest {
         verifyNoMoreInteractions(mockedClient);
     }
 
+    @Test
+    public void transferRequest_shouldThrowRunTimeException_when_httpClient_crash() throws MalformedUriException, IOException, InterruptedException {
+        String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI;
+
+        when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
+        when(mockedHttpQueryExecutor.executeQuery(any())).thenThrow(new RuntimeException());
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
+        });
+
+        verifyNoMoreInteractions(mockedClient);
+    }
+
 
     @Test
     public void transferRequest_shouldThrowMalformedUriException() throws MalformedUriException, IOException, InterruptedException {
