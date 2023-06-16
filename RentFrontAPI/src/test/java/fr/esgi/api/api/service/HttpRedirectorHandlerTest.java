@@ -3,9 +3,8 @@ package fr.esgi.api.api.service;
 import fr.esgi.api.constants.Constants;
 import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
-import fr.esgi.api.utils.HttpQueryExecutor;
 import fr.esgi.api.service.HttpRedirectorHandler;
-import fr.esgi.api.utils.UrlCreationUtils;
+import fr.esgi.api.utils.HttpQueryExecutor;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpResponse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

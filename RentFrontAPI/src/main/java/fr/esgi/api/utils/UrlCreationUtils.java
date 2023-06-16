@@ -25,10 +25,10 @@ public class UrlCreationUtils {
             if (uriParts.length < 2) {
                 throw new MalformedUriException("No URL provided: " + url);
             }
-            String[]queryParts = uriParts[1].split("/");
+            String[] queryParts = uriParts[1].split("/");
             String uri = queryParts[0];
 
-            if ("/".equals(uri) || null == uri|| "".equals(uri)) {
+            if ("/".equals(uri) || null == uri || "".equals(uri)) {
                 throw new MalformedUriException("No URL provided: " + uri);
             }
 

@@ -7,7 +7,7 @@ import java.net.http.HttpRequest;
 
 public class HttpRequestCreator {
 
-    public HttpRequest create(URI uri, HttpMethod httpMethod){
+    public HttpRequest create(URI uri, HttpMethod httpMethod) {
         return HttpRequest.newBuilder()
                 .uri(uri)
                 .GET()

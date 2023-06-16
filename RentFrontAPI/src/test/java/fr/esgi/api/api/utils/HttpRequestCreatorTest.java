@@ -19,7 +19,7 @@ public class HttpRequestCreatorTest {
     HttpRequestCreator httpRequestCreator;
 
     @Test
-    void create_shouldReturnValidHttpRequest(){
+    void create_shouldReturnValidHttpRequest() {
         URI uri = URI.create(Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI);
         HttpRequest request = httpRequestCreator.create(uri, HttpMethod.GET);
 
