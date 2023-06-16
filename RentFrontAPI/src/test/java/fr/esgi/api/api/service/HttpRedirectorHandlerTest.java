@@ -55,7 +55,7 @@ public class HttpRedirectorHandlerTest {
     }
 
     @Test
-    public void transferRequest_shouldThrowRunTimeException() throws MalformedUriException, IOException, InterruptedException {
+    public void transferRequest_shouldThrowRunTimeException() throws MalformedUriException {
         String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_PROPERTIES_URI + "unknown";
 
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
@@ -66,7 +66,7 @@ public class HttpRedirectorHandlerTest {
     }
 
     @Test
-    public void transferRequest_shouldRedirectToPropertiesBack() throws MalformedUriException, IOException, InterruptedException {
+    public void transferRequest_shouldRedirectToPropertiesBack() throws MalformedUriException {
         String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_PROPERTIES_URI;
 
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
@@ -86,7 +86,7 @@ public class HttpRedirectorHandlerTest {
     }
 
     @Test
-    public void transferRequest_shouldRedirectToCarsBack() throws MalformedUriException, IOException, InterruptedException {
+    public void transferRequest_shouldRedirectToCarsBack() throws MalformedUriException {
         String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI;
 
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
@@ -106,7 +106,7 @@ public class HttpRedirectorHandlerTest {
     }
 
     @Test
-    public void transferRequest_shouldThrowRunTimeException_when_httpClient_crash() throws MalformedUriException, IOException, InterruptedException {
+    public void transferRequest_shouldThrowRunTimeException_when_httpClient_crash() throws MalformedUriException {
         String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI;
 
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
@@ -121,7 +121,7 @@ public class HttpRedirectorHandlerTest {
 
 
     @Test
-    public void transferRequest_shouldThrowMalformedUriException() throws MalformedUriException, IOException, InterruptedException {
+    public void transferRequest_shouldThrowMalformedUriException() throws MalformedUriException {
         String requestUrl = "http://localhost:3000/front-api";
 
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
