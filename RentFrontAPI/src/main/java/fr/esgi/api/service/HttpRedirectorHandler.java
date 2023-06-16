@@ -13,6 +13,7 @@ import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 
 
@@ -24,7 +25,7 @@ public class HttpRedirectorHandler {
 
         try {
             String target = UrlCreationUtils.getBackTarget(requestUri);
-            HttpQueryExecutor httpQueryExecutor = new HttpQueryExecutor();
+            HttpQueryExecutor httpQueryExecutor = new HttpQueryExecutor(HttpClient.newBuilder().build());
             HttpRequestCreator httpRequestCreator = new HttpRequestCreator();
             String url = UrlCreationUtils.urlPreparator(requestUri, target);
 

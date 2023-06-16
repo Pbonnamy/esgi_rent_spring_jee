@@ -41,7 +41,7 @@ public class HttpQueryExecutorTest {
         when(mockClient.send(Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class)))
                 .thenReturn(mockedHttpResponse);
 
-        HttpQueryExecutor httpQueryExecutor = new HttpQueryExecutor();
+        HttpQueryExecutor httpQueryExecutor = new HttpQueryExecutor(mockClient);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI("http://example.com"))

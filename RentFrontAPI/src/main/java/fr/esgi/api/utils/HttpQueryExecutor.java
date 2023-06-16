@@ -9,11 +9,16 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class HttpQueryExecutor {
+
+    HttpClient httpClient;
+
+    public HttpQueryExecutor(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
     public Response executeQuery(HttpRequest request) {
         try {
-            HttpClient client = HttpClient.newHttpClient();
-
-            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
             return Response.status(httpResponse.statusCode())
                     .entity(httpResponse.body())
