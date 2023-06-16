@@ -67,7 +67,7 @@ public class RentalCarController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateRentalCarPartially(@PathVariable Integer id, @RequestBody SingleFieldRentalCarRequestDto rentalCarRequestDto) {
+    public ResponseEntity<Void> updateRentalCarPartially(@PathVariable Integer id, @Valid @RequestBody SingleFieldRentalCarRequestDto rentalCarRequestDto) {
         RentalCarEntity rentalCarEntity = rentalCarRepository.findById(id)
                 .orElseThrow(() -> new NotFoundRentalCarException("Rental car with id " + id + " not found"));
 
