@@ -6,6 +6,7 @@ import fr.esgi.rent.dto.request.SingleFieldRentalCarRequestDto;
 import fr.esgi.rent.dto.response.RentalCarResponseDto;
 import fr.esgi.rent.exception.NotFoundRentalCarException;
 import fr.esgi.rent.repository.RentalCarRepository;
+import fr.esgi.rent.service.RentalCarService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import fr.esgi.rent.mapper.RentalCarDtoMapper;
@@ -22,6 +23,7 @@ public class RentalCarController {
 
     private final RentalCarRepository rentalCarRepository;
     private final RentalCarDtoMapper rentalCarDtoMapper;
+    private final RentalCarService rentalCarService;
 
     @GetMapping()
     public ResponseEntity<List<RentalCarResponseDto>> getRentalCars() {
@@ -59,9 +61,8 @@ public class RentalCarController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateRentalCar(@PathVariable Integer id, @Valid @RequestBody RentalCarRequestDto rentalCarRequestDto) {
         RentalCarEntity rentalCarEntity = rentalCarDtoMapper.toEntity(rentalCarRequestDto);
-        rentalCarEntity.setId(id);
 
-        rentalCarRepository.save(rentalCarEntity);
+        rentalCarService.updateRentalCar(rentalCarEntity, id);
 
         return ResponseEntity.ok().build();
     }
@@ -71,9 +72,7 @@ public class RentalCarController {
         RentalCarEntity rentalCarEntity = rentalCarRepository.findById(id)
                 .orElseThrow(() -> new NotFoundRentalCarException("Rental car with id " + id + " not found"));
 
-        rentalCarEntity.setRentAmount(rentalCarRequestDto.rentAmount());
-
-        rentalCarRepository.save(rentalCarEntity);
+        rentalCarService.updateRentalCarPartially(rentalCarEntity, rentalCarRequestDto.rentAmount());
 
         return ResponseEntity.ok().build();
     }
