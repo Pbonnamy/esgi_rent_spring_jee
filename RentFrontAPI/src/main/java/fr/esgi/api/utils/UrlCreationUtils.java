@@ -7,7 +7,6 @@ import java.util.Objects;
 
 public class UrlCreationUtils {
 
-    //TODO sois mettre en private sois publique non qtatic en injection de dependence
     public static String urlPreparator(String requestUri, String target) {
         if (Objects.equals(target, Constants.PROPERTIES_URI_TARGET)) {
             //SEND REQUEST TO PROPERTIES BACK
@@ -22,8 +21,6 @@ public class UrlCreationUtils {
 
     public static String getBackTarget(String url) throws MalformedUriException {
         try {
-
-
             String[] uriParts = url.split(Constants.FRONT_API_URI);
             if (uriParts.length < 2) {
                 throw new MalformedUriException("No URL provided: " + url);
