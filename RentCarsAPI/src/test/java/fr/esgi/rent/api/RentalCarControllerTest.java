@@ -223,4 +223,23 @@ class RentalCarControllerTest {
         verify(rentalCarRepository).findById(id);
         verifyNoMoreInteractions(rentalCarRepository);
     }
+
+
+    @Test
+    void givenInvalidRequestBody_shouldNotUpdatePartiallyRentalCar() throws Exception {
+        int id = 1;
+
+        SingleFieldRentalCarRequestDto invalidSingleFieldRentalCarRequestDto = oneInvalidSingleFieldRentalCarRequestDtoSample();
+
+        JSONObject expectedJsonResponse = new JSONObject();
+        expectedJsonResponse.put("message", "Invalid request body");
+
+        mockMvc.perform(patch("/rental-cars/" + id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidSingleFieldRentalCarRequestDto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(expectedJsonResponse.toString()));
+
+        verifyNoInteractions(rentalCarRepository, rentalCarDtoMapper);
+    }
 }

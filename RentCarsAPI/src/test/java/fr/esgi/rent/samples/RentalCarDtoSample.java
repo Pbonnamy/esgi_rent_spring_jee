@@ -48,4 +48,9 @@ public class RentalCarDtoSample {
                 .model("Serie 1")
                 .build();
     }
+
+
+    public static SingleFieldRentalCarRequestDto oneInvalidSingleFieldRentalCarRequestDtoSample() {
+        return SingleFieldRentalCarRequestDto.builder().build();
+    }
 }
