@@ -3,17 +3,15 @@ package fr.esgi.api.api;
 import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.controller.ReverseProxy;
 import fr.esgi.api.exception.MalformedUriException;
-import fr.esgi.api.exception.UnaviableServiceException;
+import fr.esgi.api.exception.UnavailableServiceException;
 import fr.esgi.api.service.HttpRedirectorHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -69,7 +67,7 @@ public class ReverseProxyTest {
     public void testTransferGetRequest_UnaviableServiceException() throws MalformedUriException {
         when(request.getMethod()).thenReturn(String.valueOf(HttpMethod.GET));
         when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.valueOf(request.getMethod())))
-                .thenThrow(new UnaviableServiceException("Internal server error"));
+                .thenThrow(new UnavailableServiceException("Internal server error"));
 
         Response response = reverseProxy.transferGetRequest(mockUriInfo, request);
 
