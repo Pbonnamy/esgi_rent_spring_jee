@@ -3,6 +3,7 @@ package fr.esgi.api.api.controller;
 import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.controller.ReverseProxy;
 import fr.esgi.api.exception.MalformedUriException;
+import fr.esgi.api.exception.UnavailableServiceException;
 import fr.esgi.api.service.HttpRedirectorHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.Response;
@@ -63,10 +64,10 @@ public class ReverseProxyGetTest {
     }
 
     @Test
-    public void testTransferGetRequest_RuntimeException() throws MalformedUriException {
+    public void testTransferGetRequest_UnaviableServiceException() throws MalformedUriException {
         when(request.getMethod()).thenReturn(String.valueOf(HttpMethod.GET));
         when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.valueOf(request.getMethod())))
-                .thenThrow(new RuntimeException("Internal server error"));
+                .thenThrow(new UnavailableServiceException("Internal server error"));
 
         Response response = reverseProxy.transferGetRequest(mockUriInfo, request);
 

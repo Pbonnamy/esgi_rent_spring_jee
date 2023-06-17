@@ -4,6 +4,7 @@ import fr.esgi.api.constants.Constants;
 import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.exception.BadHttpMethodException;
 import fr.esgi.api.exception.MalformedUriException;
+import fr.esgi.api.exception.UnavailableServiceException;
 import fr.esgi.api.utils.HttpQueryExecutor;
 import fr.esgi.api.utils.HttpRequestCreator;
 import fr.esgi.api.utils.UrlCreationUtils;
@@ -54,8 +55,8 @@ public class HttpRedirectorHandler {
             throw new MalformedUriException("Error while trying to parse URL", e);
         } catch (BadHttpMethodException e) {
             throw new BadHttpMethodException("Unknown http method");
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Cannot access back service", e);
+        } catch (UnavailableServiceException e) {
+            throw new UnavailableServiceException("Cannot access back service", e);
         }
     }
 }

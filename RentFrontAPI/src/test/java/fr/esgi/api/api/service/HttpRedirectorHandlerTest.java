@@ -4,6 +4,7 @@ import fr.esgi.api.constants.Constants;
 import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.exception.BadHttpMethodException;
 import fr.esgi.api.exception.MalformedUriException;
+import fr.esgi.api.exception.UnavailableServiceException;
 import fr.esgi.api.service.HttpRedirectorHandler;
 import fr.esgi.api.utils.HttpQueryExecutor;
 import fr.esgi.api.utils.HttpRequestCreator;
@@ -16,7 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 
@@ -61,11 +61,12 @@ public class HttpRedirectorHandlerTest {
 
     @Test
     public void transferRequest_shouldThrowRunTimeException() throws MalformedUriException {
-        String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_PROPERTIES_URI + "unknown";
+        String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_PROPERTIES_URI;
 
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
+        when(mockedHttpQueryExecutor.executeQuery(any())).thenThrow(new UnavailableServiceException("Error"));
 
-        Assertions.assertThrows(RuntimeException.class, () -> {
+        Assertions.assertThrows(UnavailableServiceException.class, () -> {
             httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
         });
     }
