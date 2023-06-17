@@ -1,5 +1,6 @@
 package fr.esgi.api.utils;
 
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.net.http.HttpClient;
@@ -20,6 +21,7 @@ public class HttpQueryExecutor {
 
             return Response.status(httpResponse.statusCode())
                     .entity(httpResponse.body())
+                    .header("Content-Type", MediaType.APPLICATION_JSON)
                     .build();
         } catch (Exception e) {
             throw new RuntimeException(e);
