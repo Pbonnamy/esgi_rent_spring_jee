@@ -36,8 +36,10 @@ public class HttpRedirectorHandler {
             String target = UrlCreationUtils.getBackTarget(requestUri);
             String url = UrlCreationUtils.urlPreparator(requestUri, target);
 
+            int spring_port = target.equals(Constants.CARS_URI_TARGET) ? Constants.CARS_API_PORT : Constants.PROPERTIES_API_PORT;
+
             URI uri = UriBuilder.fromUri(url)
-                    .port(Constants.SPRING_PORT)
+                    .port(spring_port)
                     .build();
 
             HttpRequest httpRequest = httpRequestCreator.create(uri, method);

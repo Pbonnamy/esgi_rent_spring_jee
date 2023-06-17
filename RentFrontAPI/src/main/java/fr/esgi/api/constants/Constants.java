@@ -10,10 +10,12 @@ public final class Constants {
     public static final String RENTAL_CARS_URI;
     public static final String PROPERTIES_URI_TARGET;
     public static final String CARS_URI_TARGET;
-    public static final int SPRING_PORT;
+    public static final int CARS_API_PORT;
+    public static final int PROPERTIES_API_PORT;
     public static final int FRONT_PORT;
     public static final String HOST;
-    public static final String BASE_SPRING_URI;
+    public static final String BASE_CARS_API_URI;
+    public static final String BASE_PROPERTIES_API_URI;
     public static final String BASE_FRONT_URI;
 
     static {
@@ -33,10 +35,12 @@ public final class Constants {
         RENTAL_CARS_URI = config.getProperty("rental.cars.uri");
         PROPERTIES_URI_TARGET = config.getProperty("properties.uri.target");
         CARS_URI_TARGET = config.getProperty("cars.uri.target");
-        SPRING_PORT = Integer.parseInt(config.getProperty("spring.port"));
+        CARS_API_PORT = Integer.parseInt(config.getProperty("cars.api.port"));
+        PROPERTIES_API_PORT = Integer.parseInt(config.getProperty("properties.api.port"));
         FRONT_PORT = Integer.parseInt(config.getProperty("front.port"));
         HOST = config.getProperty("host");
-        BASE_SPRING_URI = HOST + SPRING_PORT + "/";
+        BASE_CARS_API_URI = HOST + CARS_API_PORT + "/";
+        BASE_PROPERTIES_API_URI = HOST + PROPERTIES_API_PORT + "/";
         BASE_FRONT_URI = HOST + FRONT_PORT + "/" + FRONT_API_URI;
     }
 
