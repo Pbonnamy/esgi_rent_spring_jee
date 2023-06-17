@@ -52,7 +52,7 @@ public class UrlCreationUtilsTest {
     @Test
     void getBackTarget_withRentalCarsUri_shouldReturnCarsUriTarget() throws MalformedUriException {
         // Arrange
-        String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI + "/unkown";
+        String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI + "/Unknown";
 
         // Act
         String actualTarget = UrlCreationUtils.getBackTarget(requestUrl);

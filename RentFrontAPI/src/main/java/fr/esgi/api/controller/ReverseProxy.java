@@ -7,6 +7,7 @@ import fr.esgi.api.service.HttpRedirectorHandler;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
@@ -26,6 +27,21 @@ public class ReverseProxy {
     public Response transferGetRequest(@Context UriInfo uriInfo, @Context HttpServletRequest request) {
         try {
             return httpRedirectorHandler.transferRequest(uriInfo, HttpMethod.valueOf(request.getMethod()));
+        } catch (MalformedUriException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Bad URL : " + e.getMessage())
+                    .build();
+        } catch (RuntimeException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Cannot access back service" + e.getMessage())
+                    .build();
+        }
+    }
+
+    @POST
+    public Response transferGetRequestPost(Object body, @Context UriInfo uriInfo, @Context HttpServletRequest request) {
+        try {
+            return httpRedirectorHandler.transferRequest(uriInfo, HttpMethod.valueOf(request.getMethod()), body);
         } catch (MalformedUriException e) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Bad URL : " + e.getMessage())

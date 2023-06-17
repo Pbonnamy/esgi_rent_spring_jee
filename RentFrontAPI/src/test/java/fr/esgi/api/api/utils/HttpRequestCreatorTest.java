@@ -19,7 +19,7 @@ public class HttpRequestCreatorTest {
     void create_shouldReturnValidHttpRequest() {
         URI uri = URI.create(Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI);
         HttpRequestCreator httpRequestCreator = new HttpRequestCreator();
-        HttpRequest request = httpRequestCreator.create(uri, HttpMethod.GET);
+        HttpRequest request = httpRequestCreator.create(uri, HttpMethod.GET, null);
 
         Assertions.assertEquals(HttpMethod.GET.toString(), request.method());
         Assertions.assertEquals(uri, request.uri());
