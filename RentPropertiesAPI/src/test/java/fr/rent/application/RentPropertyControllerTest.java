@@ -7,6 +7,7 @@ import fr.rent.dto.RentPropertyResponseDto;
 import fr.rent.dto.SimpleRequestDto;
 import fr.rent.mapper.RentPropertyDtoMapper;
 import fr.rent.repository.RentPropertyRepository;
+import fr.rent.service.RentPropertyService;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ class RentPropertyControllerTest {
     private RentPropertyRepository rentalPropertyRepository;
 
     @MockBean
+    private RentPropertyService rentalPropertyService;
+
+    @MockBean
     private RentPropertyDtoMapper rentalPropertyDtoMapper;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -45,14 +49,14 @@ class RentPropertyControllerTest {
         List<RentPropertyEntity> rentalPropertyEntities = rentalPropertyEntities();
         List<RentPropertyResponseDto> rentalPropertyResponseList = rentalPropertyResponseList();
 
-        when(rentalPropertyRepository.findAll()).thenReturn(rentalPropertyEntities);
+        when(rentalPropertyService.findAll()).thenReturn(rentalPropertyEntities);
         when(rentalPropertyDtoMapper.mapToDtoList(rentalPropertyEntities)).thenReturn(rentalPropertyResponseList);
 
         mockMvc.perform(get("/rental-properties"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(rentalPropertyResponseList)));
 
-        verify(rentalPropertyRepository).findAll();
+        verify(rentalPropertyService).findAll();
         verify(rentalPropertyDtoMapper).mapToDtoList(rentalPropertyEntities);
         verifyNoMoreInteractions(rentalPropertyRepository, rentalPropertyDtoMapper);
     }
@@ -64,16 +68,16 @@ class RentPropertyControllerTest {
 
         int id = 1;
 
-        when(rentalPropertyRepository.findById(id)).thenReturn(Optional.of(rentalPropertyEntity));
+        when(rentalPropertyService.findById(id)).thenReturn(Optional.of(rentalPropertyEntity));
         when(rentalPropertyDtoMapper.mapToDto(rentalPropertyEntity)).thenReturn(rentalPropertyResponseDto);
 
         mockMvc.perform(get("/rental-properties/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(rentalPropertyResponseDto)));
 
-        verify(rentalPropertyRepository).findById(id);
+        verify(rentalPropertyService).findById(id);
         verify(rentalPropertyDtoMapper).mapToDto(rentalPropertyEntity);
-        verifyNoMoreInteractions(rentalPropertyRepository, rentalPropertyDtoMapper);
+        verifyNoMoreInteractions(rentalPropertyService, rentalPropertyDtoMapper);
     }
 
     @Test
@@ -83,15 +87,15 @@ class RentPropertyControllerTest {
         JSONObject expectedJsonResponse = new JSONObject();
         expectedJsonResponse.put("message", "Impossible to find property with id " + id);
 
-        when(rentalPropertyRepository.findById(id)).thenReturn(Optional.empty());
+        when(rentalPropertyService.findById(id)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/rental-properties/{id}", 1))
                 .andExpect(status().isNotFound())
                 .andExpect(content().json(expectedJsonResponse.toString()));
 
-        verify(rentalPropertyRepository).findById(id);
+        verify(rentalPropertyService).findById(id);
         verifyNoInteractions(rentalPropertyDtoMapper);
-        verifyNoMoreInteractions(rentalPropertyRepository);
+        verifyNoMoreInteractions(rentalPropertyService);
     }
 
     @Test
@@ -101,7 +105,7 @@ class RentPropertyControllerTest {
         RentPropertyEntity rentalPropertyEntity = oneRentalPropertyEntity();
 
         when(rentalPropertyDtoMapper.mapToEntity(rentalPropertyRequestDto)).thenReturn(rentalPropertyEntity);
-        when(rentalPropertyRepository.save(rentalPropertyEntity)).thenReturn(rentalPropertyEntity);
+        when(rentalPropertyService.save(rentalPropertyEntity)).thenReturn(rentalPropertyEntity);
         when(rentalPropertyDtoMapper.mapToDto(rentalPropertyEntity)).thenReturn(rentalPropertyResponseDto);
 
         mockMvc.perform(post("/rental-properties")
@@ -110,8 +114,8 @@ class RentPropertyControllerTest {
                 .andExpect(status().isCreated());
 
         verify(rentalPropertyDtoMapper).mapToEntity(rentalPropertyRequestDto);
-        verify(rentalPropertyRepository).save(rentalPropertyEntity);
-        verifyNoMoreInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
+        verify(rentalPropertyService).save(rentalPropertyEntity);
+        verifyNoMoreInteractions(rentalPropertyDtoMapper, rentalPropertyService);
     }
 
     @Test
@@ -127,7 +131,7 @@ class RentPropertyControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json(expectedJsonResponse.toString()));
 
-        verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
+        verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyService);
     }
 
     @Test
@@ -139,7 +143,7 @@ class RentPropertyControllerTest {
         int id = 1;
 
         when(rentalPropertyDtoMapper.mapToEntity(rentalPropertyRequestDto)).thenReturn(rentalPropertyEntity);
-        when(rentalPropertyRepository.save(rentalPropertyEntity)).thenReturn(rentalPropertyEntity);
+        doNothing().when(rentalPropertyService).update(rentalPropertyEntity, id);
         when(rentalPropertyDtoMapper.mapToDto(rentalPropertyEntity)).thenReturn(rentalPropertyResponseDto);
 
         mockMvc.perform(put("/rental-properties/{id}", id)
@@ -148,8 +152,8 @@ class RentPropertyControllerTest {
                 .andExpect(status().isOk());
 
         verify(rentalPropertyDtoMapper).mapToEntity(rentalPropertyRequestDto);
-        verify(rentalPropertyRepository).save(rentalPropertyEntity);
-        verifyNoMoreInteractions(rentalPropertyRepository, rentalPropertyDtoMapper);
+        verify(rentalPropertyService).save(rentalPropertyEntity);
+        verifyNoMoreInteractions(rentalPropertyService, rentalPropertyDtoMapper);
     }
 
     @Test
@@ -167,7 +171,7 @@ class RentPropertyControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json(expectedJsonResponse.toString()));
 
-        verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
+        verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyService);
     }
 
 
@@ -186,7 +190,7 @@ class RentPropertyControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json(expectedJsonResponse.toString()));
 
-        verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyRepository);
+        verifyNoInteractions(rentalPropertyDtoMapper, rentalPropertyService);
     }
 
     @Test
@@ -196,8 +200,8 @@ class RentPropertyControllerTest {
         mockMvc.perform(delete("/rental-properties/{id}", id))
                 .andExpect(status().isNoContent());
 
-        verify(rentalPropertyRepository).deleteById(id);
-        verifyNoMoreInteractions(rentalPropertyRepository);
+        verify(rentalPropertyService).deleteById(id);
+        verifyNoMoreInteractions(rentalPropertyService);
     }
 
 
@@ -209,17 +213,17 @@ class RentPropertyControllerTest {
         SimpleRequestDto simpleRequestDto = oneSimpleRequest();
         RentPropertyEntity rentalPropertyEntity = oneRentalPropertyEntity();
 
-        when(rentalPropertyRepository.findById(id)).thenReturn(Optional.of(rentalPropertyEntity));
-        when(rentalPropertyRepository.save(rentalPropertyEntity)).thenReturn(rentalPropertyEntity);
+        when(rentalPropertyService.findById(id)).thenReturn(Optional.of(rentalPropertyEntity));
+        doNothing().when(rentalPropertyService).updatePartiallyProperty(rentalPropertyEntity, simpleRequestDto.rentAmount());
 
         mockMvc.perform(patch("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(simpleRequestDto)))
                 .andExpect(status().isOk());
 
-        verify(rentalPropertyRepository).findById(id);
-        verify(rentalPropertyRepository).save(rentalPropertyEntity);
-        verifyNoMoreInteractions(rentalPropertyRepository);
+        verify(rentalPropertyService).findById(id);
+        verify(rentalPropertyService).updatePartiallyProperty(rentalPropertyEntity, simpleRequestDto.rentAmount());
+        verifyNoMoreInteractions(rentalPropertyService);
     }
 
 
@@ -233,7 +237,7 @@ class RentPropertyControllerTest {
         JSONObject expectedJsonResponse = new JSONObject();
         expectedJsonResponse.put("message", "Impossible to find property with id " + id);
 
-        when(rentalPropertyRepository.findById(id)).thenReturn(Optional.empty());
+        when(rentalPropertyService.findById(id)).thenReturn(Optional.empty());
 
         mockMvc.perform(patch("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
@@ -241,8 +245,8 @@ class RentPropertyControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().json(expectedJsonResponse.toString()));
 
-        verify(rentalPropertyRepository).findById(id);
-        verifyNoMoreInteractions(rentalPropertyRepository);
+        verify(rentalPropertyService).findById(id);
+        verifyNoMoreInteractions(rentalPropertyService);
     }
 
 
