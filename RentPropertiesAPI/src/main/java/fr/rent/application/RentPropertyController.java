@@ -6,7 +6,7 @@ import fr.rent.dto.RentPropertyResponseDto;
 import fr.rent.dto.SimpleRequestDto;
 import fr.rent.exception.RentPropertyNotFoundException;
 import fr.rent.mapper.RentPropertyDtoMapper;
-import fr.rent.repository.RentPropertyRepository;
+import fr.rent.service.RentPropertyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,21 +20,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RentPropertyController {
 
-    private final RentPropertyRepository rentPropertyRepository;
+    private final RentPropertyService rentPropertyservice;
 
     private final RentPropertyDtoMapper rentalPropertyDtoMapper;
 
 
     @GetMapping()
     public ResponseEntity<List<RentPropertyResponseDto>> getRentalProperties() {
-        List<RentPropertyEntity> rentalProperties = rentPropertyRepository.findAll();
+        List<RentPropertyEntity> rentalProperties = rentPropertyservice.findAll();
 
         return ResponseEntity.ok().body(rentalPropertyDtoMapper.mapToDtoList(rentalProperties));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RentPropertyResponseDto> getRentalPropertyById(@PathVariable int id) {
-        return rentPropertyRepository.findById(id)
+        return rentPropertyservice.findById(id)
                 .map(rentalPropertyDtoMapper::mapToDto)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new RentPropertyNotFoundException(id));
@@ -45,7 +45,7 @@ public class RentPropertyController {
     public ResponseEntity<Void> createRentalProperty(@Valid @RequestBody RentPropertyRequestDto rentPropertyRequestDto) {
         RentPropertyEntity rentalPropertyEntity = rentalPropertyDtoMapper.mapToEntity(rentPropertyRequestDto);
 
-        rentPropertyRepository.save(rentalPropertyEntity);
+        rentPropertyservice.save(rentalPropertyEntity);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
         
@@ -59,7 +59,7 @@ public class RentPropertyController {
 
         updatedEntity.setId(id);
 
-        rentPropertyRepository.save(updatedEntity);
+        rentPropertyservice.save(updatedEntity);
 
         return ResponseEntity.ok().build();
 
@@ -67,12 +67,10 @@ public class RentPropertyController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updateRentalPropertyPartially(@PathVariable int id, @Valid @RequestBody SimpleRequestDto simpleRequestDto) {
-        RentPropertyEntity rentalPropertyEntity = rentPropertyRepository.findById(id)
+        RentPropertyEntity rentalPropertyEntity = rentPropertyservice.findById(id)
                 .orElseThrow(() -> new RentPropertyNotFoundException(id));
 
-        rentalPropertyEntity.setRentAmount(simpleRequestDto.rentAmount());
-
-        rentPropertyRepository.save(rentalPropertyEntity);
+        rentPropertyservice.updatePartiallyProperty(rentalPropertyEntity, simpleRequestDto.rentAmount());
 
         return ResponseEntity.ok().build();
 
@@ -82,7 +80,7 @@ public class RentPropertyController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRentalProperty(@PathVariable int id) {
 
-        rentPropertyRepository.deleteById(id);
+        rentPropertyservice.deleteById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 

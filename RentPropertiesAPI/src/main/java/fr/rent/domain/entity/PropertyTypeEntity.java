@@ -6,9 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
 @Table(name = "property_type")
 public class PropertyTypeEntity {
 

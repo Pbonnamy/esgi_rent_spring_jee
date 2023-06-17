@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "rental_property")
 @NoArgsConstructor
+@Table(name = "rental_property")
 public class RentPropertyEntity {
 
     public RentPropertyEntity(String description,
