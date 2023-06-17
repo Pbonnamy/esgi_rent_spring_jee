@@ -8,17 +8,20 @@ import java.net.http.HttpRequest;
 
 public class HttpRequestCreator {
 
-    public <T> HttpRequest create(URI uri, HttpMethod httpMethod, Object body) {
+    public HttpRequest create(URI uri, HttpMethod httpMethod, String body) {
         HttpRequest.Builder builder = HttpRequest.newBuilder()
                 .uri(uri);
 
+        HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(body != null ? body : "");
+
         switch (httpMethod) {
             case GET -> builder.GET();
-            case POST -> builder.POST((HttpRequest.BodyPublisher) body);
-            case PUT, PATCH -> builder.PUT((HttpRequest.BodyPublisher) body);
+            case POST -> builder.POST(bodyPublisher);
+            case PUT, PATCH -> builder.method(httpMethod.name(), bodyPublisher);
             case DELETE -> builder.DELETE();
             default -> throw new BadHttpMethodException("Unknown HTTP method: " + httpMethod);
         }
+
         return builder.build();
     }
 }

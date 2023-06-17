@@ -39,7 +39,7 @@ public class ReverseProxy {
     }
 
     @POST
-    public Response transferGetRequestPost(Object body, @Context UriInfo uriInfo, @Context HttpServletRequest request) {
+    public Response transferPostRequest(@Context UriInfo uriInfo, @Context HttpServletRequest request, String body) {
         try {
             return httpRedirectorHandler.transferRequest(uriInfo, HttpMethod.valueOf(request.getMethod()), body);
         } catch (MalformedUriException e) {

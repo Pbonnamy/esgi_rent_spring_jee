@@ -34,7 +34,7 @@ public class HttpRedirectorHandler {
         return transferRequest(uriInfo, method, null);
     }
 
-    public Response transferRequest(UriInfo uriInfo, HttpMethod method, Object body) throws MalformedUriException {
+    public Response transferRequest(UriInfo uriInfo, HttpMethod method, String  body) throws MalformedUriException {
         String requestUri = uriInfo.getRequestUri().toString();
 
         try {
