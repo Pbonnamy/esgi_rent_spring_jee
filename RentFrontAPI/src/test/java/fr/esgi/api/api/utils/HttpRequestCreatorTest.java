@@ -15,12 +15,10 @@ import java.net.http.HttpRequest;
 @ExtendWith(MockitoExtension.class)
 public class HttpRequestCreatorTest {
 
-    @InjectMocks
-    HttpRequestCreator httpRequestCreator;
-
     @Test
     void create_shouldReturnValidHttpRequest() {
         URI uri = URI.create(Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI);
+        HttpRequestCreator httpRequestCreator = new HttpRequestCreator();
         HttpRequest request = httpRequestCreator.create(uri, HttpMethod.GET);
 
         Assertions.assertEquals(HttpMethod.GET.toString(), request.method());
