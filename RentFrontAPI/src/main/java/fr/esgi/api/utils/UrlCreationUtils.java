@@ -10,10 +10,10 @@ public class UrlCreationUtils {
     public static String urlPreparator(String requestUri, String target) {
         if (Objects.equals(target, Constants.PROPERTIES_URI_TARGET)) {
             //SEND REQUEST TO PROPERTIES BACK
-            return requestUri.replace(Constants.BASE_FRONT_URI, Constants.BASE_SPRING_URI + Constants.PROPERTIES_URI_TARGET + "/");
+            return requestUri.replace(Constants.BASE_FRONT_URI, Constants.BASE_PROPERTIES_API_URI + Constants.PROPERTIES_URI_TARGET + "/");
         } else if (Objects.equals(target, Constants.CARS_URI_TARGET)) {
             //SEND REQUEST TO CARS BACK
-            return requestUri.replace(Constants.BASE_FRONT_URI, Constants.BASE_SPRING_URI + Constants.CARS_URI_TARGET + "/");
+            return requestUri.replace(Constants.BASE_FRONT_URI, Constants.BASE_CARS_API_URI + Constants.CARS_URI_TARGET + "/");
         } else {
             throw new MalformedUriException("Error 404 : url not found");
         }

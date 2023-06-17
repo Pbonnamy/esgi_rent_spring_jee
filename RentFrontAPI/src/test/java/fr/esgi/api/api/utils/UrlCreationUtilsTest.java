@@ -15,7 +15,7 @@ public class UrlCreationUtilsTest {
     void urlPreparator_withPropertiesUriTarget_shouldReturnCorrectUrl() {
         // Arrange
         String requestUri = Constants.BASE_FRONT_URI + Constants.RENTAL_PROPERTIES_URI;
-        String expectedUrl = Constants.BASE_SPRING_URI + Constants.PROPERTIES_URI_TARGET + "/" + Constants.RENTAL_PROPERTIES_URI;
+        String expectedUrl = Constants.BASE_PROPERTIES_API_URI + Constants.PROPERTIES_URI_TARGET + "/" + Constants.RENTAL_PROPERTIES_URI;
 
         // Act
         String actualUrl = UrlCreationUtils.urlPreparator(requestUri, Constants.PROPERTIES_URI_TARGET);
@@ -28,7 +28,7 @@ public class UrlCreationUtilsTest {
     void urlPreparator_withCarsUriTarget_shouldReturnCorrectUrl() {
         // Arrange
         String requestUri = Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI;
-        String expectedUrl = Constants.BASE_SPRING_URI + Constants.CARS_URI_TARGET + "/" + Constants.RENTAL_CARS_URI;
+        String expectedUrl = Constants.BASE_CARS_API_URI + Constants.CARS_URI_TARGET + "/" + Constants.RENTAL_CARS_URI;
 
 
         // Act
@@ -77,7 +77,7 @@ public class UrlCreationUtilsTest {
     @Test
     void getBackTarget_withUnknownUri_shouldThrowException() {
         // Arrange
-        String url = Constants.BASE_SPRING_URI + "unknown/";
+        String url = Constants.BASE_PROPERTIES_API_URI + "unknown/";
 
         // Act & Assert
         Assertions.assertThrows(MalformedUriException.class, () -> {
