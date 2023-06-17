@@ -3,6 +3,7 @@ package fr.esgi.api.controller;
 
 import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
+import fr.esgi.api.exception.UnaviableServiceException;
 import fr.esgi.api.service.HttpRedirectorHandler;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ public class ReverseProxy {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Bad URL : " + e.getMessage())
                     .build();
-        } catch (RuntimeException e) {
+        } catch (UnaviableServiceException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Cannot access back service" + e.getMessage())
                     .build();

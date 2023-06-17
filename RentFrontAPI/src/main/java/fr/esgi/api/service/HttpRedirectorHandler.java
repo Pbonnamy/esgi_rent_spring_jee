@@ -3,6 +3,7 @@ package fr.esgi.api.service;
 import fr.esgi.api.constants.Constants;
 import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.exception.MalformedUriException;
+import fr.esgi.api.exception.UnaviableServiceException;
 import fr.esgi.api.utils.HttpQueryExecutor;
 import fr.esgi.api.utils.HttpRequestCreator;
 import fr.esgi.api.utils.UrlCreationUtils;
@@ -45,8 +46,8 @@ public class HttpRedirectorHandler {
             return httpQueryExecutor.executeQuery(httpRequest);
         } catch (MalformedUriException e) {
             throw new MalformedUriException("Error while trying to parse URL", e);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Cannot access back service", e);
+        } catch (UnaviableServiceException e) {
+            throw new UnaviableServiceException("Cannot access back service", e);
         }
     }
 }

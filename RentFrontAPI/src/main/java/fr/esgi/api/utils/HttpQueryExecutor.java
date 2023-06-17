@@ -1,5 +1,6 @@
 package fr.esgi.api.utils;
 
+import fr.esgi.api.exception.UnaviableServiceException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -24,7 +25,7 @@ public class HttpQueryExecutor {
                     .header("Content-Type", MediaType.APPLICATION_JSON)
                     .build();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new UnaviableServiceException(e.getMessage(), e);
         }
     }
 }
