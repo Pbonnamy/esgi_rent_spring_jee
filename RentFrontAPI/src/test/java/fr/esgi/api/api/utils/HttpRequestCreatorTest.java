@@ -7,7 +7,6 @@ import fr.esgi.api.utils.HttpRequestCreator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.URI;
@@ -22,7 +21,7 @@ public class HttpRequestCreatorTest {
         HttpRequestCreator httpRequestCreator = new HttpRequestCreator();
 
         Assertions.assertThrows(BadHttpMethodException.class, () -> {
-            HttpRequest request = httpRequestCreator.create(uri, HttpMethod.UNKOWN, null);
+            HttpRequest request = httpRequestCreator.create(uri, HttpMethod.UNKNOWN, null);
 
         });
     }
