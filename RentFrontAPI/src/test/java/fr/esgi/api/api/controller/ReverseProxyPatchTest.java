@@ -27,9 +27,6 @@ public class ReverseProxyPatchTest {
     private UriInfo mockUriInfo;
 
     @Mock
-    private HttpServletRequest request;
-
-    @Mock
     private HttpRedirectorHandler httpRedirectorHandler;
 
     @Test
