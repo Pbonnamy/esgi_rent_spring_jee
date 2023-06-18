@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ReverseProxyPostTest {
+public class ReverseProxyPutTest {
 
     @InjectMocks
     private ReverseProxy reverseProxy;
@@ -30,15 +30,15 @@ public class ReverseProxyPostTest {
     private HttpRedirectorHandler httpRedirectorHandler;
 
     @Test
-    public void testTransferPostRequest_Success() throws MalformedUriException {
+    public void testTransferPutRequest_Success() throws MalformedUriException {
         // Arrange
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.POST, "Body test"))
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.PUT, "Body test"))
                 .thenReturn(Response.status(Response.Status.OK)
                         .entity("Success")
                         .build());
 
         // Act
-        Response response = reverseProxy.transferPostRequest(mockUriInfo, "Body test");
+        Response response = reverseProxy.transferPutRequest(mockUriInfo, "Body test");
 
         // Assert
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -47,22 +47,22 @@ public class ReverseProxyPostTest {
     }
 
     @Test
-    public void testTransferPostRequest_MalformedUriException() throws MalformedUriException {;
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.POST, "Body test"))
+    public void testTransferPutRequest_MalformedUriException() throws MalformedUriException {
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.PUT, "Body test"))
                 .thenThrow(new MalformedUriException("Invalid URI"));
 
-        Response response = reverseProxy.transferPostRequest(mockUriInfo, "Body test");
+        Response response = reverseProxy.transferPutRequest(mockUriInfo,"Body test");
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
         verifyNoMoreInteractions(httpRedirectorHandler);
     }
 
     @Test
-    public void testTransferPostRequest_RuntimeException() throws MalformedUriException {
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.POST, "Body test"))
+    public void testTransferPutRequest_RuntimeException() throws MalformedUriException {
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.PUT, "Body test"))
                 .thenThrow(new UnavailableServiceException("Internal server error"));
 
-        Response response = reverseProxy.transferPostRequest(mockUriInfo, "Body test");
+        Response response = reverseProxy.transferPutRequest(mockUriInfo, "Body test");
 
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
         verifyNoMoreInteractions(httpRedirectorHandler);
