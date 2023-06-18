@@ -4,7 +4,6 @@ import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.controller.ReverseProxy;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.service.HttpRedirectorHandler;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
@@ -26,9 +24,6 @@ public class ReverseProxyPostTest {
 
     @Mock
     private UriInfo mockUriInfo;
-
-    @Mock
-    private HttpServletRequest request;
 
     @Mock
     private HttpRedirectorHandler httpRedirectorHandler;
