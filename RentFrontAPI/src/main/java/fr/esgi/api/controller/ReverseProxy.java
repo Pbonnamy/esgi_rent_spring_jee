@@ -75,7 +75,7 @@ public class ReverseProxy {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Bad URL : " + e.getMessage())
                     .build();
-        } catch (RuntimeException e) {
+        } catch (UnavailableServiceException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Cannot access back service" + e.getMessage())
                     .build();
