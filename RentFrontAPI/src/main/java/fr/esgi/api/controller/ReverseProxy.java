@@ -56,9 +56,9 @@ public class ReverseProxy {
     }
 
     @PUT
-    public Response transferPutRequest(@Context UriInfo uriInfo, @Context HttpServletRequest request, String body) {
+    public Response transferPutRequest(@Context UriInfo uriInfo, String body) {
         try {
-            return httpRedirectorHandler.transferRequest(uriInfo, HttpMethod.valueOf(request.getMethod()), body);
+            return httpRedirectorHandler.transferRequest(uriInfo, HttpMethod.PUT, body);
         } catch (MalformedUriException e) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Bad URL : " + e.getMessage())
