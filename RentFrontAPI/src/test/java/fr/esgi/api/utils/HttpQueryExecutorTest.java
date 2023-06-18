@@ -1,4 +1,4 @@
-package fr.esgi.api.api.utils;
+package fr.esgi.api.utils;
 
 import fr.esgi.api.utils.HttpQueryExecutor;
 import jakarta.ws.rs.core.Response;

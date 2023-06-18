@@ -1,4 +1,4 @@
-package fr.esgi.api.api.utils;
+package fr.esgi.api.utils;
 
 import fr.esgi.api.constants.Constants;
 import fr.esgi.api.exception.MalformedUriException;

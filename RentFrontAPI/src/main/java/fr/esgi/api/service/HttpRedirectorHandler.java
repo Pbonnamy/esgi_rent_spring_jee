@@ -31,6 +31,7 @@ public class HttpRedirectorHandler {
         this.httpRequestCreator = new HttpRequestCreator();
     }
 
+    //overload for a request that doesnt need a body
     public Response transferRequest (UriInfo uriInfo, HttpMethod method) throws MalformedUriException {
         return transferRequest(uriInfo, method, null);
     }
