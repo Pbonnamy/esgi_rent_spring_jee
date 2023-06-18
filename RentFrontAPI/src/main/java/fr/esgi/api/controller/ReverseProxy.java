@@ -8,6 +8,7 @@ import fr.esgi.api.service.HttpRedirectorHandler;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
@@ -32,6 +33,21 @@ public class ReverseProxy {
                     .entity("Bad URL : " + e.getMessage())
                     .build();
         } catch (UnavailableServiceException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Cannot access back service" + e.getMessage())
+                    .build();
+        }
+    }
+
+    @POST
+    public Response transferPostRequest(@Context UriInfo uriInfo, String body) {
+        try {
+            return httpRedirectorHandler.transferRequest(uriInfo, HttpMethod.POST, body);
+        } catch (MalformedUriException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Bad URL : " + e.getMessage())
+                    .build();
+        } catch (RuntimeException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Cannot access back service" + e.getMessage())
                     .build();

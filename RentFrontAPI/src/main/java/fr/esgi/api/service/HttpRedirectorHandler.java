@@ -2,6 +2,7 @@ package fr.esgi.api.service;
 
 import fr.esgi.api.constants.Constants;
 import fr.esgi.api.constants.HttpMethod;
+import fr.esgi.api.exception.BadHttpMethodException;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.exception.UnavailableServiceException;
 import fr.esgi.api.utils.HttpQueryExecutor;
@@ -30,7 +31,11 @@ public class HttpRedirectorHandler {
         this.httpRequestCreator = new HttpRequestCreator();
     }
 
-    public Response transferRequest(UriInfo uriInfo, HttpMethod method) throws MalformedUriException {
+    public Response transferRequest (UriInfo uriInfo, HttpMethod method) throws MalformedUriException {
+        return transferRequest(uriInfo, method, null);
+    }
+
+    public Response transferRequest(UriInfo uriInfo, HttpMethod method, String  body) throws MalformedUriException {
         String requestUri = uriInfo.getRequestUri().toString();
 
         try {
@@ -43,11 +48,13 @@ public class HttpRedirectorHandler {
                     .port(spring_port)
                     .build();
 
-            HttpRequest httpRequest = httpRequestCreator.create(uri, method);
+            HttpRequest httpRequest = httpRequestCreator.create(uri, method, body);
 
             return httpQueryExecutor.executeQuery(httpRequest);
         } catch (MalformedUriException e) {
             throw new MalformedUriException("Error while trying to parse URL", e);
+        } catch (BadHttpMethodException e) {
+            throw new BadHttpMethodException("Unknown http method");
         } catch (UnavailableServiceException e) {
             throw new UnavailableServiceException("Cannot access back service", e);
         }

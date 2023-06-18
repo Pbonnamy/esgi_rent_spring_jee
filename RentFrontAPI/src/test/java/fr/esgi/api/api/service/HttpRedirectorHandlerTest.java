@@ -2,10 +2,12 @@ package fr.esgi.api.api.service;
 
 import fr.esgi.api.constants.Constants;
 import fr.esgi.api.constants.HttpMethod;
+import fr.esgi.api.exception.BadHttpMethodException;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.exception.UnavailableServiceException;
 import fr.esgi.api.service.HttpRedirectorHandler;
 import fr.esgi.api.utils.HttpQueryExecutor;
+import fr.esgi.api.utils.HttpRequestCreator;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 import org.junit.jupiter.api.Assertions;
@@ -39,6 +41,9 @@ public class HttpRedirectorHandlerTest {
     @Mock
     private HttpQueryExecutor mockedHttpQueryExecutor;
 
+    @Mock
+    private HttpRequestCreator httpRequestCreator;
+
     @Test
     public void testTransferRequest_ShouldThrowMalformedException() throws MalformedUriException {
         // Arrange
@@ -64,6 +69,21 @@ public class HttpRedirectorHandlerTest {
         Assertions.assertThrows(UnavailableServiceException.class, () -> {
             httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
         });
+    }
+
+    @Test
+    public void transferRequest_shouldThrowBadHttpMethodException() throws BadHttpMethodException {
+        String requestUrl = Constants.BASE_FRONT_URI + Constants.RENTAL_PROPERTIES_URI;
+
+        when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUrl));
+        when(httpRequestCreator.create(any(), any(), any())).thenThrow(BadHttpMethodException.class);
+
+
+        Assertions.assertThrows(BadHttpMethodException.class, () -> {
+            Response response = httpRedirectorHandler.transferRequest(mockUriInfo, null);
+                });
+
+        verifyNoMoreInteractions(mockedClient);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package fr.esgi.api.api;
+package fr.esgi.api.api.controller;
 
 import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.controller.ReverseProxy;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ReverseProxyTest {
+public class ReverseProxyGetTest {
 
     @InjectMocks
     private ReverseProxy reverseProxy;
