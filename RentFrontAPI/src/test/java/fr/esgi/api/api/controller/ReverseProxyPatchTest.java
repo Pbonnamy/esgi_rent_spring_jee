@@ -35,14 +35,13 @@ public class ReverseProxyPatchTest {
     @Test
     public void testTransferPatchRequest_Success() throws MalformedUriException {
         // Arrange
-        when(request.getMethod()).thenReturn("PATCH");
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.valueOf(request.getMethod()), "Body test"))
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.PATCH, "Body test"))
                 .thenReturn(Response.status(Response.Status.OK)
                         .entity("Success")
                         .build());
 
         // Act
-        Response response = reverseProxy.transferPatchRequest(mockUriInfo, request, "Body test");
+        Response response = reverseProxy.transferPatchRequest(mockUriInfo, "Body test");
 
         // Assert
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -52,11 +51,10 @@ public class ReverseProxyPatchTest {
 
     @Test
     public void testTransferPatchRequest_MalformedUriException() throws MalformedUriException {
-        when(request.getMethod()).thenReturn(String.valueOf(HttpMethod.PATCH));
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.valueOf(request.getMethod()), "Body test"))
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.PATCH, "Body test"))
                 .thenThrow(new MalformedUriException("Invalid URI"));
 
-        Response response = reverseProxy.transferPatchRequest(mockUriInfo, request, "Body test");
+        Response response = reverseProxy.transferPatchRequest(mockUriInfo, "Body test");
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
         verifyNoMoreInteractions(httpRedirectorHandler);
@@ -64,11 +62,10 @@ public class ReverseProxyPatchTest {
 
     @Test
     public void testTransferPatchRequest_RuntimeException() throws MalformedUriException {
-        when(request.getMethod()).thenReturn(String.valueOf(HttpMethod.PATCH));
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.valueOf(request.getMethod()), "Body test"))
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.PATCH, "Body test"))
                 .thenThrow(new RuntimeException("Internal server error"));
 
-        Response response = reverseProxy.transferPatchRequest(mockUriInfo, request, "Body test");
+        Response response = reverseProxy.transferPatchRequest(mockUriInfo, "Body test");
 
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
         verifyNoMoreInteractions(httpRedirectorHandler);
