@@ -46,5 +46,35 @@ public class HttpRequestCreatorTest {
         Assertions.assertEquals(uri, request.uri());
     }
 
+    @Test
+    void create_shouldReturnValidHttpRequestPut() {
+        URI uri = URI.create(Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI);
+        HttpRequestCreator httpRequestCreator = new HttpRequestCreator();
+        HttpRequest request = httpRequestCreator.create(uri, HttpMethod.PUT, "Body test");
+
+        Assertions.assertEquals(HttpMethod.PUT.toString(), request.method());
+        Assertions.assertEquals(uri, request.uri());
+    }
+
+    @Test
+    void create_shouldReturnValidHttpRequestPatch() {
+        URI uri = URI.create(Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI);
+        HttpRequestCreator httpRequestCreator = new HttpRequestCreator();
+        HttpRequest request = httpRequestCreator.create(uri, HttpMethod.PATCH, "Body test");
+
+        Assertions.assertEquals(HttpMethod.PATCH.toString(), request.method());
+        Assertions.assertEquals(uri, request.uri());
+    }
+
+    @Test
+    void create_shouldReturnValidHttpRequestDelete() {
+        URI uri = URI.create(Constants.BASE_FRONT_URI + Constants.RENTAL_CARS_URI);
+        HttpRequestCreator httpRequestCreator = new HttpRequestCreator();
+        HttpRequest request = httpRequestCreator.create(uri, HttpMethod.DELETE, "Body test");
+
+        Assertions.assertEquals(HttpMethod.DELETE.toString(), request.method());
+        Assertions.assertEquals(uri, request.uri());
+    }
+
 
 }
