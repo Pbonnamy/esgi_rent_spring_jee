@@ -28,22 +28,18 @@ public class ReverseProxyGetTest {
     private UriInfo mockUriInfo;
 
     @Mock
-    private HttpServletRequest request;
-
-    @Mock
     private HttpRedirectorHandler httpRedirectorHandler;
 
     @Test
     public void testTransferGetRequest_Success() throws MalformedUriException {
         // Arrange
-        when(request.getMethod()).thenReturn("GET");
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.valueOf(request.getMethod())))
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET))
                 .thenReturn(Response.status(Response.Status.OK)
                         .entity("Success")
                         .build());
 
         // Act
-        Response response = reverseProxy.transferGetRequest(mockUriInfo, request);
+        Response response = reverseProxy.transferGetRequest(mockUriInfo);
 
         // Assert
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -53,11 +49,10 @@ public class ReverseProxyGetTest {
 
     @Test
     public void testTransferGetRequest_MalformedUriException() throws MalformedUriException {
-        when(request.getMethod()).thenReturn(String.valueOf(HttpMethod.GET));
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.valueOf(request.getMethod())))
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET))
                 .thenThrow(new MalformedUriException("Invalid URI"));
 
-        Response response = reverseProxy.transferGetRequest(mockUriInfo, request);
+        Response response = reverseProxy.transferGetRequest(mockUriInfo);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
         verifyNoMoreInteractions(httpRedirectorHandler);
@@ -65,11 +60,10 @@ public class ReverseProxyGetTest {
 
     @Test
     public void testTransferGetRequest_UnaviableServiceException() throws MalformedUriException {
-        when(request.getMethod()).thenReturn(String.valueOf(HttpMethod.GET));
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.valueOf(request.getMethod())))
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET))
                 .thenThrow(new UnavailableServiceException("Internal server error"));
 
-        Response response = reverseProxy.transferGetRequest(mockUriInfo, request);
+        Response response = reverseProxy.transferGetRequest(mockUriInfo);
 
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
         verifyNoMoreInteractions(httpRedirectorHandler);
