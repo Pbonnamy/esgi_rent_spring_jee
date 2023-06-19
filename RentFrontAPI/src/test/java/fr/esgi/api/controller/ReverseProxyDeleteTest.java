@@ -38,7 +38,7 @@ public class ReverseProxyDeleteTest {
                         .build());
 
         // Act
-        Response response = reverseProxy.transferDeleteRequest(mockUriInfo, "Any body");
+        Response response = reverseProxy.transferDeleteRequest(mockUriInfo);
 
         // Assert
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -51,7 +51,7 @@ public class ReverseProxyDeleteTest {
         when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.DELETE))
                 .thenThrow(new MalformedUriException("Invalid URI"));
 
-        Response response = reverseProxy.transferDeleteRequest(mockUriInfo, "Any body");
+        Response response = reverseProxy.transferDeleteRequest(mockUriInfo);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
         verifyNoMoreInteractions(httpRedirectorHandler);
@@ -62,7 +62,7 @@ public class ReverseProxyDeleteTest {
         when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.DELETE))
                 .thenThrow(new UnavailableServiceException("Internal server error"));
 
-        Response response = reverseProxy.transferDeleteRequest(mockUriInfo, "Any body");
+        Response response = reverseProxy.transferDeleteRequest(mockUriInfo);
 
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
         verifyNoMoreInteractions(httpRedirectorHandler);

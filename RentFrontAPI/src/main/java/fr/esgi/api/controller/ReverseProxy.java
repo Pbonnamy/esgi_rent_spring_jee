@@ -87,7 +87,7 @@ public class ReverseProxy {
     }
 
     @DELETE
-    public Response transferDeleteRequest(@Context UriInfo uriInfo, String body) {
+    public Response transferDeleteRequest(@Context UriInfo uriInfo) {
         try {
             return httpRedirectorHandler.transferRequest(uriInfo, HttpMethod.DELETE);
         } catch (MalformedUriException e) {
