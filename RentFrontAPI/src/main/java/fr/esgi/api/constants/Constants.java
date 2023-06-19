@@ -1,5 +1,7 @@
 package fr.esgi.api.constants;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -30,6 +32,11 @@ public final class Constants {
                 throw new RuntimeException(ex.getMessage(), e);
             }
         }
+        Dotenv dotenv = Dotenv.configure()
+                .directory("../")
+                .filename(".env")
+                .load();
+
 
         FRONT_API_URI = config.getProperty("front.api.uri");
         RENTAL_PROPERTIES_URI = config.getProperty("rental.properties.uri");
@@ -43,7 +50,7 @@ public final class Constants {
         BASE_CARS_API_URI = HOST + CARS_API_PORT + "/";
         BASE_PROPERTIES_API_URI = HOST + PROPERTIES_API_PORT + "/";
         BASE_FRONT_URI = HOST + FRONT_PORT + "/" + FRONT_API_URI;
-        AUTH_TOKEN = config.getProperty("auth.token");
+        AUTH_TOKEN = dotenv.get("AUTH_TOKEN");
     }
 
     private Constants() {
