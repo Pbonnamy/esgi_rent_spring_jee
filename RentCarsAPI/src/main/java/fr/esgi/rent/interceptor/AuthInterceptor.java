@@ -10,7 +10,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        Dotenv dotenv = Dotenv.configure().directory("./").load();
+        Dotenv dotenv = Dotenv.load();
 
         String token = dotenv.get("AUTH_TOKEN");
 
