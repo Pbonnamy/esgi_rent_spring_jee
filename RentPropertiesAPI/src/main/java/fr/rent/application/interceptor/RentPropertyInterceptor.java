@@ -12,16 +12,14 @@ public class RentPropertyInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
-        Dotenv dotenv = Dotenv.configure()
-                .directory("../")
-                .filename(".env")
-                .load();
+        Dotenv dotenv = Dotenv.load();
 
+        String token = dotenv.get("AUTH_TOKEN");
 
         if (request.getHeader("Authorization") == null
                 || request.getHeader("Authorization").split(" ").length != 2
                 || !request.getHeader("Authorization").split(" ")[0].equals("Bearer")
-                || !request.getHeader("Authorization").split(" ")[1].equals(dotenv.get("AUTH_TOKEN"))) {
+                || !request.getHeader("Authorization").split(" ")[1].equals(token)) {
             response.setStatus(401);
             return false;
         }
