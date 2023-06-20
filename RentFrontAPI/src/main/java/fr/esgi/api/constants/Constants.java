@@ -45,7 +45,7 @@ public final class Constants {
         BASE_CARS_API_URI = HOST + CARS_API_PORT + "/";
         BASE_PROPERTIES_API_URI = HOST + PROPERTIES_API_PORT + "/";
         BASE_FRONT_URI = HOST + FRONT_PORT + "/" + FRONT_API_URI;
-        AUTH_TOKEN = System.getProperty("AUTH_TOKEN");
+        AUTH_TOKEN = config.getProperty("auth.token");
     }
 
     private Constants() {
