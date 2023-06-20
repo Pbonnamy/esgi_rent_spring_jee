@@ -57,7 +57,10 @@ public class HttpRedirectorHandlerTest {
         }, "Expected MalformedUriException to be thrown");
 
         verify(mockUriInfo).getRequestUri();
-        verifyNoMoreInteractions(mockUriInfo, mockedHttpQueryExecutor);
+
+        verifyNoMoreInteractions(mockUriInfo);
+
+        verifyNoInteractions(mockedClient, mockedHttpQueryExecutor);
     }
 
 
@@ -93,7 +96,9 @@ public class HttpRedirectorHandlerTest {
         verify(mockUriInfo).getRequestUri();
         verify(httpRequestCreator).create(any(), any(), any());
 
-        verifyNoMoreInteractions(mockedClient, mockUriInfo, mockedHttpQueryExecutor);
+        verifyNoMoreInteractions(mockUriInfo);
+
+        verifyNoInteractions(mockedClient, mockedHttpQueryExecutor);
     }
 
     @Test
@@ -156,7 +161,9 @@ public class HttpRedirectorHandlerTest {
         verify(mockUriInfo).getRequestUri();
         verify(mockedHttpQueryExecutor).executeQuery(any());
 
-        verifyNoMoreInteractions(mockedClient, mockUriInfo, mockedHttpQueryExecutor);
+        verifyNoMoreInteractions(mockUriInfo, mockedHttpQueryExecutor);
+
+        verifyNoInteractions(mockedClient);
     }
 
 
@@ -172,6 +179,8 @@ public class HttpRedirectorHandlerTest {
 
         verify(mockUriInfo).getRequestUri();
 
-        verifyNoMoreInteractions(mockUriInfo, mockedHttpQueryExecutor);
+        verifyNoMoreInteractions(mockUriInfo);
+
+        verifyNoInteractions(mockedClient, mockedHttpQueryExecutor);
     }
 }
