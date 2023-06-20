@@ -1,3 +1,7 @@
+![Static Badge](https://img.shields.io/badge/RentCarsAPI_coverage-89%25-valid)
+![Static Badge](https://img.shields.io/badge/RentFrontAPI_coverage-97%25-valid)
+![Static Badge](https://img.shields.io/badge/RentPropertiesAPI_coverage-91%25-valid)
+
 ### Promotion :
 AL
 ### Classe :
