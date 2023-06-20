@@ -12,9 +12,6 @@ AL
 * BONNAMY Pierre
 * MARLEIX Noe
 
-Lien postman :
-https://app.getpostman.com/join-team?invite_code=d1b7dc276d24da8671dd611d3cc979a9&target_code=a1042ca568a424af4a82c20679f155d8
-
 ### Les difficultés rencontrées :
 
 **Emmanuel** : Je n'en ai pas énormément rencontré pour ma part, sachant que j'ai déjà utilisé spring boot auparavant, notamment durant le projet de clean code. Tout de même, certaines difficultés ont été rencontrées.
