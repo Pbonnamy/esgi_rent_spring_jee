@@ -20,27 +20,23 @@ public class UrlCreationUtils {
     }
 
     public static String getBackTarget(String url) throws MalformedUriException {
-        try {
-            String[] uriParts = url.split(Constants.FRONT_API_URI);
-            if (uriParts.length < 2) {
-                throw new MalformedUriException("No URL provided: " + url);
-            }
-            String[] queryParts = uriParts[1].split("/");
-            String uri = queryParts[0];
+        String[] uriParts = url.split(Constants.FRONT_API_URI);
+        if (uriParts.length < 2) {
+            throw new MalformedUriException("No URL provided: " + url);
+        }
+        String[] queryParts = uriParts[1].split("/");
+        String uri = queryParts[0];
 
-            if ("/".equals(uri) || null == uri || "".equals(uri)) {
-                throw new MalformedUriException("No URL provided: " + uri);
-            }
+        if ("/".equals(uri) || null == uri || "".equals(uri)) {
+            throw new MalformedUriException("No URL provided: " + uri);
+        }
 
-            if (Constants.RENTAL_CARS_URI.equals(uri)) {
-                return Constants.CARS_URI_TARGET;
-            } else if (Constants.RENTAL_PROPERTIES_URI.equals(uri)) {
-                return Constants.PROPERTIES_URI_TARGET;
-            } else {
-                throw new MalformedUriException("Bad URL");
-            }
-        } catch (MalformedUriException e) {
-            throw new MalformedUriException("Error in URL", e);
+        if (Constants.RENTAL_CARS_URI.equals(uri)) {
+            return Constants.CARS_URI_TARGET;
+        } else if (Constants.RENTAL_PROPERTIES_URI.equals(uri)) {
+            return Constants.PROPERTIES_URI_TARGET;
+        } else {
+            throw new MalformedUriException("Bad URL");
         }
     }
 

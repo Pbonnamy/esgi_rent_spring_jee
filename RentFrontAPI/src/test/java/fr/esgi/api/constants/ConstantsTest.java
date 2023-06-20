@@ -1,4 +1,4 @@
-package fr.esgi.api.api.constants;
+package fr.esgi.api.constants;
 
 import fr.esgi.api.constants.Constants;
 import org.junit.jupiter.api.Test;
@@ -23,6 +23,7 @@ public class ConstantsTest {
         assertEquals("http://localhost:3000/", Constants.BASE_CARS_API_URI);
         assertEquals("http://localhost:3001/", Constants.BASE_PROPERTIES_API_URI);
         assertEquals("http://localhost:8080/front-api/", Constants.BASE_FRONT_URI);
+        assertEquals("dd87f66c-0e9d-11ee-be56-0242ac120002", Constants.AUTH_TOKEN);
     }
 
 }

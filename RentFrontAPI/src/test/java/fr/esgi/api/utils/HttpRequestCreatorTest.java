@@ -1,4 +1,4 @@
-package fr.esgi.api.api.utils;
+package fr.esgi.api.utils;
 
 import fr.esgi.api.constants.Constants;
 import fr.esgi.api.constants.HttpMethod;
@@ -10,7 +10,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.URI;
+import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
+import java.util.Objects;
 
 @ExtendWith(MockitoExtension.class)
 public class HttpRequestCreatorTest {
@@ -32,8 +34,13 @@ public class HttpRequestCreatorTest {
         HttpRequestCreator httpRequestCreator = new HttpRequestCreator();
         HttpRequest request = httpRequestCreator.create(uri, HttpMethod.GET, null);
 
+        HttpHeaders header = request.headers();
+
+        String token = header.firstValue("Authorization").orElse(null);
+
         Assertions.assertEquals(HttpMethod.GET.toString(), request.method());
         Assertions.assertEquals(uri, request.uri());
+        Assertions.assertEquals("Bearer " + Constants.AUTH_TOKEN,  token);
     }
 
     @Test

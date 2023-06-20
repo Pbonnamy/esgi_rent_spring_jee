@@ -1,4 +1,4 @@
-package fr.esgi.api.api.controller;
+package fr.esgi.api.controller;
 
 import fr.esgi.api.constants.HttpMethod;
 import fr.esgi.api.controller.ReverseProxy;
