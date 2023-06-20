@@ -1,7 +1,6 @@
-package fr.esgi.api.api.controller;
+package fr.esgi.api.controller;
 
 import fr.esgi.api.constants.HttpMethod;
-import fr.esgi.api.controller.ReverseProxy;
 import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.exception.UnavailableServiceException;
 import fr.esgi.api.service.HttpRedirectorHandler;
@@ -18,7 +17,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ReverseProxyDeleteTest {
+public class ReverseProxyGetTest {
 
     @InjectMocks
     private ReverseProxy reverseProxy;
@@ -30,15 +29,15 @@ public class ReverseProxyDeleteTest {
     private HttpRedirectorHandler httpRedirectorHandler;
 
     @Test
-    public void testTransferDeleteRequest_Success() throws MalformedUriException {
+    public void testTransferGetRequest_Success() throws MalformedUriException {
         // Arrange
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.DELETE))
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET))
                 .thenReturn(Response.status(Response.Status.OK)
                         .entity("Success")
                         .build());
 
         // Act
-        Response response = reverseProxy.transferDeleteRequest(mockUriInfo);
+        Response response = reverseProxy.transferGetRequest(mockUriInfo);
 
         // Assert
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -47,22 +46,22 @@ public class ReverseProxyDeleteTest {
     }
 
     @Test
-    public void testTransferDeleteRequest_MalformedUriException() throws MalformedUriException {
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.DELETE))
+    public void testTransferGetRequest_MalformedUriException() throws MalformedUriException {
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET))
                 .thenThrow(new MalformedUriException("Invalid URI"));
 
-        Response response = reverseProxy.transferDeleteRequest(mockUriInfo);
+        Response response = reverseProxy.transferGetRequest(mockUriInfo);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
         verifyNoMoreInteractions(httpRedirectorHandler);
     }
 
     @Test
-    public void testTransferDeleteRequest_UnaviableServiceException() throws MalformedUriException {
-        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.DELETE))
+    public void testTransferGetRequest_UnaviableServiceException() throws MalformedUriException {
+        when(httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET))
                 .thenThrow(new UnavailableServiceException("Internal server error"));
 
-        Response response = reverseProxy.transferDeleteRequest(mockUriInfo);
+        Response response = reverseProxy.transferGetRequest(mockUriInfo);
 
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
         verifyNoMoreInteractions(httpRedirectorHandler);

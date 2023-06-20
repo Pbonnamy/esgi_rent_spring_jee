@@ -6,7 +6,6 @@ import fr.esgi.api.exception.MalformedUriException;
 import fr.esgi.api.exception.UnavailableServiceException;
 import fr.esgi.api.service.HttpRedirectorHandler;
 import jakarta.inject.Inject;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -37,7 +36,7 @@ public class ReverseProxy {
                     .build();
         } catch (UnavailableServiceException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Cannot access back service" + e.getMessage())
+                    .entity("Cannot access back service")
                     .build();
         }
     }
@@ -52,7 +51,7 @@ public class ReverseProxy {
                     .build();
         } catch (UnavailableServiceException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Cannot access back service" + e.getMessage())
+                    .entity("Cannot access back service")
                     .build();
         }
     }
@@ -67,7 +66,7 @@ public class ReverseProxy {
                     .build();
         } catch (UnavailableServiceException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Cannot access back service" + e.getMessage())
+                    .entity("Cannot access back service")
                     .build();
         }
     }
@@ -82,7 +81,7 @@ public class ReverseProxy {
                     .build();
         } catch (UnavailableServiceException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Cannot access back service" + e.getMessage())
+                    .entity("Cannot access back service")
                     .build();
         }
     }
@@ -93,11 +92,11 @@ public class ReverseProxy {
             return httpRedirectorHandler.transferRequest(uriInfo, HttpMethod.DELETE);
         } catch (MalformedUriException e) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Bad URL : " + e.getMessage())
+                    .entity("Bad URL : ")
                     .build();
         } catch (UnavailableServiceException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Cannot access back service" + e.getMessage())
+                    .entity("Cannot access back service")
                     .build();
         }
     }

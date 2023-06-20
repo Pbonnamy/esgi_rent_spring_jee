@@ -1,4 +1,4 @@
-package fr.esgi.api.api.service;
+package fr.esgi.api.service;
 
 import fr.esgi.api.constants.Constants;
 import fr.esgi.api.constants.HttpMethod;

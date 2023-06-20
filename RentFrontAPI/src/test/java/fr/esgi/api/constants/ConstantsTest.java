@@ -1,4 +1,4 @@
-package fr.esgi.api.api.constants;
+package fr.esgi.api.constants;
 
 import fr.esgi.api.constants.Constants;
 import org.junit.jupiter.api.Test;
