@@ -92,7 +92,7 @@ public class ReverseProxy {
             return httpRedirectorHandler.transferRequest(uriInfo, HttpMethod.DELETE);
         } catch (MalformedUriException e) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Bad URL : ")
+                    .entity("Bad URL : " + e.getMessage())
                     .build();
         } catch (UnavailableServiceException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

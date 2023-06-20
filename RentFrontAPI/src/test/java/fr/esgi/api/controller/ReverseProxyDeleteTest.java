@@ -42,6 +42,7 @@ public class ReverseProxyDeleteTest {
 
         // Assert
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals("Success", response.getEntity());
 
         verifyNoMoreInteractions(httpRedirectorHandler);
     }
@@ -54,6 +55,8 @@ public class ReverseProxyDeleteTest {
         Response response = reverseProxy.transferDeleteRequest(mockUriInfo);
 
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+        assertEquals("Bad URL : Invalid URI", response.getEntity());
+
         verifyNoMoreInteractions(httpRedirectorHandler);
     }
 
@@ -65,6 +68,8 @@ public class ReverseProxyDeleteTest {
         Response response = reverseProxy.transferDeleteRequest(mockUriInfo);
 
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
+        assertEquals("Cannot access back service", response.getEntity());
+
         verifyNoMoreInteractions(httpRedirectorHandler);
     }
 }

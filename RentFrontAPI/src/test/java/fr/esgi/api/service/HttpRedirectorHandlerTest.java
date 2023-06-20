@@ -13,12 +13,14 @@ import jakarta.ws.rs.core.UriInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -45,19 +47,22 @@ public class HttpRedirectorHandlerTest {
     private HttpRequestCreator httpRequestCreator;
 
     @Test
-    public void testTransferRequest_ShouldThrowMalformedException() throws MalformedUriException {
-        // Arrange
+    public void testTransferRequest_InvalidRequestUri_ShouldThrowMalformedUriException() throws MalformedUriException {
         String requestUri = "http://localhost:3000/front-api";
 
         when(mockUriInfo.getRequestUri()).thenReturn(URI.create(requestUri));
 
-        // Act & Assert
         Assertions.assertThrows(MalformedUriException.class, () -> {
             httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
-        });
-        verifyNoMoreInteractions(mockUriInfo, mockedHttpQueryExecutor);
+        }, "Expected MalformedUriException to be thrown");
+
         verify(mockUriInfo).getRequestUri();
+
+        verifyNoMoreInteractions(mockUriInfo);
+
+        verifyNoInteractions(mockedClient, mockedHttpQueryExecutor);
     }
+
 
     @Test
     public void transferRequest_shouldThrowRunTimeException() throws MalformedUriException {
@@ -68,7 +73,12 @@ public class HttpRedirectorHandlerTest {
 
         Assertions.assertThrows(UnavailableServiceException.class, () -> {
             httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
-        });
+        }, "Expected UnavailableServiceException to be thrown");
+
+        verify(mockUriInfo).getRequestUri();
+        verify(mockedHttpQueryExecutor).executeQuery(any());
+
+        verifyNoMoreInteractions(mockedClient, mockUriInfo, mockedHttpQueryExecutor);
     }
 
     @Test
@@ -81,9 +91,14 @@ public class HttpRedirectorHandlerTest {
 
         Assertions.assertThrows(BadHttpMethodException.class, () -> {
             Response response = httpRedirectorHandler.transferRequest(mockUriInfo, null);
-                });
+                }, "Expected BadHttpMethodException to be thrown");
 
-        verifyNoMoreInteractions(mockedClient);
+        verify(mockUriInfo).getRequestUri();
+        verify(httpRequestCreator).create(any(), any(), any());
+
+        verifyNoMoreInteractions(mockUriInfo);
+
+        verifyNoInteractions(mockedClient, mockedHttpQueryExecutor);
     }
 
     @Test
@@ -103,7 +118,10 @@ public class HttpRedirectorHandlerTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("Success", response.getEntity());
 
-        verifyNoMoreInteractions(mockedClient);
+        verify(mockUriInfo).getRequestUri();
+        verify(mockedHttpQueryExecutor).executeQuery(any());
+
+        verifyNoMoreInteractions(mockedClient, mockUriInfo, mockedHttpQueryExecutor);
     }
 
     @Test
@@ -123,7 +141,10 @@ public class HttpRedirectorHandlerTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("Success", response.getEntity());
 
-        verifyNoMoreInteractions(mockedClient);
+        verify(mockUriInfo).getRequestUri();
+        verify(mockedHttpQueryExecutor).executeQuery(any());
+
+        verifyNoMoreInteractions(mockedClient, mockUriInfo, mockedHttpQueryExecutor);
     }
 
     @Test
@@ -137,7 +158,12 @@ public class HttpRedirectorHandlerTest {
             httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
         });
 
-        verifyNoMoreInteractions(mockedClient);
+        verify(mockUriInfo).getRequestUri();
+        verify(mockedHttpQueryExecutor).executeQuery(any());
+
+        verifyNoMoreInteractions(mockUriInfo, mockedHttpQueryExecutor);
+
+        verifyNoInteractions(mockedClient);
     }
 
 
@@ -150,5 +176,11 @@ public class HttpRedirectorHandlerTest {
         Assertions.assertThrows(MalformedUriException.class, () -> {
             httpRedirectorHandler.transferRequest(mockUriInfo, HttpMethod.GET);
         });
+
+        verify(mockUriInfo).getRequestUri();
+
+        verifyNoMoreInteractions(mockUriInfo);
+
+        verifyNoInteractions(mockedClient, mockedHttpQueryExecutor);
     }
 }
