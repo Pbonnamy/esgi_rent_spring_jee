@@ -75,7 +75,7 @@ public class HttpRedirectorHandlerTest {
         verify(mockUriInfo).getRequestUri();
         verify(mockedHttpQueryExecutor).executeQuery(any());
 
-        verifyNoMoreInteractions(mockedClient);
+        verifyNoMoreInteractions(mockedClient, mockUriInfo, mockedHttpQueryExecutor);
     }
 
     @Test
@@ -93,7 +93,7 @@ public class HttpRedirectorHandlerTest {
         verify(mockUriInfo).getRequestUri();
         verify(httpRequestCreator).create(any(), any(), any());
 
-        verifyNoMoreInteractions(mockedClient);
+        verifyNoMoreInteractions(mockedClient, mockUriInfo, mockedHttpQueryExecutor);
     }
 
     @Test
@@ -116,7 +116,7 @@ public class HttpRedirectorHandlerTest {
         verify(mockUriInfo).getRequestUri();
         verify(mockedHttpQueryExecutor).executeQuery(any());
 
-        verifyNoMoreInteractions(mockedClient);
+        verifyNoMoreInteractions(mockedClient, mockUriInfo, mockedHttpQueryExecutor);
     }
 
     @Test
@@ -139,7 +139,7 @@ public class HttpRedirectorHandlerTest {
         verify(mockUriInfo).getRequestUri();
         verify(mockedHttpQueryExecutor).executeQuery(any());
 
-        verifyNoMoreInteractions(mockedClient);
+        verifyNoMoreInteractions(mockedClient, mockUriInfo, mockedHttpQueryExecutor);
     }
 
     @Test
@@ -156,7 +156,7 @@ public class HttpRedirectorHandlerTest {
         verify(mockUriInfo).getRequestUri();
         verify(mockedHttpQueryExecutor).executeQuery(any());
 
-        verifyNoMoreInteractions(mockedClient);
+        verifyNoMoreInteractions(mockedClient, mockUriInfo, mockedHttpQueryExecutor);
     }
 
 
