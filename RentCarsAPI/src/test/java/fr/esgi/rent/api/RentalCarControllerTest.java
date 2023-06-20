@@ -1,15 +1,16 @@
 package fr.esgi.rent.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.esgi.rent.domain.RentalCarEntity;
 import fr.esgi.rent.dto.request.RentalCarRequestDto;
 import fr.esgi.rent.dto.request.SingleFieldRentalCarRequestDto;
 import fr.esgi.rent.dto.response.RentalCarResponseDto;
+import fr.esgi.rent.interceptor.AuthInterceptor;
 import fr.esgi.rent.mapper.RentalCarDtoMapper;
 import fr.esgi.rent.repository.RentalCarRepository;
 import fr.esgi.rent.service.RentalCarService;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static fr.esgi.rent.samples.RentalCarDtoSample.*;
 import static fr.esgi.rent.samples.RentalCarEntitySample.oneRentalCarEntitySample;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
@@ -45,10 +45,19 @@ class RentalCarControllerTest {
     @MockBean
     private RentalCarService rentalCarService;
 
+    @MockBean
+    private AuthInterceptor authInterceptor;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @BeforeEach
+    void beforeEach() throws Exception {
+        when(authInterceptor.preHandle(any(), any(), any())).thenReturn(true);
+    }
 
     @Test
     void shouldGetAllRentalCars() throws Exception {
+
         List<RentalCarEntity> expectedRentalCarEntities = rentalCarEntitiesSample();
         List<RentalCarResponseDto> expectedRentalCarResponseDtos = rentalCarResponseDtosSample();
 

@@ -1,6 +1,7 @@
 package fr.rent.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.rent.application.interceptor.RentPropertyInterceptor;
 import fr.rent.domain.entity.RentPropertyEntity;
 import fr.rent.dto.RentPropertyRequestDto;
 import fr.rent.dto.RentPropertyResponseDto;
@@ -8,6 +9,8 @@ import fr.rent.dto.SimpleRequestDto;
 import fr.rent.mapper.RentPropertyDtoMapper;
 import fr.rent.repository.RentPropertyRepository;
 import fr.rent.service.RentPropertyService;
+import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +45,29 @@ class RentPropertyControllerTest {
     @MockBean
     private RentPropertyDtoMapper rentalPropertyDtoMapper;
 
+    @MockBean
+    private RentPropertyInterceptor rentPropertyInterceptor;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+
+    @Test
+    void shouldReturnUnauthorizedWithoutToken() throws Exception {
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).then(answer -> {
+            answer.getArgument(1, HttpServletResponse.class).setStatus(401);
+            return false;
+        });
+        mockMvc.perform(get("/rental-properties"))
+                .andExpect(status().isUnauthorized());
+        verifyNoInteractions(rentalPropertyService, rentalPropertyDtoMapper);
+    }
 
     @Test
     void shouldGetRentalProperties() throws Exception {
         List<RentPropertyEntity> rentalPropertyEntities = rentalPropertyEntities();
         List<RentPropertyResponseDto> rentalPropertyResponseList = rentalPropertyResponseList();
 
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).thenReturn(true);
         when(rentalPropertyService.findAll()).thenReturn(rentalPropertyEntities);
         when(rentalPropertyDtoMapper.mapToDtoList(rentalPropertyEntities)).thenReturn(rentalPropertyResponseList);
 
@@ -68,6 +87,7 @@ class RentPropertyControllerTest {
 
         int id = 1;
 
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).thenReturn(true);
         when(rentalPropertyService.findById(id)).thenReturn(Optional.of(rentalPropertyEntity));
         when(rentalPropertyDtoMapper.mapToDto(rentalPropertyEntity)).thenReturn(rentalPropertyResponseDto);
 
@@ -87,6 +107,7 @@ class RentPropertyControllerTest {
         JSONObject expectedJsonResponse = new JSONObject();
         expectedJsonResponse.put("message", "Impossible to find property with id " + id);
 
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).thenReturn(true);
         when(rentalPropertyService.findById(id)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/rental-properties/{id}", 1))
@@ -104,6 +125,7 @@ class RentPropertyControllerTest {
         RentPropertyResponseDto rentalPropertyResponseDto = oneRentalPropertyResponse();
         RentPropertyEntity rentalPropertyEntity = oneRentalPropertyEntity();
 
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).thenReturn(true);
         when(rentalPropertyDtoMapper.mapToEntity(rentalPropertyRequestDto)).thenReturn(rentalPropertyEntity);
         when(rentalPropertyService.save(rentalPropertyEntity)).thenReturn(rentalPropertyEntity);
         when(rentalPropertyDtoMapper.mapToDto(rentalPropertyEntity)).thenReturn(rentalPropertyResponseDto);
@@ -125,6 +147,8 @@ class RentPropertyControllerTest {
         JSONObject expectedJsonResponse = new JSONObject();
         expectedJsonResponse.put("message", "One of the field is missing or is incorrect");
 
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).thenReturn(true);
+
         mockMvc.perform(post("/rental-properties")
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(invalidRequest)))
@@ -142,6 +166,7 @@ class RentPropertyControllerTest {
 
         int id = 1;
 
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).thenReturn(true);
         when(rentalPropertyDtoMapper.mapToEntity(rentalPropertyRequestDto)).thenReturn(rentalPropertyEntity);
         doNothing().when(rentalPropertyService).update(rentalPropertyEntity, id);
         when(rentalPropertyDtoMapper.mapToDto(rentalPropertyEntity)).thenReturn(rentalPropertyResponseDto);
@@ -165,6 +190,8 @@ class RentPropertyControllerTest {
         JSONObject expectedJsonResponse = new JSONObject();
         expectedJsonResponse.put("message", "One of the field is missing or is incorrect");
 
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).thenReturn(true);
+
         mockMvc.perform(put("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(invalidRequest)))
@@ -183,6 +210,8 @@ class RentPropertyControllerTest {
 
         JSONObject expectedJsonResponse = new JSONObject();
         expectedJsonResponse.put("message", "Request is invalid or one of the fields is missing");
+
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).thenReturn(true);
         
         mockMvc.perform(put("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
@@ -196,6 +225,9 @@ class RentPropertyControllerTest {
     @Test
     void shouldDeleteRentalProperty() throws Exception {
         int id = 1;
+
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).thenReturn(true);
+        doNothing().when(rentalPropertyService).deleteById(id);
 
         mockMvc.perform(delete("/rental-properties/{id}", id))
                 .andExpect(status().isNoContent());
@@ -215,6 +247,8 @@ class RentPropertyControllerTest {
 
         when(rentalPropertyService.findById(id)).thenReturn(Optional.of(rentalPropertyEntity));
         doNothing().when(rentalPropertyService).updatePartiallyProperty(rentalPropertyEntity, simpleRequestDto.rentAmount());
+
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).thenReturn(true);
 
         mockMvc.perform(patch("/rental-properties/{id}", id)
                         .contentType(APPLICATION_JSON_VALUE)
@@ -237,6 +271,7 @@ class RentPropertyControllerTest {
         JSONObject expectedJsonResponse = new JSONObject();
         expectedJsonResponse.put("message", "Impossible to find property with id " + id);
 
+        when(rentPropertyInterceptor.preHandle(any(), any(), any())).thenReturn(true);
         when(rentalPropertyService.findById(id)).thenReturn(Optional.empty());
 
         mockMvc.perform(patch("/rental-properties/{id}", id)
