@@ -33,9 +33,8 @@ AL
 
 ## Fonctionnalités non implémentées
 Nous avons implémenté toutes les fonctionnalités demandées dans le sujet.
+
 ## Fonctionnalités supplémentaires
-
-
 Nous avons implémenté certaines fonctionnalités supplémentaires:
 1. Un interceptor présent dans l'api Spring [RentPropertiesApi](RentPropertiesAPI/src/main/java/fr/rent/application/interceptor) ainsi que dans l'api [RentCarsProperties](RentCarsAPI/src/main/java/fr/esgi/rent/interceptor/AuthInterceptor.java)
 2. Un [reverse proxy](RentFrontAPI/src/main/java/fr/esgi/api) en tant que front
